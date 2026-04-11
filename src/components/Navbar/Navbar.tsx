@@ -1,39 +1,35 @@
 import gsap from 'gsap'
 import { AnimatePresence, motion } from 'framer-motion'
 import { memo, useEffect, useMemo, useRef, useState } from 'react'
-import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 import type { MousePosition } from '../../hooks/useMousePosition'
-import { preloadRouteChunk } from '../../hooks/useRoutePreload'
-import { useNavigationStore } from '../../store/navigationStore'
+import type { SectionId } from '../../store/scrollSectionStore'
 
 type RouteItem = {
-  path: string
+  id: SectionId
   label: string
 }
 
 const links: RouteItem[] = [
-  { path: '/', label: 'Home' },
-  { path: '/about', label: 'About' },
-  { path: '/dashboard', label: 'Dashboard' },
-  { path: '/projects', label: 'Projects' },
-  { path: '/contact', label: 'Contact' },
+  { id: 'hero', label: 'Home' },
+  { id: 'about', label: 'About' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'contact', label: 'Contact' },
 ]
 
 type NavbarProps = {
   mouse: MousePosition
+  currentSection: SectionId
+  onNavigate: (section: SectionId) => void
 }
 
-function Navbar({ mouse }: NavbarProps) {
+function Navbar({ mouse, currentSection, onNavigate }: NavbarProps) {
   const reducedMotion = usePrefersReducedMotion()
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const rootRef = useRef<HTMLElement>(null)
   const hireRef = useRef<HTMLButtonElement>(null)
   const linkRefs = useRef<Array<HTMLAnchorElement | null>>([])
-  const location = useLocation()
-  const navigate = useNavigate()
-  const setPreviewPath = useNavigationStore((s) => s.setPreviewPath)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16)
@@ -63,8 +59,7 @@ function Navbar({ mouse }: NavbarProps) {
 
   useEffect(() => {
     setMobileOpen(false)
-    setPreviewPath(null)
-  }, [location.pathname, setPreviewPath])
+  }, [currentSection])
 
   // ⚡ OPTIMIZATION: Increase RAF throttle from 16ms to 50ms for button hover
   // This reduces CPU load by avoiding calculation on every mouse pixel change
@@ -134,12 +129,6 @@ function Navbar({ mouse }: NavbarProps) {
   )
 
   const onLinkEnter = (index: number) => {
-    const item = splitLabels[index]
-    if (item) {
-      setPreviewPath(item.path)
-      preloadRouteChunk(item.path)
-    }
-
     if (reducedMotion) {
       return
     }
@@ -179,45 +168,47 @@ function Navbar({ mouse }: NavbarProps) {
             backdropFilter: scrolled ? 'blur(20px)' : 'blur(0px)',
           }}
         >
-          <NavLink
-            to="/"
+          <a
+            href="#hero"
+            onClick={(event) => {
+              event.preventDefault()
+              onNavigate('hero')
+            }}
             className="flex items-center gap-2 text-[11px] tracking-[0.18em] text-[rgba(255,255,255,0.9)]"
           >
             <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(34,197,94,0.8)] animate-pulse" />
             DEVANSH PRABHAKAR
-          </NavLink>
+          </a>
 
           <div className="hidden items-center gap-8 md:flex">
             {splitLabels.map((item, index) => (
-              <NavLink
-                key={item.path}
-                to={item.path}
+              <a
+                key={item.id}
+                href={`#${item.id}`}
                 onMouseEnter={() => onLinkEnter(index)}
-                onMouseLeave={() => setPreviewPath(null)}
+                onClick={(event) => {
+                  event.preventDefault()
+                  onNavigate(item.id)
+                }}
                 ref={(el) => {
                   linkRefs.current[index] = el
                 }}
                 className={`group relative overflow-hidden text-[13px] tracking-[0.02em] transition-colors duration-200 ${
-                  location.pathname === item.path ? 'text-white' : 'text-[#94a3b8] hover:text-[#f1f5f9]'
+                  currentSection === item.id ? 'text-white' : 'text-[#94a3b8] hover:text-[#f1f5f9]'
                 }`}
               >
                 {item.chars.map((char, i) => (
-                  <span key={`${item.path}-${i}`} className="inline-block">
+                  <span key={`${item.id}-${i}`} className="inline-block">
                     {char === ' ' ? '\u00A0' : char}
                   </span>
                 ))}
                 <span className="absolute left-0 top-[calc(100%+6px)] h-px w-full origin-left scale-x-0 bg-[#7c3aed] transition-transform duration-200 group-hover:scale-x-100" />
-              </NavLink>
+              </a>
             ))}
 
             <button
               ref={hireRef}
-              onMouseEnter={() => {
-                setPreviewPath('/contact')
-                preloadRouteChunk('/contact')
-              }}
-              onMouseLeave={() => setPreviewPath(null)}
-              onClick={() => navigate('/contact')}
+              onClick={() => onNavigate('contact')}
               data-cursor-label="HIRE"
               className="rounded-full bg-gradient-to-r from-[#7c3aed] to-[#ec4899] px-[20px] py-[8px] text-[12px] font-medium tracking-[0.03em] text-white shadow-[0_0_24px_rgba(124,58,237,0.28)] transition duration-200 hover:scale-[1.02]"
             >
@@ -247,13 +238,13 @@ function Navbar({ mouse }: NavbarProps) {
             <div className="mt-16 space-y-6">
               {links.map((item, index) => (
                 <motion.button
-                  key={item.path}
+                  key={item.id}
                   initial={{ opacity: 0, y: 20, clipPath: 'inset(0 0 100% 0)' }}
                   animate={{ opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)' }}
                   transition={{ duration: 0.35, delay: index * 0.05 }}
                   onClick={() => {
                     setMobileOpen(false)
-                    navigate(item.path)
+                    onNavigate(item.id)
                   }}
                   className="block text-left font-display text-3xl text-slate-100"
                 >

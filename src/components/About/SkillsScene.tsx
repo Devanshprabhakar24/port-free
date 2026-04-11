@@ -2,6 +2,7 @@ import { Html } from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { memo, useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
+import { useIsMobile } from '../../hooks/useIsMobile'
 
 type SkillCategory = 'frontend' | 'backend' | 'devops'
 
@@ -245,11 +246,13 @@ function SkillsCloud() {
 }
 
 function SkillsScene() {
+  const isMobile = useIsMobile()
+
   return (
     <div className="h-full w-full bg-[#07070d]">
       <Canvas
         camera={{ position: [0, 1, 6], fov: 50 }}
-        dpr={[1, Math.min(window.devicePixelRatio, 2)]}
+        dpr={[1, isMobile ? 1.5 : Math.min(window.devicePixelRatio, 2)]}
         gl={{ antialias: true, alpha: true }}
         style={{ background: '#07070d' }}
       >

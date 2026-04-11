@@ -1,7 +1,9 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { memo, useMemo } from 'react'
 import Planet from '../Planet/Planet'
-import { useNavigationStore } from '../../store/navigationStore'
+import { useScrollSectionStore } from '../../store/scrollSectionStore'
+import { useIsMobile } from '../../hooks/useIsMobile'
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 
 type RouteAtmosphere = {
   color: string
@@ -14,72 +16,108 @@ type RouteAtmosphere = {
   accentLabel: string
 }
 
-const ATMOSPHERES: Record<string, RouteAtmosphere> = {
-  '/': { color: '#3b0764', glow: 'rgba(124,58,237,0.35)', size: 560, x: '73%', y: '20%', ring: false, accentLabel: 'HOME' },
-  '/about': { color: '#1e3a8a', glow: 'rgba(37,99,235,0.34)', size: 440, x: '72%', y: '22%', ring: true, tilt: -18, accentLabel: 'ABOUT' },
-  '/dashboard': { color: '#14532d', glow: 'rgba(34,197,94,0.28)', size: 500, x: '70%', y: '23%', ring: true, tilt: -16, accentLabel: 'DASHBOARD' },
-  '/projects': { color: '#831843', glow: 'rgba(236,72,153,0.34)', size: 470, x: '72%', y: '21%', ring: false, accentLabel: 'PROJECTS' },
-  '/contact': { color: '#7f1d1d', glow: 'rgba(220,38,38,0.34)', size: 420, x: '71%', y: '21%', ring: false, accentLabel: 'CONTACT' },
+const SECTION_ATMOSPHERES: Record<string, RouteAtmosphere> = {
+  hero: { color: '#3b0764', glow: 'rgba(124,58,237,0.35)', size: 560, x: '73%', y: '20%', ring: false, accentLabel: 'HOME' },
+  about: { color: '#1e3a8a', glow: 'rgba(37,99,235,0.34)', size: 440, x: '72%', y: '22%', ring: true, tilt: -18, accentLabel: 'ABOUT' },
+  projects: { color: '#831843', glow: 'rgba(236,72,153,0.34)', size: 470, x: '72%', y: '21%', ring: false, accentLabel: 'PROJECTS' },
+  contact: { color: '#7f1d1d', glow: 'rgba(220,38,38,0.34)', size: 420, x: '71%', y: '21%', ring: false, accentLabel: 'CONTACT' },
 }
 
-const transition = { duration: 0.34, ease: [0.22, 1, 0.36, 1] as const }
+const PROFILE = {
+  slow: {
+    backgroundDuration: 0.98,
+    incomingDuration: 0.86,
+    incomingX: '12%',
+    incomingY: '6%',
+    bgX: '6%',
+    fgExitY: '-34%',
+  },
+  medium: {
+    backgroundDuration: 0.9,
+    incomingDuration: 0.8,
+    incomingX: '15%',
+    incomingY: '8%',
+    bgX: '8%',
+    fgExitY: '-40%',
+  },
+  fast: {
+    backgroundDuration: 0.78,
+    incomingDuration: 0.66,
+    incomingX: '20%',
+    incomingY: '10%',
+    bgX: '10%',
+    fgExitY: '-48%',
+  },
+} as const
 
 function PlanetSystem() {
-  const activePath = useNavigationStore((s) => s.activePath)
-  const previousPath = useNavigationStore((s) => s.previousPath)
-  const previewPath = useNavigationStore((s) => s.previewPath)
+  const isMobile = useIsMobile()
+  const reducedMotion = usePrefersReducedMotion()
+  const currentSection = useScrollSectionStore((s) => s.currentSection)
+  const previousSection = useScrollSectionStore((s) => s.previousSection)
+  const velocityBand = useScrollSectionStore((s) => s.velocityBand)
 
-  const active = useMemo(() => ATMOSPHERES[activePath] ?? ATMOSPHERES['/'], [activePath])
+  const active = useMemo(() => SECTION_ATMOSPHERES[currentSection] ?? SECTION_ATMOSPHERES.hero, [currentSection])
   const previous = useMemo(
-    () => (previousPath ? ATMOSPHERES[previousPath] ?? ATMOSPHERES['/'] : null),
-    [previousPath],
+    () => (previousSection ? SECTION_ATMOSPHERES[previousSection] ?? SECTION_ATMOSPHERES.hero : null),
+    [previousSection],
   )
-  const preview = useMemo(
-    () => (previewPath ? ATMOSPHERES[previewPath] ?? ATMOSPHERES['/'] : null),
-    [previewPath],
+  const profile = PROFILE[velocityBand]
+
+  const backgroundOut = useMemo(
+    () => ({ duration: profile.backgroundDuration, ease: [0.4, 0, 0.2, 1] as const }),
+    [profile.backgroundDuration],
   )
+
+  const incoming = useMemo(
+    () => ({ duration: profile.incomingDuration, ease: [0.22, 1, 0.36, 1] as const }),
+    [profile.incomingDuration],
+  )
+
+  if (isMobile) {
+    return (
+      <div className="pointer-events-none fixed inset-0 z-[5] overflow-hidden">
+        <div className="mobile-gradient-animated absolute inset-0 opacity-70" />
+        <div className="absolute right-[10%] top-[14%] h-[230px] w-[230px] rounded-full bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.2),rgba(124,58,237,0.38)_45%,rgba(16,12,36,0.2)_80%)] blur-[1px]" />
+      </div>
+    )
+  }
+
+  if (reducedMotion) {
+    return (
+      <div className="pointer-events-none fixed inset-0 z-[5] overflow-hidden">
+        <Planet
+          layoutId="planet-active"
+          layout="position"
+          color={active.color}
+          glow={active.glow}
+          size={active.size}
+          x={active.x}
+          y={active.y}
+          ring={active.ring}
+          tilt={active.tilt ?? -12}
+          label={active.accentLabel}
+          isActive={false}
+        />
+      </div>
+    )
+  }
 
   return (
     <div className="pointer-events-none fixed inset-0 z-[5] overflow-hidden">
       <AnimatePresence mode="sync" initial={false}>
-        {preview && previewPath !== activePath ? (
+        {previous && previousSection !== currentSection ? (
           <motion.div
-            key={`preview-${previewPath}`}
+            key={`bg-${previousSection}`}
             className="absolute inset-0"
-            initial={{ opacity: 0, scale: 0.8, rotate: -4, x: 120, y: 28 }}
-            animate={{ opacity: 0.42, scale: 0.9, rotate: -2, x: 42, y: 10 }}
-            exit={{ opacity: 0, scale: 1.06, rotate: 0, x: 0, y: 0 }}
-            transition={transition}
+            initial={{ scale: 0.7, opacity: 0.25, x: '0%', filter: 'blur(2px)', rotate: -1 }}
+            animate={{ scale: 0.5, opacity: 0, x: profile.bgX, filter: 'blur(12px)', rotate: -4 }}
+            exit={{ opacity: 0 }}
+            transition={backgroundOut}
+            style={{ willChange: 'transform, opacity' }}
           >
             <Planet
-              layoutId="planet-preview"
-              layout="position"
-              color={preview.color}
-              glow={preview.glow}
-              size={preview.size * 0.9}
-              x={preview.x}
-              y={preview.y}
-              ring={preview.ring}
-              tilt={preview.tilt ?? -12}
-              label={`${preview.accentLabel} PREVIEW`}
-              opacity={0.56}
-            />
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
-
-      <AnimatePresence mode="sync" initial={false}>
-        {previous && previousPath !== activePath ? (
-          <motion.div
-            key={`previous-${previousPath}`}
-            className="absolute inset-0"
-            initial={{ opacity: 0.86, scale: 1, rotate: 0, x: 0, y: 0 }}
-            animate={{ opacity: 0.5, scale: 0.88, rotate: -3, x: -30, y: 14 }}
-            exit={{ opacity: 0, scale: 0.76, rotate: -8, x: -96, y: 34 }}
-            transition={transition}
-          >
-            <Planet
-              layoutId="planet-previous"
+              layoutId="planet-background"
               layout="position"
               color={previous.color}
               glow={previous.glow}
@@ -89,7 +127,8 @@ function PlanetSystem() {
               ring={previous.ring}
               tilt={previous.tilt ?? -12}
               label={previous.accentLabel}
-              opacity={0.58}
+              opacity={0.32}
+              isActive={false}
             />
           </motion.div>
         ) : null}
@@ -97,12 +136,13 @@ function PlanetSystem() {
 
       <AnimatePresence mode="sync" initial={false}>
         <motion.div
-          key={`active-${activePath}`}
+          key={`fg-${currentSection}`}
           className="absolute inset-0"
-          initial={{ opacity: 0.66, scale: 0.86, rotate: 4, x: 112, y: 30 }}
-          animate={{ opacity: 1, scale: 1, rotate: 0, x: 0, y: 0 }}
-          exit={{ opacity: 0.54, scale: 1.12, rotate: 5, x: -40, y: -14 }}
-          transition={transition}
+          initial={{ scale: 0.6, opacity: 0.2, x: profile.incomingX, y: profile.incomingY, filter: 'blur(6px)', rotate: 3 }}
+          animate={{ scale: 1, opacity: 1, x: '0%', y: '0%', filter: 'blur(0px)', rotate: 0 }}
+          exit={{ scale: 0.3, opacity: 0, y: profile.fgExitY, filter: 'blur(8px)', rotate: 6 }}
+          transition={incoming}
+          style={{ willChange: 'transform, opacity' }}
         >
           <Planet
             layoutId="planet-active"
@@ -115,6 +155,7 @@ function PlanetSystem() {
             ring={active.ring}
             tilt={active.tilt ?? -12}
             label={active.accentLabel}
+            isActive={true}
           />
         </motion.div>
       </AnimatePresence>

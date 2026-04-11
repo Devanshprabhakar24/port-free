@@ -56,7 +56,7 @@ export default function Projects({ mouse }: { mouse: MousePosition }) {
   )
 
   return (
-    <section className="mx-auto min-h-screen max-w-7xl px-6 pb-14 pt-36 md:pt-32">
+    <div className="mx-auto min-h-screen max-w-7xl px-6 pb-14 pt-16 md:pt-12">
       <div className="mb-10 text-center">
         <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-fuchsia-300">Mission Files</p>
         <h2 className="mt-3 font-display text-4xl font-bold text-white md:text-6xl">Selected Missions</h2>
@@ -91,6 +91,6 @@ export default function Projects({ mouse }: { mouse: MousePosition }) {
           </Suspense>
         </div>
       )}
-    </section>
+    </div>
   )
 }

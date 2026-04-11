@@ -5,6 +5,7 @@ import type { ReactNode } from 'react'
 import * as THREE from 'three'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 import type { MousePosition } from '../../hooks/useMousePosition'
+import { useIsMobile } from '../../hooks/useIsMobile'
 
 const NEAR_STAR_COUNT = 1500
 const MID_STAR_COUNT = 2000
@@ -469,13 +470,14 @@ function CameraRig({
 function HeroScene({ mouse }: { mouse: MousePosition }) {
   const gpu = useDetectGPU()
   const reducedMotion = usePrefersReducedMotion()
+  const isMobile = useIsMobile()
   const idle = !reducedMotion
   const isLowGPU = (gpu?.tier ?? 2) <= 1
 
   return (
     <Canvas
       camera={{ position: [0, 0, 4.65], fov: 58 }}
-      dpr={[1, Math.min(window.devicePixelRatio, 2)]}
+      dpr={[1, isMobile ? 1.5 : Math.min(window.devicePixelRatio, 2)]}
       gl={{ antialias: true, alpha: true }}
       onCreated={({ gl }) => {
         gl.setClearColor(new THREE.Color('#03010a'), 1)

@@ -1,51 +1,94 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import { Suspense, lazy } from 'react'
+import { memo, useMemo, useState } from 'react'
 import MainLayout from './layout/MainLayout'
-import TransitionWrapper from './components/TransitionWrapper/TransitionWrapper'
-import { useRoutePreload } from './hooks/useRoutePreload'
-
-// ⚡ OPTIMIZATION: Lazy-load non-critical pages to reduce initial JS bundle
-// Home is NOT lazy since it's the landing page (critical path)
-const Home = lazy(() => import('./pages/Home'))
-const About = lazy(() => import('./pages/About'))
-const Dashboard = lazy(() => import('./pages/Dashboard'))
-const Projects = lazy(() => import('./pages/Projects'))
-const Contact = lazy(() => import('./pages/Contact'))
-
-function RouteFallback() {
-  return <div className="relative z-10 min-h-screen bg-transparent" aria-hidden="true" />
-}
-
-function AppContent() {
-  // ⚡ Preload all route chunks in background
-  useRoutePreload()
-
-  return (
-    <Routes>
-      <Route element={<MainLayout />}>
-        <Route element={<TransitionWrapper />}>
-          {/* Home is critical, load immediately */}
-          <Route index element={<Suspense fallback={<RouteFallback />}><Home /></Suspense>} />
-          
-          {/* Secondary routes with Suspense fallback */}
-          <Route path="about" element={<Suspense fallback={<RouteFallback />}><About /></Suspense>} />
-          <Route path="dashboard" element={<Suspense fallback={<RouteFallback />}><Dashboard /></Suspense>} />
-          <Route path="projects" element={<Suspense fallback={<RouteFallback />}><Projects /></Suspense>} />
-          <Route path="contact" element={<Suspense fallback={<RouteFallback />}><Contact /></Suspense>} />
-          
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Route>
-      </Route>
-    </Routes>
-  )
-}
+import Hero from './components/Hero/Hero'
+import About from './components/About/About'
+import Projects from './components/Projects/Projects'
+import Contact from './components/Contact/Contact'
+import Loader from './components/Loader/Loader'
+import { useMousePosition } from './hooks/useMousePosition'
+import { usePrefersReducedMotion } from './hooks/usePrefersReducedMotion'
+import { useScrollSection, useSectionNearViewport } from './hooks/useScrollSection'
+import type { SectionId } from './store/scrollSectionStore'
 
 function App() {
+  const mouse = useMousePosition()
+  const reducedMotion = usePrefersReducedMotion()
+  const [loading, setLoading] = useState(true)
+
+  const sectionIds = useMemo(() => ['hero', 'about', 'projects', 'contact'] as SectionId[], [])
+  const { currentSection } = useScrollSection(sectionIds)
+
+  const heroNear = useSectionNearViewport('hero', '200px')
+  const aboutNear = useSectionNearViewport('about', '200px')
+  const contactNear = useSectionNearViewport('contact', '200px')
+
+  const scrollToSection = (section: SectionId) => {
+    const element = document.getElementById(section)
+    if (!element) {
+      return
+    }
+
+    element.scrollIntoView({
+      behavior: reducedMotion ? 'auto' : 'smooth',
+      block: 'start',
+    })
+  }
+
   return (
-    <BrowserRouter>
-      <AppContent />
-    </BrowserRouter>
+    <>
+      {loading ? <Loader onComplete={() => setLoading(false)} /> : null}
+
+      <MainLayout mouse={mouse} currentSection={currentSection} onNavigate={scrollToSection}>
+        <section id="hero" data-scroll-section className="min-h-screen">
+          <Hero
+            mouse={mouse}
+            onViewProjects={() => scrollToSection('projects')}
+            onHireMe={() => scrollToSection('contact')}
+            shouldRenderScene={heroNear}
+          />
+        </section>
+
+        <section id="about" data-scroll-section className="min-h-screen">
+          <About mouse={mouse} shouldRenderScene={aboutNear} />
+        </section>
+
+        <section id="projects" data-scroll-section className="min-h-screen">
+          <div className="relative min-h-screen px-6 pb-8 pt-24 lg:px-[48px]">
+            <div className="mx-auto mb-8 grid w-full max-w-7xl gap-6 lg:grid-cols-[1.25fr_0.75fr]">
+              <div className="rounded-[28px] border border-white/10 bg-white/[0.03] p-8 backdrop-blur-xl">
+                <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.22em] text-[#7c3aed]">SYSTEM DASHBOARD</p>
+                <h2 className="max-w-2xl text-[clamp(34px,3.4vw,56px)] font-black leading-[0.95] tracking-[-0.03em] text-white">
+                  A calmer cockpit for modern product delivery.
+                </h2>
+                <p className="mt-6 max-w-xl text-[15px] leading-[1.8] text-slate-300">
+                  This control layer remains in the same universe while you scroll deeper into projects.
+                </p>
+              </div>
+
+              <div className="grid gap-4">
+                {[
+                  ['Latency', '12ms'],
+                  ['Motion', 'Smooth'],
+                  ['Theme', 'Nebula'],
+                ].map(([label, value]) => (
+                  <div key={label} className="rounded-[24px] border border-white/10 bg-white/[0.03] p-6 backdrop-blur-xl">
+                    <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-slate-500">{label}</div>
+                    <div className="mt-3 text-3xl font-black text-white">{value}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <Projects mouse={mouse} />
+        </section>
+
+        <section id="contact" data-scroll-section className="min-h-screen">
+          <Contact mouse={mouse} shouldRenderScene={contactNear} />
+        </section>
+      </MainLayout>
+    </>
   )
 }
 
-export default App
+export default memo(App)

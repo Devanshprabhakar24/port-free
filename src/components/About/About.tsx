@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { memo, useEffect, useMemo, useRef, useState } from 'react'
@@ -24,11 +23,11 @@ const STATS: StatItem[] = [
   { coordinate: '[99] SAT', target: 99, suffix: '%', shortLabel: 'SAT', label: 'Satisfaction' },
 ]
 
-function About({ mouse: _mouse }: { mouse: MousePosition }) {
+function About({ mouse: _mouse, shouldRenderScene = true }: { mouse: MousePosition; shouldRenderScene?: boolean }) {
   void _mouse
   const isMobile = useIsMobile()
   const reducedMotion = usePrefersReducedMotion()
-  const sectionRef = useRef<HTMLElement | null>(null)
+  const sectionRef = useRef<HTMLDivElement | null>(null)
   const countTweensRef = useRef<gsap.core.Tween[]>([])
   const scrambleIntervalsRef = useRef<Array<number | null>>(Array(STATS.length).fill(null))
   const [counterValues, setCounterValues] = useState<number[]>(Array(STATS.length).fill(0))
@@ -125,7 +124,7 @@ function About({ mouse: _mouse }: { mouse: MousePosition }) {
   )
 
   return (
-    <section
+    <div
       ref={sectionRef}
       className="relative min-h-screen w-full overflow-hidden bg-[#03010a]"
     >
@@ -193,10 +192,10 @@ function About({ mouse: _mouse }: { mouse: MousePosition }) {
         </div>
 
         <div className="relative min-h-[420px] overflow-hidden">
-          {isMobile ? <div className="mobile-gradient-animated h-full w-full" /> : <SkillsScene />}
+          {isMobile || !shouldRenderScene ? <div className="mobile-gradient-animated h-full w-full" /> : <SkillsScene />}
         </div>
       </div>
-    </section>
+    </div>
   )
 }
 

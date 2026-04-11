@@ -97,7 +97,7 @@ function TransitionTunnel() {
       tweenState,
       {
         z: -7,
-        duration: 0.95,
+        duration: 0.32,
         ease: 'power4.in',
         onUpdate: () => {
           cameraZRef.current = tweenState.z
@@ -110,37 +110,37 @@ function TransitionTunnel() {
       overlayRef.current,
       {
         opacity: 1,
-        duration: 0.26,
+        duration: 0.16,
         ease: 'power3.inOut',
       },
-      0.62,
+      0.2,
     )
 
     tl.add(() => {
       void runPeakAction()
-    }, 0.88)
+    }, 0.3)
 
     tl.to(
       tweenState,
       {
         z: 13,
-        duration: 0.58,
+        duration: 0.26,
         ease: 'power4.out',
         onUpdate: () => {
           cameraZRef.current = tweenState.z
         },
       },
-      0.88,
+      0.3,
     )
 
     tl.to(
       overlayRef.current,
       {
         opacity: 0,
-        duration: 0.45,
+        duration: 0.24,
         ease: 'power3.out',
       },
-      0.95,
+      0.36,
     )
 
     return () => {
@@ -160,7 +160,7 @@ function TransitionTunnel() {
     >
       <Canvas
         camera={{ position: [0, 0, 10], fov: 70, near: 0.01, far: 100 }}
-        dpr={[1, Math.min(window.devicePixelRatio, 2)]}
+        dpr={[1, isMobile ? 1.5 : Math.min(window.devicePixelRatio, 2)]}
         gl={{ antialias: true, alpha: true }}
       >
         <color attach="background" args={['#07070d']} />

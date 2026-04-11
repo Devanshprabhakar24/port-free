@@ -1,23 +1,24 @@
 import { memo } from 'react'
-import { Outlet, useLocation } from 'react-router-dom'
+import type { ReactNode } from 'react'
 import { LayoutGroup } from 'framer-motion'
 import Navbar from '../components/Navbar/Navbar'
 import Background from '../components/Background/Background'
 import PlanetSystem from '../components/PlanetSystem/PlanetSystem'
 import Footer from '../components/Footer/Footer'
 import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary'
-import { useMousePosition } from '../hooks/useMousePosition'
-import { useEffect } from 'react'
-import { useNavigationStore } from '../store/navigationStore'
+import type { MousePosition } from '../hooks/useMousePosition'
+import Cursor from '../components/Cursor/Cursor'
+import TransitionTunnel from '../components/Transition/TransitionTunnel'
+import type { SectionId } from '../store/scrollSectionStore'
 
-function MainLayout() {
-  const mouse = useMousePosition()
-  const location = useLocation()
-  const commitPath = useNavigationStore((s) => s.commitPath)
+type MainLayoutProps = {
+  mouse: MousePosition
+  currentSection: SectionId
+  onNavigate: (section: SectionId) => void
+  children: ReactNode
+}
 
-  useEffect(() => {
-    commitPath(location.pathname)
-  }, [commitPath, location.pathname])
+function MainLayout({ mouse, currentSection, onNavigate, children }: MainLayoutProps) {
 
   return (
     <ErrorBoundary>
@@ -25,9 +26,11 @@ function MainLayout() {
         <div className="relative min-h-screen overflow-hidden bg-[#03010a] text-[#f1f5f9]">
           <Background />
           <PlanetSystem />
-          <Navbar mouse={mouse} />
+          <Navbar mouse={mouse} currentSection={currentSection} onNavigate={onNavigate} />
+          <Cursor mouse={mouse} />
+          <TransitionTunnel />
           <main className="relative z-10">
-            <Outlet />
+            {children}
           </main>
           <Footer />
         </div>

@@ -13,9 +13,10 @@ type HeroProps = {
   mouse: MousePosition
   onViewProjects: () => void
   onHireMe: () => void
+  shouldRenderScene?: boolean
 }
 
-function Hero({ mouse, onViewProjects, onHireMe }: HeroProps) {
+function Hero({ mouse, onViewProjects, onHireMe, shouldRenderScene = true }: HeroProps) {
   const isMobile = useIsMobile()
   const reducedMotion = usePrefersReducedMotion()
   const scrollProgress = useScrollProgress()
@@ -29,7 +30,7 @@ function Hero({ mouse, onViewProjects, onHireMe }: HeroProps) {
   )
 
   return (
-    <section
+    <div
       className="relative min-h-screen w-full overflow-hidden bg-[#03010a]"
       style={{ fontFamily: 'Inter, sans-serif' }}
     >
@@ -57,7 +58,7 @@ function Hero({ mouse, onViewProjects, onHireMe }: HeroProps) {
       />
 
       <div className="pointer-events-none absolute inset-0 z-[1]">
-        {webGLReady && !reducedMotion ? (
+        {shouldRenderScene && webGLReady && !reducedMotion ? (
           !isMobile ? (
             <Suspense fallback={<div className="h-full w-full bg-[#03010a]" />}>
               <HeroScene mouse={mouse} />
@@ -164,7 +165,7 @@ function Hero({ mouse, onViewProjects, onHireMe }: HeroProps) {
         <div className="font-mono text-[9px] tracking-[0.2em] text-[#475569]">SCROLL</div>
       </div>
 
-    </section>
+    </div>
   )
 }
 

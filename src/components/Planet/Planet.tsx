@@ -13,9 +13,10 @@ type PlanetProps = {
   ring?: boolean
   tilt?: number
   label?: string
+  isActive?: boolean
 }
 
-function Planet({ layoutId, layout = 'position', color, glow, size, x, y, opacity = 1, ring = false, tilt = -12, label }: PlanetProps) {
+function Planet({ layoutId, layout = 'position', color, glow, size, x, y, opacity = 1, ring = false, tilt = -12, label, isActive = true }: PlanetProps) {
   return (
     <motion.div
       layoutId={layoutId}
@@ -23,14 +24,22 @@ function Planet({ layoutId, layout = 'position', color, glow, size, x, y, opacit
       aria-hidden="true"
       className="absolute rounded-full will-change-transform"
       initial={false}
-      animate={{
-        opacity,
-        // ⚡ OPTIMIZATION: Reduced waypoints (2 instead of 4) for smoother, simpler animation
-        x: [0, 3],
-        y: [0, -4],
-        scale: [1, 1.02],
-      }}
-      transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut', repeatType: 'mirror' }}
+      animate={
+        isActive
+          ? {
+              opacity,
+              x: [0, 3],
+              y: [0, -4],
+              scale: [1, 1.02],
+            }
+          : {
+              opacity,
+              x: 0,
+              y: 0,
+              scale: 1,
+            }
+      }
+      transition={isActive ? { duration: 14, repeat: Infinity, ease: 'easeInOut', repeatType: 'mirror' } : { duration: 0.2 }}
       style={{
         left: x,
         top: y,

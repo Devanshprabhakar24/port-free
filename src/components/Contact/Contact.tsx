@@ -26,7 +26,7 @@ const CONSTELLATION_LINKS = [
   ['b', 'd'],
 ] as const
 
-export default function Contact({ mouse }: { mouse: MousePosition }) {
+export default function Contact({ mouse, shouldRenderScene = true }: { mouse: MousePosition; shouldRenderScene?: boolean }) {
   void mouse
   const isMobile = useIsMobile()
   const reducedMotion = usePrefersReducedMotion()
@@ -101,12 +101,12 @@ export default function Contact({ mouse }: { mouse: MousePosition }) {
   }, [reducedMotion])
 
   return (
-    <section className="relative min-h-screen overflow-hidden px-6 pb-20 pt-36 md:pt-32 lg:pt-34">
+    <div className="relative min-h-screen overflow-hidden px-6 pb-20 pt-24 md:pt-20 lg:pt-22">
       <div className="absolute inset-0">
-        {isMobile ? (
+        {isMobile || !shouldRenderScene ? (
           <div className="mobile-gradient-animated h-full w-full" />
         ) : (
-          <Canvas camera={{ position: [0, 1.5, 5], fov: 50 }} dpr={[1, 2]}>
+          <Canvas camera={{ position: [0, 1.5, 5], fov: 50 }} dpr={[1, isMobile ? 1.5 : Math.min(window.devicePixelRatio, 2)]}>
             <ambientLight intensity={0.75} />
             <pointLight position={[2, 3, 2]} intensity={1.1} color="#ec4899" />
             <TerrainBackground />
@@ -317,6 +317,6 @@ export default function Contact({ mouse }: { mouse: MousePosition }) {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   )
 }

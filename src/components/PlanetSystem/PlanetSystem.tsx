@@ -3,10 +3,10 @@ import { memo, useEffect, useMemo } from 'react'
 import Planet from '../Planet/Planet'
 import DepthIndicator from './DepthIndicator'
 import { useCinematicDepthStore } from '../../store/cinematicDepthStore'
-import { useScrollSectionStore } from '../../store/scrollSectionStore'
 import { useScrollProgress } from '../../hooks/useScrollProgress'
 import { useIsMobile } from '../../hooks/useIsMobile'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
+import { useScrollSectionStore } from '../../store/scrollSectionStore'
 import type { SectionId } from '../../store/scrollSectionStore'
 
 type Atmosphere = {
@@ -77,73 +77,73 @@ const ATMOSPHERES: Record<SectionId, Atmosphere> = {
   },
 }
 
-// Adds four always-on planets so total visible system is 8 planets.
 const ORBITERS: Orbiter[] = [
   {
     key: 'mercury',
     color: '#4338ca',
     glow: 'rgba(99,102,241,0.25)',
-    size: 170,
+    size: 190,
     x: '14%',
     y: '24%',
-    baseDepth: 0.26,
-    depthVariance: 0.14,
-    driftX: 22,
-    driftY: 16,
+    baseDepth: 0.38,
+    depthVariance: 0.16,
+    driftX: 34,
+    driftY: 26,
   },
   {
     key: 'venus',
     color: '#9a3412',
     glow: 'rgba(251,146,60,0.24)',
-    size: 220,
+    size: 240,
     x: '20%',
     y: '72%',
     ring: true,
     tilt: 16,
-    baseDepth: 0.30,
-    depthVariance: 0.12,
-    driftX: -28,
-    driftY: -10,
+    baseDepth: 0.42,
+    depthVariance: 0.14,
+    driftX: -38,
+    driftY: -18,
   },
   {
     key: 'jupiter',
     color: '#1d4ed8',
     glow: 'rgba(59,130,246,0.24)',
-    size: 260,
+    size: 290,
     x: '88%',
     y: '67%',
-    baseDepth: 0.32,
-    depthVariance: 0.14,
-    driftX: 30,
-    driftY: 20,
+    baseDepth: 0.44,
+    depthVariance: 0.15,
+    driftX: 42,
+    driftY: 26,
   },
   {
     key: 'neptune',
     color: '#9d174d',
     glow: 'rgba(244,114,182,0.22)',
-    size: 190,
+    size: 210,
     x: '84%',
     y: '34%',
-    baseDepth: 0.24,
-    depthVariance: 0.14,
-    driftX: -24,
-    driftY: 14,
+    baseDepth: 0.36,
+    depthVariance: 0.16,
+    driftX: -34,
+    driftY: 22,
   },
 ]
 
 function PlanetSystem() {
   const isMobile = useIsMobile()
   const reducedMotion = usePrefersReducedMotion()
-  const scrollProgress = useScrollProgress()
-  const scrollDirection = useScrollSectionStore((s) => s.scrollDirection)
-  const velocityBand = useScrollSectionStore((s) => s.velocityBand)
   const currentSection = useScrollSectionStore((s) => s.currentSection)
+  const velocityBand = useScrollSectionStore((s) => s.velocityBand)
   const depths = useCinematicDepthStore((s) => s.depths)
+  const scrollProgress = useScrollProgress()
 
   const pointerX = useMotionValue(0)
   const pointerY = useMotionValue(0)
-  const parallaxX = useSpring(pointerX, { stiffness: 60, damping: 22, mass: 0.8 })
-  const parallaxY = useSpring(pointerY, { stiffness: 60, damping: 22, mass: 0.8 })
+  const parallaxX = useSpring(pointerX, { stiffness: 56, damping: 21, mass: 0.85 })
+  const parallaxY = useSpring(pointerY, { stiffness: 56, damping: 21, mass: 0.85 })
+
+  const speedFactor = velocityBand === 'fast' ? 1.25 : velocityBand === 'slow' ? 0.92 : 1.06
 
   useEffect(() => {
     const onPointerMove = (event: PointerEvent) => {
@@ -163,15 +163,9 @@ function PlanetSystem() {
     () => SECTION_IDS.reduce((best, id) => (depths[id] > depths[best] ? id : best), currentSection),
     [depths, currentSection],
   )
-  const maxDepth = depths[focusedId]
-  const travelY = (scrollProgress - 0.5) * 22
 
-  const motionFactor =
-    velocityBand === 'fast'
-      ? 1.22
-      : velocityBand === 'slow'
-        ? 0.9
-        : 1
+  const maxDepth = depths[focusedId]
+  const phase = scrollProgress * 2 - 1
 
   if (isMobile) {
     return (
@@ -205,18 +199,16 @@ function PlanetSystem() {
   return (
     <div
       className="pointer-events-none fixed inset-0 z-5 overflow-hidden"
-      style={{ perspective: '1200px', perspectiveOrigin: '50% 40%' }}
+      style={{ perspective: '1200px', perspectiveOrigin: '50% 40%', transformStyle: 'preserve-3d' }}
     >
       {ORBITERS.map((orbiter, idx) => {
-        const wave = 0.5 + 0.5 * Math.sin(scrollProgress * Math.PI * 2 + idx * 1.35)
-        const depth = Math.max(0.12, Math.min(0.62, orbiter.baseDepth + (wave - 0.5) * orbiter.depthVariance))
-        const dir = scrollDirection === 'down' ? 1 : -1
-        const driftX = dir * (scrollProgress - 0.5) * orbiter.driftX * motionFactor
-        const driftY = dir * (scrollProgress - 0.5) * orbiter.driftY * motionFactor
-        const z = -Math.round((1 - depth) * 320 + 80)
+        const depth = Math.max(0.18, Math.min(0.78, orbiter.baseDepth + phase * orbiter.depthVariance * 1.15))
+        const driftX = phase * orbiter.driftX * speedFactor * 1.35 + idx * 3
+        const driftY = phase * orbiter.driftY * speedFactor * 1.25
+        const z = -Math.round((1 - depth) * 260 + 50)
 
         return (
-          <div key={orbiter.key} className="absolute inset-0" style={{ zIndex: 6 + idx }}>
+          <div key={orbiter.key} className="absolute inset-0" style={{ zIndex: 8 + idx }}>
             <div
               className="absolute inset-0"
               style={{
@@ -240,7 +232,6 @@ function PlanetSystem() {
         )
       })}
 
-      <div className="absolute inset-0" style={{ transform: `translate3d(0, ${travelY.toFixed(2)}px, 0)` }}>
       {SECTION_IDS.map((id) => {
         const atm = ATMOSPHERES[id]
         const depth = depths[id]
@@ -249,16 +240,14 @@ function PlanetSystem() {
         const indexDelta = SECTION_IDS.indexOf(id) - focusedIndex
 
         const visualDepth = focused
-          ? Math.min(1, depth + (1 - maxDepth) * 0.42)
-          : Math.max(0.08, depth * 0.72)
-        const zIndex = Math.round(visualDepth * 100) + (focused ? 30 : 0)
+          ? Math.min(1, depth + (1 - maxDepth) * 0.55)
+          : Math.max(0.08, depth * 0.68)
 
-        const xDrift = indexDelta * 12 * motionFactor
-        const yDrift = (1 - visualDepth) * 40 * motionFactor
-        const focusedZ = scrollDirection === 'down'
-          ? Math.round(visualDepth * 220 * motionFactor)
-          : -Math.round(visualDepth * 160 * motionFactor)
-        const backgroundZ = -Math.round((1 - visualDepth) * 260 * motionFactor + Math.abs(indexDelta) * 30)
+        const zIndex = Math.round(visualDepth * 130) + (focused ? 48 : 0)
+        const xDrift = indexDelta * 16 * speedFactor
+        const yDrift = (1 - visualDepth) * 44 * speedFactor
+        const focusedZ = Math.round(visualDepth * 340 * speedFactor)
+        const backgroundZ = -Math.round((1 - visualDepth) * 300 * speedFactor + Math.abs(indexDelta) * 38)
 
         return (
           <div key={id} className="absolute inset-0" style={{ zIndex }}>
@@ -266,8 +255,8 @@ function PlanetSystem() {
               <motion.div className="absolute inset-0" style={{ x: parallaxX, y: parallaxY, z: focusedZ }}>
                 <motion.div
                   className="absolute inset-0"
-                  animate={{ x: [0, 5, 0], y: [0, -7, 0] }}
-                  transition={{ duration: 16, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
+                  animate={{ x: [0, 7, 0], y: [0, -10, 0] }}
+                  transition={{ duration: 13, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
                 >
                   <Planet
                     color={atm.color}
@@ -308,7 +297,6 @@ function PlanetSystem() {
           </div>
         )
       })}
-      </div>
 
       <DepthIndicator />
     </div>

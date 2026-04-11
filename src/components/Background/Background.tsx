@@ -22,24 +22,24 @@ function Background() {
 
   const speedFactor =
     velocityBand === 'fast'
-      ? 1.22
+      ? 1.35
       : velocityBand === 'slow'
-        ? 0.9
-        : 1
+        ? 0.92
+        : 1.08
 
-  const farY = scrollProgress * maxScroll * 0.05 * speedFactor
-  const midY = scrollProgress * maxScroll * 0.15 * speedFactor
-  const nearY = scrollProgress * maxScroll * 0.3 * speedFactor
+  const farY = scrollProgress * maxScroll * 0.08 * speedFactor
+  const midY = scrollProgress * maxScroll * 0.21 * speedFactor
+  const nearY = scrollProgress * maxScroll * 0.42 * speedFactor
 
   const dir = scrollDirection === 'down' ? 1 : -1
-  const driftXFar = dir * (scrollProgress - 0.5) * 18
-  const driftXMid = dir * (scrollProgress - 0.5) * 30
-  const driftXNear = dir * (scrollProgress - 0.5) * 44
+  const driftXFar = dir * (scrollProgress - 0.5) * 28
+  const driftXMid = dir * (scrollProgress - 0.5) * 44
+  const driftXNear = dir * (scrollProgress - 0.5) * 64
 
-  const nebulaY1 = -farY * 0.22
-  const nebulaY2 = -midY * 0.18
+  const nebulaY1 = -farY * 0.32
+  const nebulaY2 = -midY * 0.26
 
-  const streaking = velocityBand === 'fast'
+  const streaking = velocityBand !== 'slow'
 
   return (
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#03010a]">
@@ -108,8 +108,8 @@ function Background() {
       <div
         className="absolute inset-0"
         style={{
-          transform: streaking ? 'scaleY(2.5)' : 'scaleY(1)',
-          filter: streaking ? 'blur(1px)' : 'none',
+          transform: streaking ? 'scaleY(3.1)' : 'scaleY(1)',
+          filter: streaking ? 'blur(1.4px)' : 'none',
           transition: 'transform 300ms ease, filter 300ms ease',
           transformOrigin: 'center center',
         }}

@@ -33,7 +33,7 @@ export function useScrollDepth(): DepthMap {
         const sectionCenter = rect.top + rect.height / 2
         const viewportCenter = vh / 2
         const distance = Math.abs(sectionCenter - viewportCenter)
-        const maxDistance = vh // beyond 1 viewport = fully gone
+        const maxDistance = vh * 0.8
         next[id] = Math.max(0, 1 - distance / maxDistance)
       })
 
@@ -44,24 +44,24 @@ export function useScrollDepth(): DepthMap {
       const current = currentRef.current
       const target = targetRef.current
       const next: DepthMap = {
-        hero: lerp(current.hero, target.hero, 0.18),
-        about: lerp(current.about, target.about, 0.18),
-        projects: lerp(current.projects, target.projects, 0.18),
-        contact: lerp(current.contact, target.contact, 0.18),
+        hero: lerp(current.hero, target.hero, 0.12),
+        about: lerp(current.about, target.about, 0.12),
+        projects: lerp(current.projects, target.projects, 0.12),
+        contact: lerp(current.contact, target.contact, 0.12),
       }
 
       currentRef.current = next
       setDepths(next)
 
       const settled =
-        Math.abs(next.hero - target.hero) < 0.001 &&
-        Math.abs(next.about - target.about) < 0.001 &&
-        Math.abs(next.projects - target.projects) < 0.001 &&
-        Math.abs(next.contact - target.contact) < 0.001
+        Math.abs(next.hero - target.hero) < 0.0008 &&
+        Math.abs(next.about - target.about) < 0.0008 &&
+        Math.abs(next.projects - target.projects) < 0.0008 &&
+        Math.abs(next.contact - target.contact) < 0.0008
 
       if (settled) {
         currentRef.current = target
-        setDepths(target)
+        setDepths({ ...target })
         rafRef.current = null
         return
       }

@@ -1,76 +1,150 @@
 import { motion } from 'framer-motion'
-import { memo } from 'react'
-import { useScrollProgress } from '../../hooks/useScrollProgress'
+import { memo, useEffect, useRef } from 'react'
 import { useScrollSectionStore } from '../../store/scrollSectionStore'
 
-const PARTICLES = Array.from({ length: 20 }, (_, index) => ({
-  left: `${(index * 13) % 100}%`,
-  top: `${(index * 19) % 100}%`,
-  size: 1 + (index % 3) * 0.6,
-  delay: index * 0.2,
-}))
+type Star = {
+  left: number
+  top: number
+  size: number
+  opacity: number
+}
+
+function createStars(
+  count: number,
+  minSize: number,
+  maxSize: number,
+  minOpacity: number,
+  maxOpacity: number,
+  maxTop = 100,
+): Star[] {
+  return Array.from({ length: count }, (_, index) => {
+    const leftSeed = (index * 37 + 11) % 100
+    const topSeed = (index * 53 + 17) % 100
+    const sizeSeed = (index * 29 + 7) % 100
+    const opacitySeed = (index * 19 + 5) % 100
+
+    return {
+      left: leftSeed,
+      top: (topSeed / 100) * maxTop,
+      size: minSize + (sizeSeed / 100) * (maxSize - minSize),
+      opacity: minOpacity + (opacitySeed / 100) * (maxOpacity - minOpacity),
+    }
+  })
+}
+
+const FAR_STARS = createStars(60, 0.5, 0.9, 0.35, 0.5, 130)
+const MID_STARS = createStars(35, 0.9, 1.4, 0.45, 0.63, 145)
+const NEAR_STARS = createStars(18, 1.3, 1.9, 0.6, 0.8, 165)
 
 function Background() {
-  const scrollProgress = useScrollProgress()
   const velocityBand = useScrollSectionStore((s) => s.velocityBand)
   const scrollDirection = useScrollSectionStore((s) => s.scrollDirection)
 
-  const maxScroll =
-    typeof window === 'undefined'
-      ? 1
-      : Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
+  const farLayerRef = useRef<HTMLDivElement | null>(null)
+  const midLayerRef = useRef<HTMLDivElement | null>(null)
+  const nearLayerRef = useRef<HTMLDivElement | null>(null)
 
-  const speedFactor =
-    velocityBand === 'fast'
-      ? 1.35
-      : velocityBand === 'slow'
-        ? 0.92
-        : 1.08
+  useEffect(() => {
+    let rafId = 0
+    let targetProgress = 0
+    let smoothProgress = 0
 
-  const farY = scrollProgress * maxScroll * 0.08 * speedFactor
-  const midY = scrollProgress * maxScroll * 0.21 * speedFactor
-  const nearY = scrollProgress * maxScroll * 0.42 * speedFactor
+    const recalcTarget = () => {
+      const scrollable = Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
+      targetProgress = Math.max(0, Math.min(1, window.scrollY / scrollable))
+    }
 
-  const dir = scrollDirection === 'down' ? 1 : -1
-  const driftXFar = dir * (scrollProgress - 0.5) * 28
-  const driftXMid = dir * (scrollProgress - 0.5) * 44
-  const driftXNear = dir * (scrollProgress - 0.5) * 64
+    const tick = () => {
+      smoothProgress += (targetProgress - smoothProgress) * 0.12
+      const dir = scrollDirection === 'down' ? 1 : -1
 
-  const nebulaY1 = -farY * 0.32
-  const nebulaY2 = -midY * 0.26
+      const farX = (smoothProgress - 0.5) * 16 * dir
+      const midX = (smoothProgress - 0.5) * 28 * dir
+      const nearX = (smoothProgress - 0.5) * 42 * dir
 
-  const streaking = velocityBand !== 'slow'
+      if (farLayerRef.current) {
+        farLayerRef.current.style.transform = `translate3d(${farX.toFixed(2)}px, ${(-smoothProgress * 80).toFixed(2)}px, 0)`
+      }
+      if (midLayerRef.current) {
+        midLayerRef.current.style.transform = `translate3d(${midX.toFixed(2)}px, ${(-smoothProgress * 180).toFixed(2)}px, 0)`
+      }
+      if (nearLayerRef.current) {
+        nearLayerRef.current.style.transform = `translate3d(${nearX.toFixed(2)}px, ${(-smoothProgress * 320).toFixed(2)}px, 0)`
+      }
+
+      rafId = window.requestAnimationFrame(tick)
+    }
+
+    recalcTarget()
+    rafId = window.requestAnimationFrame(tick)
+    window.addEventListener('scroll', recalcTarget, { passive: true })
+    window.addEventListener('resize', recalcTarget)
+
+    return () => {
+      window.cancelAnimationFrame(rafId)
+      window.removeEventListener('scroll', recalcTarget)
+      window.removeEventListener('resize', recalcTarget)
+    }
+  }, [scrollDirection])
+
+  const streaking = velocityBand === 'fast'
 
   return (
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#03010a]">
-      <div className="absolute inset-0" style={{ transform: `translate3d(${driftXFar.toFixed(2)}px, ${(-farY).toFixed(2)}px, 0)` }}>
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              'radial-gradient(1px 1px at 8% 12%,rgba(255,255,255,0.95) 0%,transparent 100%),radial-gradient(1px 1px at 25% 5%,rgba(255,255,255,0.8) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 42% 22%,rgba(255,255,255,0.9) 0%,transparent 100%),radial-gradient(1px 1px at 67% 8%,rgba(200,210,255,0.7) 0%,transparent 100%),radial-gradient(1px 1px at 85% 18%,rgba(255,255,255,0.85) 0%,transparent 100%),radial-gradient(1px 1px at 15% 38%,rgba(255,255,255,0.6) 0%,transparent 100%),radial-gradient(0.5px 0.5px at 55% 45%,rgba(255,255,255,0.7) 0%,transparent 100%),radial-gradient(1px 1px at 78% 35%,rgba(200,200,255,0.8) 0%,transparent 100%)',
-          }}
-        />
+      <div ref={farLayerRef} className="absolute -top-[15%] left-0 h-[130%] w-full will-change-transform">
+        {FAR_STARS.map((star, index) => (
+          <span
+            key={`far-${index}`}
+            className="absolute rounded-full bg-white"
+            style={{
+              left: `${star.left}%`,
+              top: `${star.top}%`,
+              width: `${star.size}px`,
+              height: `${star.size}px`,
+              opacity: star.opacity,
+            }}
+          />
+        ))}
       </div>
 
-      <div className="absolute inset-0" style={{ transform: `translate3d(${driftXMid.toFixed(2)}px, ${(-midY).toFixed(2)}px, 0)`, opacity: 0.55 }}>
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              'radial-gradient(1px 1px at 12% 20%,rgba(255,255,255,0.5) 0%,transparent 100%),radial-gradient(1px 1px at 70% 30%,rgba(200,210,255,0.45) 0%,transparent 100%),radial-gradient(1px 1px at 40% 72%,rgba(255,255,255,0.4) 0%,transparent 100%),radial-gradient(1px 1px at 84% 64%,rgba(255,255,255,0.5) 0%,transparent 100%)',
-          }}
-        />
+      <div ref={midLayerRef} className="absolute -top-[22.5%] left-0 h-[145%] w-full will-change-transform">
+        {MID_STARS.map((star, index) => (
+          <span
+            key={`mid-${index}`}
+            className="absolute rounded-full bg-white"
+            style={{
+              left: `${star.left}%`,
+              top: `${star.top}%`,
+              width: `${star.size}px`,
+              height: `${star.size}px`,
+              opacity: star.opacity,
+            }}
+          />
+        ))}
       </div>
 
-      <div className="absolute inset-0" style={{ transform: `translate3d(${driftXNear.toFixed(2)}px, ${(-nearY).toFixed(2)}px, 0)`, opacity: 0.35 }}>
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              'radial-gradient(1.5px 1.5px at 16% 44%,rgba(255,255,255,0.45) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 62% 18%,rgba(255,255,255,0.5) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 78% 86%,rgba(200,210,255,0.42) 0%,transparent 100%)',
-          }}
-        />
+      <div
+        ref={nearLayerRef}
+        className="absolute -top-[32.5%] left-0 h-[165%] w-full will-change-transform"
+        style={{
+          transform: streaking ? 'scaleY(2.5)' : 'scaleY(1)',
+          transformOrigin: 'center center',
+          transition: 'transform 350ms ease',
+        }}
+      >
+        {NEAR_STARS.map((star, index) => (
+          <span
+            key={`near-${index}`}
+            className="absolute rounded-full bg-white"
+            style={{
+              left: `${star.left}%`,
+              top: `${star.top}%`,
+              width: `${star.size}px`,
+              height: `${star.size}px`,
+              opacity: star.opacity,
+            }}
+          />
+        ))}
       </div>
 
       <div
@@ -90,7 +164,7 @@ function Background() {
         animate={{ opacity: [0.7, 1, 0.75], scale: [1, 1.05, 1] }}
         transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
         style={{
-          y: nebulaY1,
+          y: -24,
           background: 'radial-gradient(ellipse at 40% 40%, rgba(88,28,135,0.2) 0%, transparent 70%)',
         }}
       />
@@ -100,30 +174,10 @@ function Background() {
         animate={{ opacity: [0.55, 0.95, 0.6], scale: [1, 1.04, 1] }}
         transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
         style={{
-          y: nebulaY2,
+          y: -12,
           background: 'radial-gradient(ellipse at 50% 50%, rgba(30,58,138,0.15) 0%, transparent 70%)',
         }}
       />
-
-      <div
-        className="absolute inset-0"
-        style={{
-          transform: streaking ? 'scaleY(3.1)' : 'scaleY(1)',
-          filter: streaking ? 'blur(1.4px)' : 'none',
-          transition: 'transform 300ms ease, filter 300ms ease',
-          transformOrigin: 'center center',
-        }}
-      >
-        {PARTICLES.map((particle) => (
-          <motion.span
-            key={`${particle.left}-${particle.top}`}
-            className="absolute rounded-full bg-white/70 will-change-transform"
-            animate={{ opacity: [0.2, 0.75, 0.2], y: [0, -8, 0] }}
-            transition={{ duration: 6 + particle.delay, repeat: Infinity, ease: 'easeInOut', delay: particle.delay }}
-            style={{ left: particle.left, top: particle.top, width: particle.size, height: particle.size }}
-          />
-        ))}
-      </div>
 
       <motion.div
         className="absolute right-[12%] top-[22%] h-3 w-3 rounded-full bg-white/80"
@@ -135,9 +189,9 @@ function Background() {
       <div
         className="absolute inset-0"
         style={{
-          opacity: streaking ? 1 : 0,
-          transition: 'opacity 300ms ease',
-          background: 'radial-gradient(circle at center, transparent 45%, rgba(0,0,0,0.3) 100%)',
+          opacity: streaking ? 0.25 : 0,
+          transition: 'opacity 350ms ease',
+          background: 'radial-gradient(circle at center, transparent 45%, rgba(0,0,0,0.5) 100%)',
         }}
       />
     </div>

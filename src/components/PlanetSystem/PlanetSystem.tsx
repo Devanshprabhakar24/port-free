@@ -3,6 +3,7 @@ import { memo, useEffect, useMemo } from 'react'
 import Planet from '../Planet/Planet'
 import DepthIndicator from './DepthIndicator'
 import { useCinematicDepthStore } from '../../store/cinematicDepthStore'
+import { useScrollDepth } from '../../hooks/useScrollDepth'
 import { useScrollProgress } from '../../hooks/useScrollProgress'
 import { useIsMobile } from '../../hooks/useIsMobile'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
@@ -135,7 +136,8 @@ function PlanetSystem() {
   const reducedMotion = usePrefersReducedMotion()
   const currentSection = useScrollSectionStore((s) => s.currentSection)
   const velocityBand = useScrollSectionStore((s) => s.velocityBand)
-  const depths = useCinematicDepthStore((s) => s.depths)
+  const setDepths = useCinematicDepthStore((s) => s.setDepths)
+  const depths = useScrollDepth()
   const scrollProgress = useScrollProgress()
 
   const pointerX = useMotionValue(0)
@@ -143,14 +145,18 @@ function PlanetSystem() {
   const parallaxX = useSpring(pointerX, { stiffness: 56, damping: 21, mass: 0.85 })
   const parallaxY = useSpring(pointerY, { stiffness: 56, damping: 21, mass: 0.85 })
 
-  const speedFactor = velocityBand === 'fast' ? 1.25 : velocityBand === 'slow' ? 0.92 : 1.06
+  const speedFactor = velocityBand === 'fast' ? 1.24 : velocityBand === 'slow' ? 0.92 : 1
+
+  useEffect(() => {
+    setDepths(depths)
+  }, [depths, setDepths])
 
   useEffect(() => {
     const onPointerMove = (event: PointerEvent) => {
       const nx = event.clientX / window.innerWidth - 0.5
       const ny = event.clientY / window.innerHeight - 0.5
-      pointerX.set(nx * 10)
-      pointerY.set(ny * 8)
+      pointerX.set(nx * 12)
+      pointerY.set(ny * 9)
     }
 
     window.addEventListener('pointermove', onPointerMove, { passive: true })
@@ -199,12 +205,12 @@ function PlanetSystem() {
   return (
     <div
       className="pointer-events-none fixed inset-0 z-5 overflow-hidden"
-      style={{ perspective: '1200px', perspectiveOrigin: '50% 40%', transformStyle: 'preserve-3d' }}
+      style={{ perspective: '1400px', perspectiveOrigin: '50% 38%', transformStyle: 'preserve-3d' }}
     >
       {ORBITERS.map((orbiter, idx) => {
-        const depth = Math.max(0.18, Math.min(0.78, orbiter.baseDepth + phase * orbiter.depthVariance * 1.15))
-        const driftX = phase * orbiter.driftX * speedFactor * 1.35 + idx * 3
-        const driftY = phase * orbiter.driftY * speedFactor * 1.25
+        const depth = Math.max(0.18, Math.min(0.82, orbiter.baseDepth + phase * orbiter.depthVariance * 1.12))
+        const driftX = phase * orbiter.driftX * speedFactor * 1.2 + idx * 3
+        const driftY = phase * orbiter.driftY * speedFactor * 1.15
         const z = -Math.round((1 - depth) * 260 + 50)
 
         return (
@@ -244,8 +250,8 @@ function PlanetSystem() {
           : Math.max(0.08, depth * 0.68)
 
         const zIndex = Math.round(visualDepth * 130) + (focused ? 48 : 0)
-        const xDrift = indexDelta * 16 * speedFactor
-        const yDrift = (1 - visualDepth) * 44 * speedFactor
+        const xDrift = indexDelta * 14 * speedFactor
+        const yDrift = (1 - visualDepth) * 55 * speedFactor
         const focusedZ = Math.round(visualDepth * 340 * speedFactor)
         const backgroundZ = -Math.round((1 - visualDepth) * 300 * speedFactor + Math.abs(indexDelta) * 38)
 

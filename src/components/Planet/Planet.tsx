@@ -25,14 +25,16 @@ function Planet({
   depth = 1,
   isFocused = true,
 }: PlanetProps) {
-  // Map depth 0->1 to visual properties
-  const easedDepth = Math.pow(depth, 0.7)
-  const scale = 0.28 + easedDepth * 0.72 // 0.28 (far) -> 1.0 (close)
-  const opacity = 0.08 + depth * 0.92 // 0.08 (far) -> 1.0 (close)
-  const blurPx = (1 - depth) * 18 // 18px (far) -> 0px (close)
+  const d65 = Math.pow(depth, 0.65)
+  const d45 = Math.pow(depth, 0.45)
+  const d140 = Math.pow(depth, 1.4)
+
+  const scale = 0.22 + d65 * 0.78
+  const opacity = 0.06 + d45 * 0.94
+  const blurPx = (1 - d65) * 22
   const brightness = 0.4 + depth * 0.6
-  const saturation = 0.6 + depth * 0.4
-  const outerGlow = size * (0.3 + depth * 0.5)
+  const saturation = 0.45 + depth * 0.65
+  const outerGlow = size * (0.3 + d140 * 0.5)
   const ringBlur = (1 - depth) * 4
 
   return (
@@ -60,8 +62,8 @@ function Planet({
           `radial-gradient(circle at 50% 50%, ${color} 0%, rgba(16,12,36,0.92) 70%, rgba(3,1,10,0.98) 100%)`,
         ].join(', '),
         boxShadow: [
-          `0 0 ${Math.round(size * 0.04 * depth)}px ${glow}`,
-          `0 0 ${Math.round(size * 0.14 * depth)}px ${glow}`,
+          `0 0 ${Math.round(size * 0.04 * d140)}px ${glow}`,
+          `0 0 ${Math.round(size * 0.14 * d140)}px ${glow}`,
           `0 0 ${Math.round(outerGlow)}px ${glow}`,
           `0 0 ${Math.round(size * 0.2)}px rgba(255,255,255,${(0.05 * depth).toFixed(3)})`,
           'inset -28px -20px 48px rgba(0,0,0,0.45)',

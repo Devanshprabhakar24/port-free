@@ -145,7 +145,7 @@ function PlanetSystem() {
   const parallaxX = useSpring(pointerX, { stiffness: 56, damping: 21, mass: 0.85 })
   const parallaxY = useSpring(pointerY, { stiffness: 56, damping: 21, mass: 0.85 })
 
-  const speedFactor = velocityBand === 'fast' ? 1.24 : velocityBand === 'slow' ? 0.92 : 1
+  const speedFactor = velocityBand === 'fast' ? 1.42 : velocityBand === 'slow' ? 0.9 : 1.12
 
   useEffect(() => {
     setDepths(depths)
@@ -252,31 +252,42 @@ function PlanetSystem() {
         const zIndex = Math.round(visualDepth * 130) + (focused ? 48 : 0)
         const xDrift = indexDelta * 14 * speedFactor
         const yDrift = (1 - visualDepth) * 55 * speedFactor
-        const focusedZ = Math.round(visualDepth * 340 * speedFactor)
+        const focusedZ = Math.round(visualDepth * 340 * speedFactor + phase * 260)
+        const focusedTravelX = phase * 148 * speedFactor
+        const focusedTravelY = -phase * 186 * speedFactor
+        const focusedTilt = phase * 9
         const backgroundZ = -Math.round((1 - visualDepth) * 300 * speedFactor + Math.abs(indexDelta) * 38)
 
         return (
           <div key={id} className="absolute inset-0" style={{ zIndex }}>
             {focused ? (
-              <motion.div className="absolute inset-0" style={{ x: parallaxX, y: parallaxY, z: focusedZ }}>
-                <motion.div
+              <motion.div className="absolute inset-0" style={{ x: parallaxX, y: parallaxY }}>
+                <div
                   className="absolute inset-0"
-                  animate={{ x: [0, 7, 0], y: [0, -10, 0] }}
-                  transition={{ duration: 13, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
+                  style={{
+                    transform: `translate3d(${focusedTravelX.toFixed(2)}px, ${focusedTravelY.toFixed(2)}px, ${focusedZ}px) rotate(${focusedTilt.toFixed(2)}deg)`,
+                    transformStyle: 'preserve-3d',
+                  }}
                 >
-                  <Planet
-                    color={atm.color}
-                    glow={atm.glow}
-                    size={atm.size}
-                    x={atm.x}
-                    y={atm.y}
-                    ring={atm.ring}
-                    tilt={atm.tilt ?? -12}
-                    label={atm.label}
-                    depth={visualDepth}
-                    isFocused={true}
-                  />
-                </motion.div>
+                  <motion.div
+                    className="absolute inset-0"
+                    animate={{ x: [0, 10, 0], y: [0, -16, 0] }}
+                    transition={{ duration: 13, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
+                  >
+                    <Planet
+                      color={atm.color}
+                      glow={atm.glow}
+                      size={atm.size}
+                      x={atm.x}
+                      y={atm.y}
+                      ring={atm.ring}
+                      tilt={atm.tilt ?? -12}
+                      label={atm.label}
+                      depth={visualDepth}
+                      isFocused={true}
+                    />
+                  </motion.div>
+                </div>
               </motion.div>
             ) : (
               <div

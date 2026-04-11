@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { subscribeWithSelector } from 'zustand/middleware'
 
 export type SectionId = 'hero' | 'about' | 'projects' | 'contact'
 export type VelocityBand = 'slow' | 'medium' | 'fast'
@@ -15,29 +16,31 @@ type ScrollSectionState = {
   setVelocityBand: (band: VelocityBand) => void
 }
 
-export const useScrollSectionStore = create<ScrollSectionState>((set, get) => ({
-  currentSection: 'hero',
-  previousSection: 'hero',
-  velocityBand: 'medium',
-  scrollDirection: 'down',
+export const useScrollSectionStore = create<ScrollSectionState>()(
+  subscribeWithSelector((set, get) => ({
+    currentSection: 'hero',
+    previousSection: 'hero',
+    velocityBand: 'medium',
+    scrollDirection: 'down',
 
-  setSection: (section) => {
-    const { currentSection } = get()
-    if (section === currentSection) return
+    setSection: (section) => {
+      const { currentSection } = get()
+      if (section === currentSection) return
 
-    const currentIndex = SECTION_ORDER.indexOf(currentSection)
-    const nextIndex = SECTION_ORDER.indexOf(section)
-    const scrollDirection: ScrollDirection = nextIndex > currentIndex ? 'down' : 'up'
+      const currentIndex = SECTION_ORDER.indexOf(currentSection)
+      const nextIndex = SECTION_ORDER.indexOf(section)
+      const scrollDirection: ScrollDirection = nextIndex > currentIndex ? 'down' : 'up'
 
-    set({
-      previousSection: currentSection,
-      currentSection: section,
-      scrollDirection,
-    })
-  },
+      set({
+        previousSection: currentSection,
+        currentSection: section,
+        scrollDirection,
+      })
+    },
 
-  setVelocityBand: (band) => {
-    if (get().velocityBand === band) return
-    set({ velocityBand: band })
-  },
-}))
+    setVelocityBand: (band) => {
+      if (get().velocityBand === band) return
+      set({ velocityBand: band })
+    },
+  })),
+)

@@ -9,6 +9,7 @@ import { useIsMobile } from '../../hooks/useIsMobile'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 import { useScrollSectionStore } from '../../store/scrollSectionStore'
 import type { SectionId } from '../../store/scrollSectionStore'
+import { AMBIENT_ORBITERS } from './orbiters'
 
 type Atmosphere = {
   color: string
@@ -19,21 +20,6 @@ type Atmosphere = {
   ring?: boolean
   tilt?: number
   label: string
-}
-
-type Orbiter = {
-  key: string
-  color: string
-  glow: string
-  size: number
-  x: string
-  y: string
-  ring?: boolean
-  tilt?: number
-  baseDepth: number
-  depthVariance: number
-  driftX: number
-  driftY: number
 }
 
 const SECTION_IDS: SectionId[] = ['hero', 'about', 'projects', 'contact']
@@ -78,58 +64,6 @@ const ATMOSPHERES: Record<SectionId, Atmosphere> = {
   },
 }
 
-const ORBITERS: Orbiter[] = [
-  {
-    key: 'mercury',
-    color: '#4338ca',
-    glow: 'rgba(99,102,241,0.25)',
-    size: 190,
-    x: '14%',
-    y: '24%',
-    baseDepth: 0.38,
-    depthVariance: 0.16,
-    driftX: 34,
-    driftY: 26,
-  },
-  {
-    key: 'venus',
-    color: '#9a3412',
-    glow: 'rgba(251,146,60,0.24)',
-    size: 240,
-    x: '20%',
-    y: '72%',
-    ring: true,
-    tilt: 16,
-    baseDepth: 0.42,
-    depthVariance: 0.14,
-    driftX: -38,
-    driftY: -18,
-  },
-  {
-    key: 'jupiter',
-    color: '#1d4ed8',
-    glow: 'rgba(59,130,246,0.24)',
-    size: 290,
-    x: '88%',
-    y: '67%',
-    baseDepth: 0.44,
-    depthVariance: 0.15,
-    driftX: 42,
-    driftY: 26,
-  },
-  {
-    key: 'neptune',
-    color: '#9d174d',
-    glow: 'rgba(244,114,182,0.22)',
-    size: 210,
-    x: '84%',
-    y: '34%',
-    baseDepth: 0.36,
-    depthVariance: 0.16,
-    driftX: -34,
-    driftY: 22,
-  },
-]
 
 function PlanetSystem() {
   const isMobile = useIsMobile()
@@ -207,36 +141,31 @@ function PlanetSystem() {
       className="pointer-events-none fixed inset-0 z-5 overflow-hidden"
       style={{ perspective: '1400px', perspectiveOrigin: '50% 38%', transformStyle: 'preserve-3d' }}
     >
-      {ORBITERS.map((orbiter, idx) => {
-        const depth = Math.max(0.18, Math.min(0.82, orbiter.baseDepth + phase * orbiter.depthVariance * 1.12))
-        const driftX = phase * orbiter.driftX * speedFactor * 1.2 + idx * 3
-        const driftY = phase * orbiter.driftY * speedFactor * 1.15
-        const z = -Math.round((1 - depth) * 260 + 50)
-
-        return (
-          <div key={orbiter.key} className="absolute inset-0" style={{ zIndex: 8 + idx }}>
-            <div
-              className="absolute inset-0"
-              style={{
-                transform: `translate3d(${driftX.toFixed(2)}px, ${driftY.toFixed(2)}px, ${z}px)`,
-                transformStyle: 'preserve-3d',
-              }}
-            >
-              <Planet
-                color={orbiter.color}
-                glow={orbiter.glow}
-                size={orbiter.size}
-                x={orbiter.x}
-                y={orbiter.y}
-                ring={orbiter.ring}
-                tilt={orbiter.tilt ?? -12}
-                depth={depth}
-                isFocused={false}
-              />
-            </div>
-          </div>
-        )
-      })}
+      {AMBIENT_ORBITERS.map((orb) => (
+        <motion.div
+          key={orb.id}
+          className="absolute inset-0"
+          style={{ zIndex: Math.round(orb.baseDepth * 100) }}
+          animate={{
+            x: [0, orb.floatAmpX, 0, -orb.floatAmpX, 0],
+            y: [0, -orb.floatAmpY, 0, orb.floatAmpY, 0],
+          }}
+          transition={{
+            duration: orb.floatDuration,
+            repeat: Infinity,
+            ease: 'easeInOut',
+            delay: orb.floatDelay,
+          }}
+        >
+          <Planet
+            color={orb.color} glow={orb.glow}
+            size={orb.size} x={orb.x} y={orb.y}
+            ring={orb.ring} tilt={orb.tilt ?? -12}
+            depth={orb.baseDepth}
+            isFocused={false}
+          />
+        </motion.div>
+      ))}
 
       {SECTION_IDS.map((id) => {
         const atm = ATMOSPHERES[id]

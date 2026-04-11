@@ -9,108 +9,98 @@ type PlanetProps = {
   ring?: boolean
   tilt?: number
   label?: string
-  depth?: number // 0.0 far -> 1.0 centered (default 1)
-  isFocused?: boolean // is this the currently active section
+  depth?: number  // 0.0 far -> 1.0 centered
+  isFocused?: boolean
 }
 
 function Planet({
-  color,
-  glow,
-  size,
-  x,
-  y,
-  ring = false,
-  tilt = -12,
-  label,
-  depth = 1,
-  isFocused = true,
+  color, glow, size, x, y,
+  ring = false, tilt = -12, label, depth = 1, isFocused = true,
 }: PlanetProps) {
-  const d65 = Math.pow(depth, 0.65)
-  const d45 = Math.pow(depth, 0.45)
-  const d140 = Math.pow(depth, 1.4)
+  // Power-curve easing - not linear
+  const d65  = Math.pow(depth, 0.65)  // scale, blur: easeOut -> planet rushes forward
+  const d45  = Math.pow(depth, 0.45)  // opacity: reveals BEFORE scale completes
+  const d140 = Math.pow(depth, 1.4)   // glow: only blooms when very close
 
-  const scale = 0.22 + d65 * 0.78
-  const opacity = 0.06 + d45 * 0.94
-  const blurPx = (1 - d65) * 22
-  const brightness = 0.4 + depth * 0.6
-  const saturation = 0.45 + depth * 0.65
-  const outerGlow = size * (0.3 + d140 * 0.5)
-  const ringBlur = (1 - depth) * 4
+  const scale      = 0.22 + d65 * 0.78         // 0.22 far -> 1.0 close
+  const opacity    = 0.06 + d45 * 0.94         // 0.06 far -> 1.0 close
+  const blurPx     = (1 - d65) * 22            // 22px far -> 0px close
+  const brightness = 0.4  + depth * 0.6        // dim far -> vivid close
+  const saturation = 0.45 + depth * 0.65       // grey far -> saturated close
+
+  const filterStr = blurPx > 0.4
+    ? `blur(${blurPx.toFixed(2)}px) brightness(${brightness.toFixed(3)}) saturate(${saturation.toFixed(3)})`
+    : `brightness(${brightness.toFixed(3)}) saturate(${saturation.toFixed(3)})`
 
   return (
     <div
       aria-hidden="true"
       className="absolute rounded-full will-change-transform"
       style={{
-        left: x,
-        top: y,
-        width: size, // keep layout size constant
-        height: size,
-        marginLeft: -size / 2,
-        marginTop: -size / 2,
-        // Apply depth as CSS transform - GPU composited, no layout
+        left: x, top: y,
+        width: size, height: size,
+        marginLeft: -size / 2, marginTop: -size / 2,
         transform: `scale(${scale.toFixed(4)})`,
         opacity,
-        filter:
-          blurPx > 0.5
-            ? `blur(${blurPx.toFixed(2)}px) brightness(${brightness.toFixed(3)}) saturate(${saturation.toFixed(3)})`
-            : `brightness(${brightness.toFixed(3)}) saturate(${saturation.toFixed(3)})`,
-        transition: 'none', // CRITICAL: no CSS transition, scroll drives it
+        filter: filterStr,
+        transition: 'none',  // CRITICAL: scroll drives this, CSS must not fight it
         background: [
-          'radial-gradient(circle at 30% 28%, rgba(255,255,255,0.2) 0%, transparent 32%)',
-          'radial-gradient(circle at 68% 72%, rgba(255,255,255,0.08) 0%, transparent 30%)',
+          'radial-gradient(circle at 30% 28%, rgba(255,255,255,0.22) 0%, transparent 32%)',
+          'radial-gradient(circle at 68% 72%, rgba(255,255,255,0.09) 0%, transparent 30%)',
           `radial-gradient(circle at 50% 50%, ${color} 0%, rgba(16,12,36,0.92) 70%, rgba(3,1,10,0.98) 100%)`,
         ].join(', '),
         boxShadow: [
+          // d140 curve: glow only blooms when depth is high - no halos on distant planets
           `0 0 ${Math.round(size * 0.04 * d140)}px ${glow}`,
-          `0 0 ${Math.round(size * 0.14 * d140)}px ${glow}`,
-          `0 0 ${Math.round(outerGlow)}px ${glow}`,
-          `0 0 ${Math.round(size * 0.2)}px rgba(255,255,255,${(0.05 * depth).toFixed(3)})`,
-          'inset -28px -20px 48px rgba(0,0,0,0.45)',
-          'inset 18px 12px 36px rgba(255,255,255,0.08)',
+          `0 0 ${Math.round(size * 0.16 * d140)}px ${glow}`,
+          `0 0 ${Math.round(size * 0.55 * d140)}px ${glow}`,
+          'inset -28px -20px 48px rgba(0,0,0,0.50)',
+          'inset 18px 12px 36px rgba(255,255,255,0.09)',
         ].join(', '),
       }}
     >
       {/* Specular highlight */}
-      <div
-        className="absolute inset-0 rounded-full"
-        style={{
-          background: 'radial-gradient(circle at 35% 30%, rgba(255,255,255,0.2) 0%, transparent 26%)',
-          opacity: 0.8,
-        }}
-      />
-      {/* Atmospheric rim */}
-      <div
-        className="absolute inset-0 rounded-full"
-        style={{
-          background: `radial-gradient(circle at 50% 50%, transparent 58%, ${glow} 82%, transparent 100%)`,
-          opacity: 0.4 * depth,
-        }}
-      />
+      <div className="absolute inset-0 rounded-full" style={{
+        background: 'radial-gradient(circle at 34% 29%, rgba(255,255,255,0.22) 0%, transparent 28%)',
+        opacity: 0.85,
+      }} />
+      {/* Atmospheric rim - grows with depth */}
+      <div className="absolute inset-0 rounded-full" style={{
+        background: `radial-gradient(circle at 50% 50%, transparent 56%, ${glow} 80%, transparent 100%)`,
+        opacity: 0.45 * depth,
+      }} />
+      {/* Corona - only on focused planet */}
+      {isFocused && (
+        <div className="absolute inset-0 rounded-full" style={{
+          background: `radial-gradient(circle at 50% 50%, transparent 60%, ${glow} 88%, transparent 100%)`,
+          opacity: 0.25 * depth,
+        }} />
+      )}
+      {/* Ring */}
       {ring && (
         <div
           className="pointer-events-none absolute left-1/2 top-1/2 rounded-full"
           style={{
-            width: size * 1.35,
-            height: size * 0.35,
-            marginLeft: -(size * 1.35) / 2,
-            marginTop: -(size * 0.35) / 2,
-            border: '1px solid rgba(167,139,250,0.32)',
+            width: size * 1.38, height: size * 0.36,
+            marginLeft: -(size * 1.38) / 2,
+            marginTop:  -(size * 0.36) / 2,
+            border: '1px solid rgba(167,139,250,0.34)',
+            filter: `blur(${((1 - depth) * 3).toFixed(1)}px)`,
             boxShadow: `0 0 22px ${glow}`,
             transform: `rotate(${tilt}deg)`,
             opacity: depth,
-            filter: ringBlur > 0.2 ? `blur(${ringBlur.toFixed(2)}px)` : 'none',
           }}
         />
       )}
-      {label && isFocused && depth > 0.7 && (
+      {/* Label */}
+      {label && isFocused && depth > 0.72 && (
         <div
           className="pointer-events-none absolute left-1/2 -translate-x-1/2 font-mono uppercase tracking-[0.28em] text-white/35"
           style={{
             bottom: -Math.max(10, size * 0.06),
             fontSize: Math.max(8, size * 0.026),
             whiteSpace: 'nowrap',
-            opacity: Math.max(0, (depth - 0.7) / 0.3), // fades in only when close
+            opacity: Math.max(0, (depth - 0.72) / 0.28),
           }}
         >
           {label}

@@ -1,6 +1,7 @@
 import { lazy, Suspense, useCallback, useMemo, useState } from 'react'
 import { useIsMobile } from '../../hooks/useIsMobile'
 import type { MousePosition } from '../../hooks/useMousePosition'
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 
 const Carousel3D = lazy(() => import('./Carousel3D'))
 
@@ -106,9 +107,15 @@ export default function Projects({ mouse }: { mouse: MousePosition }) {
         </div>
       ) : (
         <div className="premium-surface h-130 overflow-hidden rounded-3xl">
-          <Suspense fallback={<div className="grid h-full place-items-center text-(--text-muted)">Loading carousel...</div>}>
-            <Carousel3D />
-          </Suspense>
+          <ErrorBoundary fallback={
+            <div className="flex h-full items-center justify-center">
+              <div className="h-[400px] w-full rounded-2xl bg-gradient-to-br from-purple-900/40 to-pink-900/20" />
+            </div>
+          }>
+            <Suspense fallback={<div className="grid h-full place-items-center text-(--text-muted)">Loading carousel...</div>}>
+              <Carousel3D />
+            </Suspense>
+          </ErrorBoundary>
         </div>
       )}
     </div>

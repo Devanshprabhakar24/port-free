@@ -1,4 +1,4 @@
-import { memo, useMemo, useState } from 'react'
+import { memo, useCallback, useMemo, useState } from 'react'
 import MainLayout from './layout/MainLayout'
 import Hero from './components/Hero/Hero'
 import About from './components/About/About'
@@ -14,6 +14,9 @@ function App() {
   const mouse = useMousePosition()
   const reducedMotion = usePrefersReducedMotion()
   const [loading, setLoading] = useState(true)
+  const handleLoaderComplete = useCallback(() => {
+    setLoading(false)
+  }, [])
 
   const sectionIds = useMemo(() => ['hero', 'about', 'projects', 'contact'] as SectionId[], [])
   const { currentSection } = useScrollSection(sectionIds)
@@ -36,7 +39,7 @@ function App() {
 
   return (
     <>
-      {loading ? <Loader onComplete={() => setLoading(false)} /> : null}
+      {loading ? <Loader onComplete={handleLoaderComplete} /> : null}
 
       <MainLayout mouse={mouse} currentSection={currentSection} onNavigate={scrollToSection}>
         <section id="hero" data-scroll-section className="min-h-screen">

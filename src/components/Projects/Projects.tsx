@@ -5,13 +5,30 @@ import type { MousePosition } from '../../hooks/useMousePosition'
 const Carousel3D = lazy(() => import('./Carousel3D'))
 
 const mobileCards = [
-  { title: 'Luxe Commerce', stack: ['React', 'Stripe', 'Node'] },
-  { title: 'Realtime Ops', stack: ['TypeScript', 'Redis', 'WebSockets'] },
-  { title: 'SaaS Command', stack: ['Next.js', 'Prisma', 'PostgreSQL'] },
-  { title: 'Insight Studio', stack: ['Three.js', 'GSAP', 'API'] },
+  {
+    title: 'Luxe Commerce',
+    stack: ['React', 'Stripe', 'Node'],
+    impact: 'E-commerce platform — 3× faster checkout, live in 6 weeks',
+  },
+  {
+    title: 'Realtime Ops',
+    stack: ['TypeScript', 'Redis', 'WebSockets'],
+    impact: 'Operations dashboard handling 10K+ live events/sec',
+  },
+  {
+    title: 'SaaS Command',
+    stack: ['Next.js', 'Prisma', 'PostgreSQL'],
+    impact: 'Full SaaS with auth, billing & role management',
+  },
+  {
+    title: 'Insight Studio',
+    stack: ['Three.js', 'GSAP', 'API'],
+    impact: 'Interactive data visualization tool for analytics team',
+  },
 ]
 
 export default function Projects({ mouse }: { mouse: MousePosition }) {
+  void mouse
   const isMobile = useIsMobile()
   const [activeMobileIndex, setActiveMobileIndex] = useState(0)
   const [touchStartY, setTouchStartY] = useState<number | null>(null)
@@ -58,11 +75,11 @@ export default function Projects({ mouse }: { mouse: MousePosition }) {
   return (
     <div className="mx-auto min-h-screen max-w-7xl px-6 pb-14 pt-16 md:pt-12">
       <div className="mb-10 text-center">
-        <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-fuchsia-300">Mission Files</p>
-        <h2 className="mt-3 font-display text-4xl font-bold text-white md:text-6xl">Selected Missions</h2>
-        <p className="mx-auto mt-4 max-w-2xl text-[var(--text-muted)]">
-          Interactive project cards with parallax depth, hover flip reveals, and drag-ready ring controls.
-          Mouse vector: ({mouse.x.toFixed(2)}, {mouse.y.toFixed(2)})
+        <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-fuchsia-300">Selected Work</p>
+        <h2 className="mt-3 font-display text-4xl font-bold text-white md:text-6xl">Projects That Shipped</h2>
+        <p className="mx-auto mt-4 max-w-[480px] text-[14px] leading-[1.7] text-[#64748b]">
+          Real products built for real clients. Each one shipped on time,
+          within budget, and still running in production.
         </p>
       </div>
 
@@ -81,6 +98,9 @@ export default function Projects({ mouse }: { mouse: MousePosition }) {
               <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.2em] text-violet-400">MISSION {String(index + 1).padStart(2, '0')}</p>
               <h3 className="font-display text-2xl text-white">{card.title}</h3>
               <p className="mt-2 text-sm text-[var(--text-muted)]">{card.stack.map((tech) => `◆ ${tech}`).join(' · ')}</p>
+              <p className="mt-3 text-[11px] leading-[1.5] text-[#64748b] border-t border-[rgba(124,58,237,0.1)] pt-2">
+                {card.impact}
+              </p>
             </article>
           ))}
         </div>

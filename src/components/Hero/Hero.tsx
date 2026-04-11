@@ -79,15 +79,13 @@ function Hero({ mouse, onViewProjects, onHireMe, shouldRenderScene = true }: Her
       <div className="relative z-10 flex min-h-screen items-center">
         <div className="w-full px-6 pb-[60px] pt-[120px] lg:max-w-[55%] lg:pl-[48px] lg:pr-0">
         <div className="mb-[10px] font-mono text-[10px] tracking-[0.22em] text-[#64748b]">
-          DEEP SPACE · FULL STACK · 2026_
+          AVAILABLE FOR HIRE · INDIA · 2026_
         </div>
 
         <div className="mb-[22px] h-px w-[50px] bg-[rgba(124,58,237,0.5)]" />
 
         <h1 className="text-[clamp(38px,4.5vw,68px)] font-[900] leading-[1] tracking-[-0.02em] text-[#f1f5f9]">
-          <span className="whitespace-nowrap">Building Scalable</span>
-          <br />
-          Web Apps
+          <span className="whitespace-nowrap">Interfaces That</span>
         </h1>
 
         <h1
@@ -100,11 +98,11 @@ function Hero({ mouse, onViewProjects, onHireMe, shouldRenderScene = true }: Her
             animation: 'gradientShift 4s ease infinite',
           }}
         >
-          That Feel Premium
+          Close Deals.
         </h1>
 
         <p className="mb-[32px] mt-[22px] max-w-[380px] text-[14px] leading-[1.7] text-[#94a3b8]">
-          Full Stack Developer specializing in modern UI, secure backend, and real-world systems.
+          I build the digital products that turn first-time visitors into paying customers — fast, premium, and built to last.
         </p>
 
         <motion.div
@@ -118,7 +116,7 @@ function Hero({ mouse, onViewProjects, onHireMe, shouldRenderScene = true }: Her
             data-cursor-label="VIEW"
             className="rounded-full border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] px-[24px] py-[12px] text-[13px] text-[#f1f5f9] backdrop-blur-[8px] transition duration-300 hover:border-[rgba(124,58,237,0.6)] hover:bg-[rgba(124,58,237,0.08)]"
           >
-            View Projects →
+            See My Work →
           </button>
 
           <button
@@ -126,16 +124,22 @@ function Hero({ mouse, onViewProjects, onHireMe, shouldRenderScene = true }: Her
             data-cursor-label="HIRE"
             className="rounded-full bg-gradient-to-r from-[#7c3aed] to-[#ec4899] px-[28px] py-[12px] text-[13px] font-medium text-white shadow-[0_0_28px_rgba(124,58,237,0.45)] transition duration-300 hover:scale-[1.03] hover:shadow-[0_0_48px_rgba(124,58,237,0.7)]"
           >
-            Hire Me
+            Start a Project
           </button>
         </motion.div>
 
         <div className="flex flex-wrap items-center gap-[18px]">
-          <span className="font-mono text-[10px] text-[#475569]">6K+ Stars in scene</span>
+          <div className="flex items-center gap-[6px]">
+            <span
+              className="h-[7px] w-[7px] rounded-full bg-emerald-400"
+              style={{ boxShadow: '0 0 8px rgba(34,197,94,0.9)', animation: 'pulse 2s ease-in-out infinite' }}
+            />
+            <span className="font-mono text-[10px] text-emerald-400 tracking-[0.16em]">OPEN TO PROJECTS</span>
+          </div>
           <span className="font-mono text-[10px] text-[rgba(71,85,105,0.5)]">·</span>
-          <span className="font-mono text-[10px] text-[#475569]">3 Nebula clouds</span>
+          <span className="font-mono text-[10px] text-[#475569]">30+ products shipped</span>
           <span className="font-mono text-[10px] text-[rgba(71,85,105,0.5)]">·</span>
-          <span className="font-mono text-[10px] text-[#475569]">Real-time 3D</span>
+          <span className="font-mono text-[10px] text-[#475569]">4 yrs experience</span>
         </div>
       </div>
       </div>

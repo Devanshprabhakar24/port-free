@@ -212,7 +212,7 @@ function Navbar({ mouse, currentSection, onNavigate }: NavbarProps) {
               data-cursor-label="HIRE"
               className="rounded-full bg-gradient-to-r from-[#7c3aed] to-[#ec4899] px-[20px] py-[8px] text-[12px] font-medium tracking-[0.03em] text-white shadow-[0_0_24px_rgba(124,58,237,0.28)] transition duration-200 hover:scale-[1.02]"
             >
-              Hire Me
+              Let's Talk →
             </button>
           </div>
 
@@ -251,6 +251,16 @@ function Navbar({ mouse, currentSection, onNavigate }: NavbarProps) {
                   {item.label}
                 </motion.button>
               ))}
+
+              <div className="mt-10 border-t border-[rgba(255,255,255,0.06)] pt-6">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(34,197,94,0.8)] animate-pulse" />
+                  <span className="font-mono text-[10px] tracking-[0.16em] text-emerald-400">AVAILABLE FOR HIRE</span>
+                </div>
+                <p className="text-[13px] text-[#475569] leading-[1.6]">
+                  Open to freelance projects and long-term collaborations.
+                </p>
+              </div>
             </div>
           </motion.aside>
         ) : null}

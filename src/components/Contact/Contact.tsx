@@ -72,8 +72,9 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
   }, [runBurst])
 
   const socialLinks = [
-    { label: 'GitHub', href: 'https://github.com' },
-    { label: 'LinkedIn', href: 'https://linkedin.com' },
+    { label: 'GitHub', href: 'https://github.com/yourhandle' },
+    { label: 'LinkedIn', href: 'https://linkedin.com/in/yourhandle' },
+    { label: 'Email Me', href: 'mailto:your@email.com' },
   ]
 
   useEffect(() => {
@@ -148,27 +149,47 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
           <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
             <div className="space-y-7">
               <div className="inline-flex rounded-full border border-violet-300/35 bg-violet-500/10 px-4 py-1.5 text-[11px] uppercase tracking-[0.22em] text-violet-200">
-                Contact Mission Control
+                Let's Build Something
               </div>
 
               <div>
                 <h2 className="font-mono text-2xl uppercase tracking-[0.15em] text-white md:text-3xl">
-                  Initiate Transmission
+                  Ready When You Are
                 </h2>
                 <p className="mt-4 max-w-xl text-[1.02rem] italic leading-relaxed text-slate-400">
-                  Send a signal. I respond within 24 Earth hours.
+                  Tell me about your project. I'll respond within 24 hours with a clear plan and honest estimate.
                 </p>
               </div>
 
               <div className="grid grid-cols-2 gap-3 sm:max-w-md">
                 <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-4">
-                  <div className="text-[11px] uppercase tracking-[0.16em] text-slate-400">Response</div>
+                  <div className="text-[11px] uppercase tracking-[0.16em] text-slate-400">Response Time</div>
                   <div className="mt-1 font-display text-2xl text-white">24h</div>
                 </div>
                 <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-4">
-                  <div className="text-[11px] uppercase tracking-[0.16em] text-slate-400">Current Focus</div>
-                  <div className="mt-1 font-display text-2xl text-white">Web + 3D</div>
+                  <div className="text-[11px] uppercase tracking-[0.16em] text-slate-400">Availability</div>
+                  <div className="mt-1 flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(34,197,94,0.8)]" />
+                    <span className="font-display text-xl text-white">Now Open</span>
+                  </div>
                 </div>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-4">
+                <a
+                  href="mailto:your@email.com"
+                  className="btn-glass px-5 py-2 text-sm text-white"
+                >
+                  your@email.com
+                </a>
+                <a
+                  href="https://wa.me/919999999999"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-glass px-5 py-2 text-sm text-white"
+                >
+                  WhatsApp / +91 99999 99999
+                </a>
               </div>
 
               <div className="flex flex-wrap items-center gap-4">
@@ -245,7 +266,7 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
                   <label className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#7c3aed]">NAME &gt;</label>
                   <input
                     className="mt-2 w-full border-0 border-b border-[#7c3aed] bg-transparent px-0 py-3 text-white outline-none placeholder:text-slate-500"
-                    placeholder="Your name"
+                    placeholder="e.g. Rahul Sharma"
                     required
                   />
                 </div>
@@ -254,7 +275,7 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
                   <input
                     className="mt-2 w-full border-0 border-b border-[#7c3aed] bg-transparent px-0 py-3 text-white outline-none placeholder:text-slate-500"
                     type="email"
-                    placeholder="Your email"
+                    placeholder="your@email.com"
                     required
                   />
                 </div>
@@ -262,7 +283,7 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
                   <label className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#7c3aed]">MESSAGE &gt;</label>
                   <textarea
                     className="mt-2 h-32 w-full border-0 border-b border-[#7c3aed] bg-transparent px-0 py-3 text-white outline-none placeholder:text-slate-500"
-                    placeholder="Project details"
+                    placeholder="Tell me about your project, budget, and timeline..."
                     required
                   />
                 </div>
@@ -279,7 +300,7 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
                     type="submit"
                     className="btn-primary group relative w-full overflow-hidden px-4 py-3.5 font-semibold text-white"
                   >
-                    <span className="relative z-10">TRANSMIT →</span>
+                    <span className="relative z-10">Send Message →</span>
                     <span className="submit-shimmer absolute inset-0 -translate-x-[140%] bg-[linear-gradient(115deg,transparent_30%,rgba(255,255,255,0.35)_50%,transparent_70%)] transition-transform duration-700 group-hover:translate-x-[140%]" />
                   </button>
                   <div ref={particleWrapRef} className="pointer-events-none absolute inset-0 flex items-center justify-center gap-2">
@@ -288,6 +309,10 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
                     ))}
                   </div>
                 </div>
+
+                <p className="pt-2 font-mono text-[10px] tracking-[0.12em] text-[#334155]">
+                  No commitment. No spam. Just a conversation.
+                </p>
 
                 <div className="pt-3">
                   <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.18em] text-slate-500">Signal Strength</p>

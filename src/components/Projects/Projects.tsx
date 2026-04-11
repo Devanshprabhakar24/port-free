@@ -77,7 +77,7 @@ export default function Projects({ mouse }: { mouse: MousePosition }) {
       <div className="mb-10 text-center">
         <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-fuchsia-300">Selected Work</p>
         <h2 className="mt-3 font-display text-4xl font-bold text-white md:text-6xl">Projects That Shipped</h2>
-        <p className="mx-auto mt-4 max-w-[480px] text-[14px] leading-[1.7] text-[#64748b]">
+        <p className="mx-auto mt-4 max-w-120 text-[14px] leading-[1.7] text-[#64748b]">
           Real products built for real clients. Each one shipped on time,
           within budget, and still running in production.
         </p>
@@ -85,7 +85,7 @@ export default function Projects({ mouse }: { mouse: MousePosition }) {
 
       {isMobile ? (
         <div
-          className="relative h-[520px] overflow-hidden rounded-3xl border border-[rgba(124,58,237,0.2)] bg-white/[0.03]"
+          className="relative h-130 overflow-hidden rounded-3xl border border-[rgba(124,58,237,0.2)] bg-white/3"
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
         >
@@ -97,7 +97,7 @@ export default function Projects({ mouse }: { mouse: MousePosition }) {
             >
               <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.2em] text-violet-400">MISSION {String(index + 1).padStart(2, '0')}</p>
               <h3 className="font-display text-2xl text-white">{card.title}</h3>
-              <p className="mt-2 text-sm text-[var(--text-muted)]">{card.stack.map((tech) => `◆ ${tech}`).join(' · ')}</p>
+              <p className="mt-2 text-sm text-(--text-muted)">{card.stack.map((tech) => `◆ ${tech}`).join(' · ')}</p>
               <p className="mt-3 text-[11px] leading-[1.5] text-[#64748b] border-t border-[rgba(124,58,237,0.1)] pt-2">
                 {card.impact}
               </p>
@@ -105,8 +105,8 @@ export default function Projects({ mouse }: { mouse: MousePosition }) {
           ))}
         </div>
       ) : (
-        <div className="premium-surface h-[520px] overflow-hidden rounded-3xl">
-          <Suspense fallback={<div className="grid h-full place-items-center text-[var(--text-muted)]">Loading carousel...</div>}>
+        <div className="premium-surface h-130 overflow-hidden rounded-3xl">
+          <Suspense fallback={<div className="grid h-full place-items-center text-(--text-muted)">Loading carousel...</div>}>
             <Carousel3D />
           </Suspense>
         </div>

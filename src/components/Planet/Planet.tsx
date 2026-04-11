@@ -26,9 +26,14 @@ function Planet({
   isFocused = true,
 }: PlanetProps) {
   // Map depth 0->1 to visual properties
-  const scale = 0.28 + depth * 0.72 // 0.28 (far) -> 1.0 (close)
+  const easedDepth = Math.pow(depth, 0.7)
+  const scale = 0.28 + easedDepth * 0.72 // 0.28 (far) -> 1.0 (close)
   const opacity = 0.08 + depth * 0.92 // 0.08 (far) -> 1.0 (close)
   const blurPx = (1 - depth) * 18 // 18px (far) -> 0px (close)
+  const brightness = 0.4 + depth * 0.6
+  const saturation = 0.6 + depth * 0.4
+  const outerGlow = size * (0.3 + depth * 0.5)
+  const ringBlur = (1 - depth) * 4
 
   return (
     <div
@@ -44,7 +49,10 @@ function Planet({
         // Apply depth as CSS transform - GPU composited, no layout
         transform: `scale(${scale.toFixed(4)})`,
         opacity,
-        filter: blurPx > 0.5 ? `saturate(1.15) blur(${blurPx.toFixed(2)}px)` : 'saturate(1.15)',
+        filter:
+          blurPx > 0.5
+            ? `blur(${blurPx.toFixed(2)}px) brightness(${brightness.toFixed(3)}) saturate(${saturation.toFixed(3)})`
+            : `brightness(${brightness.toFixed(3)}) saturate(${saturation.toFixed(3)})`,
         transition: 'none', // CRITICAL: no CSS transition, scroll drives it
         background: [
           'radial-gradient(circle at 30% 28%, rgba(255,255,255,0.2) 0%, transparent 32%)',
@@ -54,7 +62,8 @@ function Planet({
         boxShadow: [
           `0 0 ${Math.round(size * 0.04 * depth)}px ${glow}`,
           `0 0 ${Math.round(size * 0.14 * depth)}px ${glow}`,
-          `0 0 ${Math.round(size * 0.5 * depth)}px ${glow}`,
+          `0 0 ${Math.round(outerGlow)}px ${glow}`,
+          `0 0 ${Math.round(size * 0.2)}px rgba(255,255,255,${(0.05 * depth).toFixed(3)})`,
           'inset -28px -20px 48px rgba(0,0,0,0.45)',
           'inset 18px 12px 36px rgba(255,255,255,0.08)',
         ].join(', '),
@@ -88,6 +97,7 @@ function Planet({
             boxShadow: `0 0 22px ${glow}`,
             transform: `rotate(${tilt}deg)`,
             opacity: depth,
+            filter: ringBlur > 0.2 ? `blur(${ringBlur.toFixed(2)}px)` : 'none',
           }}
         />
       )}

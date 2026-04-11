@@ -10,6 +10,8 @@ import type { MousePosition } from '../hooks/useMousePosition'
 import Cursor from '../components/Cursor/Cursor'
 import TransitionTunnel from '../components/Transition/TransitionTunnel'
 import type { SectionId } from '../store/scrollSectionStore'
+import { useLenis } from '../hooks/useLenis'
+import { useCinematicScroll } from '../hooks/useCinematicScroll'
 
 type MainLayoutProps = {
   mouse: MousePosition
@@ -19,6 +21,8 @@ type MainLayoutProps = {
 }
 
 function MainLayout({ mouse, currentSection, onNavigate, children }: MainLayoutProps) {
+  useLenis(true)
+  useCinematicScroll()
 
   return (
     <ErrorBoundary>

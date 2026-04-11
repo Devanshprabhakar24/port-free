@@ -133,13 +133,13 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
       {!reducedMotion ? (
         <motion.div
           key={starSweepTick}
-          className="pointer-events-none absolute left-[-18vw] top-[8%] z-[5] h-[2px] w-[18vw]"
+          className="pointer-events-none absolute left-[-18vw] top-[8%] z-5 h-0.5 w-[18vw]"
           initial={{ x: 0, y: 0, opacity: 0 }}
           animate={{ x: '132vw', y: '22vh', opacity: [0, 0.7, 0] }}
           transition={{ duration: 1.35, ease: 'easeOut' }}
           aria-hidden="true"
         >
-          <div className="h-full w-full bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent blur-[0.3px]" />
+          <div className="h-full w-full bg-linear-to-r from-transparent via-cyan-100/80 to-transparent blur-[0.3px]" />
           <div className="absolute right-0 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-cyan-100/85 blur-[1.6px]" />
         </motion.div>
       ) : null}
@@ -162,11 +162,11 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
               </div>
 
               <div className="grid grid-cols-2 gap-3 sm:max-w-md">
-                <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-4">
+                <div className="rounded-2xl border border-white/10 bg-white/3 px-4 py-4">
                   <div className="text-[11px] uppercase tracking-[0.16em] text-slate-400">Response Time</div>
                   <div className="mt-1 font-display text-2xl text-white">24h</div>
                 </div>
-                <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-4">
+                <div className="rounded-2xl border border-white/10 bg-white/3 px-4 py-4">
                   <div className="text-[11px] uppercase tracking-[0.16em] text-slate-400">Availability</div>
                   <div className="mt-1 flex items-center gap-2">
                     <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(34,197,94,0.8)]" />
@@ -211,19 +211,19 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
             <div className="relative">
               <div className="pointer-events-none absolute -inset-6 hidden lg:block" aria-hidden="true">
                 <motion.div
-                  className="absolute left-1/2 top-1/2 h-[360px] w-[360px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-violet-300/25"
+                  className="absolute left-1/2 top-1/2 h-90 w-90 -translate-x-1/2 -translate-y-1/2 rounded-full border border-violet-300/25"
                   animate={reducedMotion ? undefined : { rotate: 360 }}
                   transition={reducedMotion ? undefined : { duration: 36, repeat: Number.POSITIVE_INFINITY, ease: 'linear' }}
                 >
-                  <div className="absolute left-1/2 top-[-7px] h-3.5 w-3.5 -translate-x-1/2 rounded-full bg-violet-300/75 blur-[0.5px]" />
+                  <div className="absolute left-1/2 -top-1.75 h-3.5 w-3.5 -translate-x-1/2 rounded-full bg-violet-300/75 blur-[0.5px]" />
                 </motion.div>
 
                 <motion.div
-                  className="absolute left-1/2 top-1/2 h-[290px] w-[290px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-300/20"
+                  className="absolute left-1/2 top-1/2 h-72.5 w-72.5 -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-300/20"
                   animate={reducedMotion ? undefined : { rotate: -360 }}
                   transition={reducedMotion ? undefined : { duration: 28, repeat: Number.POSITIVE_INFINITY, ease: 'linear' }}
                 >
-                  <div className="absolute left-[-6px] top-1/2 h-3 w-3 -translate-y-1/2 rounded-full bg-cyan-200/70 blur-[0.5px]" />
+                  <div className="absolute -left-1.5 top-1/2 h-3 w-3 -translate-y-1/2 rounded-full bg-cyan-200/70 blur-[0.5px]" />
                 </motion.div>
 
                 <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">

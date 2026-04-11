@@ -161,7 +161,7 @@ function Navbar({ mouse, currentSection, onNavigate }: NavbarProps) {
         style={{ fontFamily: 'Inter, sans-serif' }}
       >
         <nav
-          className="flex w-full items-center justify-between px-[20px] py-[20px] transition-all duration-300 md:px-[40px]"
+          className="flex w-full items-center justify-between px-5 py-5 transition-all duration-300 md:px-10"
           style={{
             background: scrolled ? 'rgba(3,1,10,0.85)' : 'transparent',
             borderBottom: scrolled ? '1px solid transparent' : '1px solid transparent',
@@ -210,7 +210,7 @@ function Navbar({ mouse, currentSection, onNavigate }: NavbarProps) {
               ref={hireRef}
               onClick={() => onNavigate('contact')}
               data-cursor-label="HIRE"
-              className="rounded-full bg-gradient-to-r from-[#7c3aed] to-[#ec4899] px-[20px] py-[8px] text-[12px] font-medium tracking-[0.03em] text-white shadow-[0_0_24px_rgba(124,58,237,0.28)] transition duration-200 hover:scale-[1.02]"
+              className="rounded-full bg-linear-to-r from-[#7c3aed] to-[#ec4899] px-5 py-[8px] text-[12px] font-medium tracking-[0.03em] text-white shadow-[0_0_24px_rgba(124,58,237,0.28)] transition duration-200 hover:scale-[1.02]"
             >
               Let's Talk →
             </button>

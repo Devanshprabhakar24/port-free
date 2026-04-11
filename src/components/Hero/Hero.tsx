@@ -49,7 +49,7 @@ function Hero({ mouse, onViewProjects, onHireMe, shouldRenderScene = true }: Her
         }}
       />
       <div
-        className="pointer-events-none absolute bottom-[-60px] left-[20%] h-[300px] w-[350px] rounded-full"
+        className="pointer-events-none absolute bottom-[-60px] left-[20%] h-75 w-87.5 rounded-full"
         style={{ background: 'radial-gradient(ellipse, rgba(30,58,138,0.2) 0%, transparent 70%)' }}
       />
       <div
@@ -77,7 +77,7 @@ function Hero({ mouse, onViewProjects, onHireMe, shouldRenderScene = true }: Her
       />
 
       <div className="relative z-10 flex min-h-screen items-center">
-        <div className="w-full px-6 pb-[60px] pt-[120px] lg:max-w-[55%] lg:pl-[48px] lg:pr-0">
+        <div className="w-full px-6 pb-[60px] pt-[120px] lg:max-w-[55%] lg:pl-12 lg:pr-0">
         <div className="mb-[10px] font-mono text-[10px] tracking-[0.22em] text-[#64748b]">
           AVAILABLE FOR HIRE · INDIA · 2026_
         </div>
@@ -101,7 +101,7 @@ function Hero({ mouse, onViewProjects, onHireMe, shouldRenderScene = true }: Her
           Close Deals.
         </h1>
 
-        <p className="mb-[32px] mt-[22px] max-w-[380px] text-[14px] leading-[1.7] text-[#94a3b8]">
+        <p className="mb-[32px] mt-[22px] max-w-95 text-[14px] leading-[1.7] text-[#94a3b8]">
           I build the digital products that turn first-time visitors into paying customers — fast, premium, and built to last.
         </p>
 
@@ -122,7 +122,7 @@ function Hero({ mouse, onViewProjects, onHireMe, shouldRenderScene = true }: Her
           <button
             onClick={onHireMe}
             data-cursor-label="HIRE"
-            className="rounded-full bg-gradient-to-r from-[#7c3aed] to-[#ec4899] px-[28px] py-[12px] text-[13px] font-medium text-white shadow-[0_0_28px_rgba(124,58,237,0.45)] transition duration-300 hover:scale-[1.03] hover:shadow-[0_0_48px_rgba(124,58,237,0.7)]"
+            className="rounded-full bg-linear-to-r from-[#7c3aed] to-[#ec4899] px-[28px] py-[12px] text-[13px] font-medium text-white shadow-[0_0_28px_rgba(124,58,237,0.45)] transition duration-300 hover:scale-[1.03] hover:shadow-[0_0_48px_rgba(124,58,237,0.7)]"
           >
             Start a Project
           </button>
@@ -163,7 +163,7 @@ function Hero({ mouse, onViewProjects, onHireMe, shouldRenderScene = true }: Her
       <div className="pointer-events-none absolute bottom-[28px] left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-[6px]">
         <div className="h-[40px] w-px bg-[rgba(255,255,255,0.15)]" />
         <div
-          className="h-[5px] w-[5px] rounded-full bg-[rgba(124,58,237,0.8)]"
+          className="h-1.25 w-1.25 rounded-full bg-[rgba(124,58,237,0.8)]"
           style={{ animation: 'scrollbounce 1.2s ease-in-out infinite' }}
         />
         <div className="font-mono text-[9px] tracking-[0.2em] text-[#475569]">SCROLL</div>

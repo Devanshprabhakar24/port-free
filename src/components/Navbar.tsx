@@ -36,7 +36,7 @@ export default function Navbar({ activeSection, onNavigate }: NavbarProps) {
         <nav className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between px-6">
           <button
             onClick={() => onNavigate('hero')}
-            className="rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 font-mono text-sm tracking-[0.25em] text-white"
+            className="rounded-full border border-white/10 bg-white/3 px-4 py-2 font-mono text-sm tracking-[0.25em] text-white"
           >
             DEVANSH PRABHAKAR
           </button>
@@ -50,7 +50,7 @@ export default function Navbar({ activeSection, onNavigate }: NavbarProps) {
               >
                 {item.label}
                 <span
-                  className={`absolute -bottom-1 left-0 h-[2px] bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] transition-all ${
+                  className={`absolute -bottom-1 left-0 h-0.5 bg-linear-to-r from-(--primary) to-(--secondary) transition-all ${
                     activeSection === item.id ? 'w-full' : 'w-0 group-hover:w-full'
                   }`}
                 />
@@ -71,7 +71,7 @@ export default function Navbar({ activeSection, onNavigate }: NavbarProps) {
             onClick={() => setMobileOpen((s) => !s)}
             aria-label="Toggle mobile menu"
           >
-            <span className="h-[2px] w-6 bg-white" />
+            <span className="h-0.5 w-6 bg-white" />
           </button>
         </nav>
       </header>

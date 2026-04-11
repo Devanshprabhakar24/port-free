@@ -101,7 +101,7 @@ function Cursor({ mouse }: CursorProps) {
   }
 
   return (
-    <div aria-hidden="true" className="custom-cursor-root pointer-events-none fixed inset-0 z-[120]">
+    <div aria-hidden="true" className="custom-cursor-root pointer-events-none fixed inset-0 z-120">
       <div ref={trailLayerRef} className="pointer-events-none fixed inset-0" />
       <div
         ref={dotRef}

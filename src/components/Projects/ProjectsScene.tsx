@@ -463,7 +463,7 @@ function ProjectsScene() {
         <div className="w-[min(560px,80vw)]">
           <div className="h-px w-full bg-white/15">
             <div
-              className="h-full bg-gradient-to-r from-violet-500 to-pink-500"
+              className="h-full bg-linear-to-r from-violet-500 to-pink-500"
               style={{ width: `${progress * 100}%` }}
             />
           </div>

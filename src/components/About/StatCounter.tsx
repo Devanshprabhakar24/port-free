@@ -19,7 +19,7 @@ function StatCounter({ value, suffix, label, onHover }: StatCounterProps) {
         {value}
         {suffix}
       </div>
-      <div className="mt-1 text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)]">{label}</div>
+      <div className="mt-1 text-[11px] uppercase tracking-[0.18em] text-(--text-muted)">{label}</div>
     </div>
   )
 }

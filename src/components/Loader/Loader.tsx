@@ -71,13 +71,13 @@ function Loader({ onComplete }: LoaderProps) {
   }, [onComplete])
 
   return (
-    <div ref={rootRef} className="fixed inset-0 z-[140] grid place-items-center bg-[#07070d]">
+    <div ref={rootRef} className="fixed inset-0 z-140 grid place-items-center bg-[#07070d]">
       <div className="w-full max-w-5xl px-6">
         <div className="mb-10 flex items-center justify-between">
           <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Loading Experience</div>
           <div className="font-display text-[40px] leading-none text-white" ref={countRef}>
             {display.split('').map((digit, index) => (
-              <span key={`${digit}-${index}`} className="inline-block px-[2px]">
+              <span key={`${digit}-${index}`} className="inline-block px-0.5">
                 {digit}
               </span>
             ))}
@@ -86,7 +86,7 @@ function Loader({ onComplete }: LoaderProps) {
         </div>
 
         <div className="h-px w-full bg-white/20">
-          <div ref={barRef} className="h-full w-full bg-gradient-to-r from-violet-500 via-pink-500 to-amber-400" />
+          <div ref={barRef} className="h-full w-full bg-linear-to-r from-violet-500 via-pink-500 to-amber-400" />
         </div>
 
         <div className="mt-14 overflow-hidden text-center">

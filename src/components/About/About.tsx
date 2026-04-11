@@ -140,19 +140,19 @@ function About({ mouse: _mouse, shouldRenderScene = true }: { mouse: MousePositi
       />
 
       <div
-        className="pointer-events-none absolute -left-[40px] -top-[60px] h-[300px] w-[400px] rounded-full"
+        className="pointer-events-none absolute -left-10 -top-15 h-75 w-100 rounded-full"
         style={{ background: 'radial-gradient(ellipse at 40% 40%, rgba(88,28,135,0.2) 0%, transparent 70%)' }}
       />
 
       <div
-        className="pointer-events-none absolute bottom-[-40px] right-[30%] h-[280px] w-[350px] rounded-full"
+        className="pointer-events-none absolute -bottom-10 right-[30%] h-70 w-87.5 rounded-full"
         style={{ background: 'radial-gradient(ellipse at 50% 50%, rgba(30,58,138,0.15) 0%, transparent 70%)' }}
       />
 
-      <div className="relative z-10 grid min-h-[520px] grid-cols-1 lg:grid-cols-[45%_55%]">
-        <div className="flex flex-col justify-center px-6 py-16 lg:pl-[48px] lg:pr-0">
+      <div className="relative z-10 grid min-h-130 grid-cols-1 lg:grid-cols-[45%_55%]">
+        <div className="flex flex-col justify-center px-6 py-16 lg:pl-12 lg:pr-0">
           <div className="mb-4 flex items-center gap-3">
-            <div className="h-px w-[20px] bg-[rgba(124,58,237,0.6)]" />
+            <div className="h-px w-5 bg-[rgba(124,58,237,0.6)]" />
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#7c3aed]">WHY WORK WITH ME</p>
           </div>
 
@@ -169,19 +169,19 @@ function About({ mouse: _mouse, shouldRenderScene = true }: { mouse: MousePositi
             Results.
           </h2>
 
-          <p className="mb-10 max-w-[380px] border-l-2 border-[rgba(124,58,237,0.3)] pl-4 text-[14px] leading-[1.8] text-[#64748b]">
+          <p className="mb-10 max-w-95 border-l-2 border-[rgba(124,58,237,0.3)] pl-4 text-[14px] leading-[1.8] text-[#64748b]">
             I take your idea from a rough brief to a <span className="text-[#94a3b8]">live, polished product</span> that impresses investors, converts users, and holds up under real-world load. Every project I ship is <span className="text-[#94a3b8]">production-grade from day one</span> — not refactored later.
           </p>
 
-          <div className="mb-8 space-y-[10px]">
+          <div className="mb-8 space-y-2.5">
             {[
               'Clean, documented code you actually own',
               'Weekly updates — no radio silence',
               'Post-launch support for 30 days',
             ].map((item) => (
               <div key={item} className="flex items-start gap-3">
-                <span className="mt-[3px] h-[14px] w-[14px] flex-shrink-0 rounded-full border border-[rgba(124,58,237,0.5)] flex items-center justify-center">
-                  <span className="h-[5px] w-[5px] rounded-full bg-[#7c3aed]" />
+                <span className="mt-0.75 h-3.5 w-3.5 shrink-0 rounded-full border border-[rgba(124,58,237,0.5)] flex items-center justify-center">
+                  <span className="h-1.25 w-1.25 rounded-full bg-[#7c3aed]" />
                 </span>
                 <span className="text-[13px] leading-[1.6] text-[#64748b]">{item}</span>
               </div>
@@ -200,13 +200,13 @@ function About({ mouse: _mouse, shouldRenderScene = true }: { mouse: MousePositi
                   {counterValues[index]}
                   {stat.suffix}
                 </div>
-                <div className="mt-1 text-[10px] uppercase tracking-[0.1em] text-[#475569]">{stat.label}</div>
+                <div className="mt-1 text-[10px] uppercase tracking-widest text-[#475569]">{stat.label}</div>
               </button>
             ))}
           </div>
         </div>
 
-        <div className="relative min-h-[420px] overflow-hidden">
+        <div className="relative min-h-105 overflow-hidden">
           {isMobile || !shouldRenderScene ? <div className="mobile-gradient-animated h-full w-full" /> : <SkillsScene />}
         </div>
       </div>

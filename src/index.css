@@ -373,3 +373,16 @@ canvas {
     display: none !important;
   }
 }
+
+/* Smooth scroll - required for continuous planet depth animation */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Each section anchors cleanly */
+[data-scroll-section] {
+  scroll-margin-top: 0px;
+}
+
+/* Prevent scroll-snap - let planets move continuously with scroll */
+/* (do NOT add scroll-snap-type - it would break the continuous effect) */

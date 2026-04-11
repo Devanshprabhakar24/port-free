@@ -1,7 +1,8 @@
-import { AnimatePresence, motion } from 'framer-motion'
-import { memo, useMemo } from 'react'
+import { motion, useMotionValue, useSpring } from 'framer-motion'
+import { memo, useEffect, useMemo } from 'react'
 import Planet from '../Planet/Planet'
 import { useScrollSectionStore } from '../../store/scrollSectionStore'
+import { useScrollDepth } from '../../hooks/useScrollDepth'
 import { useIsMobile } from '../../hooks/useIsMobile'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 import type { SectionId } from '../../store/scrollSectionStore'
@@ -57,35 +58,38 @@ const ATMOSPHERES: Record<SectionId, Atmosphere> = {
   },
 }
 
-// Duration by velocity band
-const EXIT_DURATION = { slow: 0.85, medium: 0.72, fast: 0.55 }
-const ENTER_DURATION = { slow: 1.0, medium: 0.85, fast: 0.65 }
-
-// Spring for incoming planet — heavy orbital mass feel
-const ENTRY_SPRING = { type: 'spring' as const, stiffness: 55, damping: 16, mass: 1.1 }
+const SECTION_IDS: SectionId[] = ['hero', 'about', 'projects', 'contact']
 
 function PlanetSystem() {
   const isMobile = useIsMobile()
   const reducedMotion = usePrefersReducedMotion()
   const currentSection = useScrollSectionStore((s) => s.currentSection)
-  const previousSection = useScrollSectionStore((s) => s.previousSection)
-  const velocityBand = useScrollSectionStore((s) => s.velocityBand)
-  const scrollDirection = useScrollSectionStore((s) => s.scrollDirection)
+  const depths = useScrollDepth()
+  const pointerX = useMotionValue(0)
+  const pointerY = useMotionValue(0)
+  const parallaxX = useSpring(pointerX, { stiffness: 55, damping: 20, mass: 0.8 })
+  const parallaxY = useSpring(pointerY, { stiffness: 55, damping: 20, mass: 0.8 })
 
-  const active = ATMOSPHERES[currentSection]
-  const previous = useMemo(
-    () => (previousSection !== currentSection ? ATMOSPHERES[previousSection] : null),
-    [previousSection, currentSection],
+  useEffect(() => {
+    const onPointerMove = (event: PointerEvent) => {
+      const nx = event.clientX / window.innerWidth - 0.5
+      const ny = event.clientY / window.innerHeight - 0.5
+      pointerX.set(nx * 10)
+      pointerY.set(ny * 8)
+    }
+
+    window.addEventListener('pointermove', onPointerMove, { passive: true })
+    return () => {
+      window.removeEventListener('pointermove', onPointerMove)
+    }
+  }, [pointerX, pointerY])
+
+  const focusedId = useMemo(
+    () => SECTION_IDS.reduce((best, id) => (depths[id] > depths[best] ? id : best), currentSection),
+    [depths, currentSection],
   )
 
-  // Direction-aware Y offsets in pixels (applied to planet wrapper, not viewport div)
-  const enterY = scrollDirection === 'down' ? 100 : -100 // where new planet starts
-  const exitY = scrollDirection === 'down' ? -120 : 120 // where old planet exits to
-
-  const exitDuration = EXIT_DURATION[velocityBand]
-  const enterDuration = ENTER_DURATION[velocityBand]
-
-  // Mobile: simple gradient blob
+  // Mobile: simple static blob, no computation
   if (isMobile) {
     return (
       <div className="pointer-events-none fixed inset-0 z-[5] overflow-hidden">
@@ -95,19 +99,22 @@ function PlanetSystem() {
     )
   }
 
-  // Reduced motion: static planet, no animation
+  // Reduced motion: only active planet, no depth animation
   if (reducedMotion) {
+    const atm = ATMOSPHERES[currentSection]
     return (
       <div className="pointer-events-none fixed inset-0 z-[5] overflow-hidden">
         <Planet
-          color={active.color}
-          glow={active.glow}
-          size={active.size}
-          x={active.x}
-          y={active.y}
-          ring={active.ring}
-          tilt={active.tilt ?? -12}
-          label={active.label}
+          color={atm.color}
+          glow={atm.glow}
+          size={atm.size}
+          x={atm.x}
+          y={atm.y}
+          ring={atm.ring}
+          tilt={atm.tilt ?? -12}
+          label={atm.label}
+          depth={1}
+          isFocused={true}
         />
       </div>
     )
@@ -115,95 +122,72 @@ function PlanetSystem() {
 
   return (
     <div className="pointer-events-none fixed inset-0 z-[5] overflow-hidden">
+      {SECTION_IDS.map((id) => {
+        const atm = ATMOSPHERES[id]
+        const depth = depths[id]
+        const focused = id === focusedId
+        const zIndex = Math.round(depth * 100) + (focused ? 20 : 0)
 
-      {/* ── OUTGOING planet — flies past camera ── */}
-      <AnimatePresence mode="popLayout">
-        {previous ? (
-          <motion.div
-            key={`exit-${previousSection}`}
-            className="absolute inset-0"
-            style={{ willChange: 'transform, opacity, filter' }}
-            initial={{ scale: 1, opacity: 1, y: 0, filter: 'blur(0px)' }}
-            animate={{ scale: 1, opacity: 1, y: 0, filter: 'blur(0px)' }}
-            exit={{
-              scale: 1.6,
-              opacity: 0,
-              y: exitY,
-              filter: 'blur(16px)',
-              transition: {
-                duration: exitDuration,
-                ease: [0.4, 0, 1, 1],
-              },
-            }}
-          >
-            <Planet
-              color={previous.color}
-              glow={previous.glow}
-              size={previous.size}
-              x={previous.x}
-              y={previous.y}
-              ring={previous.ring}
-              tilt={previous.tilt ?? -12}
-              opacity={1}
-            />
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
-
-      {/* ── INCOMING planet — approaches from deep space ── */}
-      <AnimatePresence mode="popLayout" initial={false}>
-        <motion.div
-          key={`enter-${currentSection}`}
-          className="absolute inset-0"
-          style={{ willChange: 'transform, opacity, filter' }}
-          initial={{
-            scale: 0.32,
-            opacity: 0,
-            y: enterY,
-            filter: 'blur(22px)',
-          }}
-          animate={{
-            scale: 1,
-            opacity: 1,
-            y: 0,
-            filter: 'blur(0px)',
-            transition: {
-              ...ENTRY_SPRING,
-              opacity: { duration: enterDuration * 0.55, ease: 'easeOut' },
-              filter: { duration: enterDuration * 0.7, ease: 'easeOut' },
-            },
-          }}
-        >
-          {/* Ambient orbital float — separate from entry, no conflict */}
-          <motion.div
-            className="absolute inset-0"
-            animate={{
-              x: [0, 4, 0],
-              y: [0, -6, 0],
-              scale: [1, 1.022, 1],
-            }}
-            transition={{
-              duration: 18,
-              repeat: Infinity,
-              repeatType: 'mirror',
-              ease: 'easeInOut',
-            }}
-          >
-            <Planet
-              color={active.color}
-              glow={active.glow}
-              size={active.size}
-              x={active.x}
-              y={active.y}
-              ring={active.ring}
-              tilt={active.tilt ?? -12}
-              label={active.label}
-              opacity={1}
-            />
-          </motion.div>
-        </motion.div>
-      </AnimatePresence>
-
+        return (
+          <div key={id} className="absolute inset-0" style={{ zIndex }}>
+            {focused ? (
+              // Focused planet gets the ambient float animation
+              <motion.div
+                className="absolute inset-0"
+                style={{ x: parallaxX, y: parallaxY }}
+              >
+                <motion.div
+                  className="absolute inset-0"
+                  animate={{
+                    x: [0, 5, 0],
+                    y: [0, -7, 0],
+                  }}
+                  transition={{
+                    duration: 16,
+                    repeat: Infinity,
+                    repeatType: 'mirror',
+                    ease: 'easeInOut',
+                  }}
+                >
+                  <Planet
+                    color={atm.color}
+                    glow={atm.glow}
+                    size={atm.size}
+                    x={atm.x}
+                    y={atm.y}
+                    ring={atm.ring}
+                    tilt={atm.tilt ?? -12}
+                    label={atm.label}
+                    depth={depth}
+                    isFocused={true}
+                  />
+                </motion.div>
+              </motion.div>
+            ) : (
+              // Background planets: no float, just depth-driven scale/opacity
+              <div
+                className="absolute inset-0"
+                style={{
+                  transform: `translate3d(0, ${(1 - depth) * 6}px, 0)`,
+                }}
+              >
+                <Planet
+                  color={atm.color}
+                  glow={atm.glow}
+                  size={atm.size}
+                  x={atm.x}
+                  y={atm.y}
+                  ring={atm.ring}
+                  tilt={atm.tilt ?? -12}
+                  label={atm.label}
+                  depth={depth}
+                  isFocused={false}
+                />
+              </div>
+            )}
+          </div>
+        )
+      })}
     </div>
   )
 }

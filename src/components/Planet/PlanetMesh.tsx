@@ -57,16 +57,27 @@ export default function PlanetMesh({
   size, color, glow, planetType, rotationSpeed = 1, opacity, glowIntensity, glowColor,
 }: PlanetMeshProps) {
   const threeColor = useMemo(() => new THREE.Color(color), [color])
-  const threeGlow  = useMemo(() => new THREE.Color(glow.replace(/rgba?\([^)]+\)/, '') || glow), [glow])
 
-  // Parse glow rgba to THREE.Color
+  // Parse glow rgba to THREE.Color with robust fallback
   const parsedGlow = useMemo(() => {
-    const m = glow.match(/[\d.]+/g)
-    if (m && m.length >= 3) return new THREE.Color(+m[0]/255, +m[1]/255, +m[2]/255)
-    return threeGlow
-  }, [glow, threeGlow])
+    const matches = glow.match(/[\d.]+/g)
+    if (matches && matches.length >= 3) {
+      return new THREE.Color(
+        Math.min(1, Number(matches[0]) / 255),
+        Math.min(1, Number(matches[1]) / 255),
+        Math.min(1, Number(matches[2]) / 255),
+      )
+    }
+    // Fallback: try to parse as hex color
+    try {
+      return new THREE.Color(glowColor || color)
+    } catch {
+      return new THREE.Color('#ffffff')
+    }
+  }, [glow, glowColor, color])
 
-  const outerGlow = Math.round(size * 0.22 * glowIntensity)
+  // Enhanced glow with better intensity scaling
+  const outerGlow = Math.round(size * (0.24 + glowIntensity * 0.18))
 
   return (
     <div
@@ -87,8 +98,16 @@ export default function PlanetMesh({
         <Canvas
           style={{ width: size, height: size }}
           camera={{ position: [0, 0, 2.6], fov: 38 }}
-          gl={{ antialias: true, alpha: true }}
-          onCreated={({ gl }) => gl.setClearColor(0x000000, 0)}
+          dpr={[1, 1.5]}
+          gl={{
+            antialias: true,
+            alpha: true,
+            precision: 'highp',
+          }}
+          onCreated={({ gl }) => {
+            gl.setClearColor(0x000000, 0)
+            gl.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
+          }}
         >
           <SphereMesh
             color={threeColor}

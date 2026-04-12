@@ -5,6 +5,7 @@ import { useIsMobile } from '../../hooks/useIsMobile'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 import type { MousePosition } from '../../hooks/useMousePosition'
 import SkillsScene from './SkillsScene'
+import { useIsVisible } from '../../hooks/useIsVisible'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -27,6 +28,7 @@ function About({ mouse: _mouse, shouldRenderScene = true }: { mouse: MousePositi
   void _mouse
   const isMobile = useIsMobile()
   const reducedMotion = usePrefersReducedMotion()
+  const { ref: visRef, isVisible: sceneVisible } = useIsVisible('400px')
   const sectionRef = useRef<HTMLDivElement | null>(null)
   const countTweensRef = useRef<gsap.core.Tween[]>([])
   const scrambleIntervalsRef = useRef<Array<number | null>>(Array(STATS.length).fill(null))
@@ -197,8 +199,8 @@ function About({ mouse: _mouse, shouldRenderScene = true }: { mouse: MousePositi
           </div>
         </div>
 
-        <div className="relative z-[5] min-h-[420px] overflow-hidden rounded-2xl border border-[rgba(124,58,237,0.1)] bg-transparent lg:min-h-105">
-          {isMobile || !shouldRenderScene ? <div className="mobile-gradient-animated h-full w-full" /> : <SkillsScene />}
+        <div ref={visRef} className="relative z-[5] min-h-[420px] overflow-hidden rounded-2xl border border-[rgba(124,58,237,0.1)] bg-transparent lg:min-h-105">
+          {isMobile || !shouldRenderScene || !sceneVisible ? <div className="mobile-gradient-animated h-full w-full" /> : <SkillsScene />}
         </div>
       </div>
     </div>

@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion'
 import { memo, useEffect, useRef } from 'react'
 import { useScrollSectionStore } from '../../store/scrollSectionStore'
 
@@ -12,9 +11,10 @@ function createStars(count: number, minSz: number, maxSz: number, minOp: number,
   }))
 }
 
-const FAR_STARS  = createStars(60, 0.5, 0.9, 0.35, 0.50)
-const MID_STARS  = createStars(35, 0.9, 1.4, 0.45, 0.63)
-const NEAR_STARS = createStars(18, 1.3, 1.9, 0.60, 0.80)
+// Reduced star counts for performance
+const FAR_STARS  = createStars(35, 0.5, 0.9, 0.35, 0.50)
+const MID_STARS  = createStars(20, 0.9, 1.4, 0.45, 0.63)
+const NEAR_STARS = createStars(10, 1.3, 1.9, 0.60, 0.80)
 
 function Background() {
   const currentSection = useScrollSectionStore((s) => s.currentSection)
@@ -25,7 +25,6 @@ function Background() {
   const vigRef = useRef<HTMLDivElement>(null)
   const streakTimeout = useRef<number | null>(null)
 
-  // Keep velocity-based visuals reactive without re-running scroll effect.
   useEffect(() => {
     return useScrollSectionStore.subscribe(
       (s) => s.velocityBand,
@@ -52,7 +51,7 @@ function Background() {
     )
   }, [])
 
-  // Star parallax: translateY only, no X drift.
+  // Star parallax: translateY only
   useEffect(() => {
     let rafId: number | null = null
 
@@ -62,9 +61,9 @@ function Background() {
         rafId = null
         const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
         const progress = window.scrollY / maxScroll
-        if (farRef.current) farRef.current.style.transform = `translateY(${(progress * -80).toFixed(2)}px)`
-        if (midRef.current) midRef.current.style.transform = `translateY(${(progress * -180).toFixed(2)}px)`
-        if (nearRef.current) nearRef.current.style.transform = `translateY(${(progress * -320).toFixed(2)}px)`
+        if (farRef.current) farRef.current.style.transform = `translateY(${(progress * -80).toFixed(1)}px)`
+        if (midRef.current) midRef.current.style.transform = `translateY(${(progress * -180).toFixed(1)}px)`
+        if (nearRef.current) nearRef.current.style.transform = `translateY(${(progress * -320).toFixed(1)}px)`
       })
     }
 
@@ -78,7 +77,7 @@ function Background() {
 
   return (
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#03010a]">
-      {/* FAR star layer - 0.06x parallax */}
+      {/* FAR star layer */}
       <div ref={farRef} className="absolute will-change-transform" style={{ inset: 0, height: '130%', top: '-15%' }}>
         {FAR_STARS.map((s, i) => (
           <span
@@ -96,7 +95,7 @@ function Background() {
         ))}
       </div>
 
-      {/* MID star layer - 0.18x parallax */}
+      {/* MID star layer */}
       <div ref={midRef} className="absolute will-change-transform" style={{ inset: 0, height: '145%', top: '-22%' }}>
         {MID_STARS.map((s, i) => (
           <span
@@ -114,7 +113,7 @@ function Background() {
         ))}
       </div>
 
-      {/* NEAR star layer - 0.36x parallax + streak child */}
+      {/* NEAR star layer + streak child */}
       <div ref={nearRef} className="absolute will-change-transform" style={{ inset: 0, height: '165%', top: '-32%' }}>
         <div
           ref={streakRef}
@@ -147,32 +146,33 @@ function Background() {
         }}
       />
 
-      {/* Nebula gradient overlays */}
+      {/* Nebula gradient overlays — static, no animation cost */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(124,58,237,0.12),transparent_35%),radial-gradient(circle_at_80%_30%,rgba(37,99,235,0.08),transparent_30%),radial-gradient(circle_at_50%_80%,rgba(236,72,153,0.08),transparent_25%)]" />
 
-      {/* Animated nebula clouds */}
-      <motion.div
-        className="absolute -left-[40px] -top-[60px] h-[300px] w-[400px] rounded-full will-change-transform"
-        animate={{ opacity: [0.7, 1, 0.75], scale: [1, 1.05, 1] }}
-        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
-        style={{ background: 'radial-gradient(ellipse at 40% 40%, rgba(88,28,135,0.2) 0%, transparent 70%)' }}
+      {/* Nebula clouds — CSS animation instead of Framer Motion JS loop */}
+      <div
+        className="absolute -left-[40px] -top-[60px] h-[300px] w-[400px] rounded-full"
+        style={{
+          background: 'radial-gradient(ellipse at 40% 40%, rgba(88,28,135,0.2) 0%, transparent 70%)',
+          animation: 'nebulaPulse1 12s ease-in-out infinite',
+        }}
       />
-      <motion.div
-        className="absolute bottom-[-40px] right-[30%] h-[280px] w-[350px] rounded-full will-change-transform"
-        animate={{ opacity: [0.55, 0.95, 0.6], scale: [1, 1.04, 1] }}
-        transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
-        style={{ background: 'radial-gradient(ellipse at 50% 50%, rgba(30,58,138,0.15) 0%, transparent 70%)' }}
+      <div
+        className="absolute bottom-[-40px] right-[30%] h-[280px] w-[350px] rounded-full"
+        style={{
+          background: 'radial-gradient(ellipse at 50% 50%, rgba(30,58,138,0.15) 0%, transparent 70%)',
+          animation: 'nebulaPulse2 14s ease-in-out infinite',
+        }}
       />
 
-      {/* Pulsing bright star */}
-      <motion.div
+      {/* Pulsing bright star — CSS animation */}
+      <div
         className="absolute right-[12%] top-[22%] h-3 w-3 rounded-full bg-white/80"
-        animate={{ scale: [1, 1.5, 1], opacity: [0.65, 1, 0.65] }}
-        transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut' }}
         style={{
           boxShadow: '0 0 24px rgba(255,255,255,0.6)',
           opacity: currentSection === 'projects' ? 0 : 1,
           transition: 'opacity 0.5s ease',
+          animation: 'starPulse 5.5s ease-in-out infinite',
         }}
       />
 

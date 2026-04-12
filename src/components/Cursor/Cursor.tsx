@@ -7,11 +7,7 @@ type CursorProps = {
   mouse: MousePosition
 }
 
-type TrailDot = {
-  x: number
-  y: number
-  alpha: number
-}
+const TRAIL_COUNT = 10
 
 function Cursor({ mouse }: CursorProps) {
   const isMobile = useIsMobile()
@@ -19,17 +15,16 @@ function Cursor({ mouse }: CursorProps) {
   const dotRef = useRef<HTMLDivElement>(null)
   const ringRef = useRef<HTMLDivElement>(null)
   const labelRef = useRef<HTMLSpanElement>(null)
-  const trailLayerRef = useRef<HTMLDivElement>(null)
+  const trailDotsRef = useRef<(HTMLSpanElement | null)[]>([])
 
   const ringX = useRef(mouse.pixelX)
   const ringY = useRef(mouse.pixelY)
-  const trail = useRef<TrailDot[]>([])
+  const trailIdx = useRef(0)
+  const trailAlphas = useRef<number[]>(new Array(TRAIL_COUNT).fill(0))
   const lastTrailPush = useRef(0)
 
   useEffect(() => {
-    if (reducedMotion || isMobile) {
-      return
-    }
+    if (reducedMotion || isMobile) return
 
     let rafId = 0
 
@@ -37,7 +32,6 @@ function Cursor({ mouse }: CursorProps) {
       const dot = dotRef.current
       const ring = ringRef.current
       const label = labelRef.current
-      const trailLayer = trailLayerRef.current
 
       if (dot) {
         dot.style.transform = `translate3d(${mouse.pixelX - 4}px, ${mouse.pixelY - 4}px, 0)`
@@ -68,25 +62,24 @@ function Cursor({ mouse }: CursorProps) {
         label.style.opacity = mouse.target.isInteractive ? '1' : '0'
       }
 
-      if (mouse.target.isOverCanvas && time - lastTrailPush.current > 24) {
-        trail.current.push({ x: mouse.pixelX, y: mouse.pixelY, alpha: 0.7 })
-        if (trail.current.length > 18) {
-          trail.current.shift()
+      // Trail: use pre-allocated pool, no DOM churn
+      if (mouse.target.isOverCanvas && time - lastTrailPush.current > 40) {
+        const idx = trailIdx.current % TRAIL_COUNT
+        const el = trailDotsRef.current[idx]
+        if (el) {
+          el.style.transform = `translate3d(${mouse.pixelX - 3}px, ${mouse.pixelY - 3}px, 0)`
+          trailAlphas.current[idx] = 0.6
         }
+        trailIdx.current++
         lastTrailPush.current = time
       }
 
-      trail.current = trail.current
-        .map((dotItem) => ({ ...dotItem, alpha: dotItem.alpha - 0.035 }))
-        .filter((dotItem) => dotItem.alpha > 0)
-
-      if (trailLayer) {
-        trailLayer.innerHTML = trail.current
-          .map(
-            (dotItem) =>
-              `<span style="position:absolute;left:${dotItem.x}px;top:${dotItem.y}px;width:6px;height:6px;border-radius:9999px;background:rgba(241,245,249,${dotItem.alpha});transform:translate(-50%,-50%);"></span>`,
-          )
-          .join('')
+      // Fade all trail dots
+      for (let i = 0; i < TRAIL_COUNT; i++) {
+        const el = trailDotsRef.current[i]
+        if (!el) continue
+        trailAlphas.current[i] = Math.max(0, trailAlphas.current[i] - 0.03)
+        el.style.opacity = String(trailAlphas.current[i])
       }
 
       rafId = window.requestAnimationFrame(animate)
@@ -102,7 +95,26 @@ function Cursor({ mouse }: CursorProps) {
 
   return (
     <div aria-hidden="true" className="custom-cursor-root pointer-events-none fixed inset-0 z-120">
-      <div ref={trailLayerRef} className="pointer-events-none fixed inset-0" />
+      {/* Pre-allocated trail dots — no innerHTML, no DOM reflow */}
+      <div className="pointer-events-none fixed inset-0">
+        {Array.from({ length: TRAIL_COUNT }, (_, i) => (
+          <span
+            key={i}
+            ref={(el) => { trailDotsRef.current[i] = el }}
+            style={{
+              position: 'fixed',
+              left: 0,
+              top: 0,
+              width: 6,
+              height: 6,
+              borderRadius: 9999,
+              background: 'rgba(241,245,249,1)',
+              opacity: 0,
+              willChange: 'transform, opacity',
+            }}
+          />
+        ))}
+      </div>
       <div
         ref={dotRef}
         className="fixed h-2 w-2 rounded-full bg-white"
@@ -117,7 +129,7 @@ function Cursor({ mouse }: CursorProps) {
           width: 40,
           height: 40,
           borderColor: 'rgba(241,245,249,0.55)',
-          willChange: 'transform,width,height,background,border-color',
+          willChange: 'transform',
           transformOrigin: 'center center',
         }}
       >

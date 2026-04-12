@@ -16,12 +16,12 @@ type PlanetProps = {
 
 function Planet({ color, glow, size, cx, cy, ring, tilt = -15, label, localT, bands, earth }: PlanetProps) {
   const opacity = localT < 0.35
-    ? 0.4 + (localT / 0.35) * 0.6
+    ? 0.2 + (localT / 0.35) * 0.5
     : localT < 0.55
-      ? 1.0
+      ? 0.72
       : localT < 0.75
-        ? 1.0 - ((localT - 0.55) / 0.20) * 0.3
-        : Math.max(0, 0.7 - ((localT - 0.75) / 0.25) * 0.7)
+        ? 0.72 - ((localT - 0.55) / 0.20) * 0.27
+        : Math.max(0, 0.45 - ((localT - 0.75) / 0.25) * 0.45)
 
   const blurPx = localT < 0.55
     ? 0
@@ -29,13 +29,13 @@ function Planet({ color, glow, size, cx, cy, ring, tilt = -15, label, localT, ba
       ? ((localT - 0.55) / 0.20) * 2
       : 2 + ((localT - 0.75) / 0.25) * 12
 
-  const brightness = localT < 0.5 ? 0.5 + localT * 1.0 : 1.0
-  const saturation = localT < 0.5 ? 0.5 + localT * 0.7 : 1.05
+  const brightness = localT < 0.5 ? 0.45 + localT * 0.85 : 0.88
+  const saturation = localT < 0.5 ? 0.45 + localT * 0.55 : 0.9
 
   const d140 = Math.pow(Math.min(localT / 0.5, 1), 1.4)
-  const g1 = Math.round(size * 0.04 * d140)
-  const g2 = Math.round(size * 0.14 * d140)
-  const g3 = Math.round(size * 0.45 * d140)
+  const g1 = Math.round(size * 0.03 * d140)
+  const g2 = Math.round(size * 0.10 * d140)
+  const g3 = Math.round(size * 0.30 * d140)
 
   const filter = blurPx > 0.3
     ? `blur(${blurPx.toFixed(1)}px) brightness(${brightness.toFixed(2)}) saturate(${saturation.toFixed(2)})`
@@ -79,8 +79,8 @@ function Planet({ color, glow, size, cx, cy, ring, tilt = -15, label, localT, ba
       <div
         className="absolute inset-0 rounded-full"
         style={{
-          background: 'radial-gradient(circle at 32% 28%, rgba(255,255,255,0.22) 0%, transparent 36%)',
-          opacity: 0.9,
+          background: 'radial-gradient(circle at 32% 28%, rgba(255,255,255,0.16) 0%, transparent 36%)',
+          opacity: 0.72,
         }}
       />
 
@@ -88,7 +88,7 @@ function Planet({ color, glow, size, cx, cy, ring, tilt = -15, label, localT, ba
         className="absolute inset-0 rounded-full"
         style={{
           background: `radial-gradient(circle at 50% 50%, transparent 54%, ${glow} 78%, transparent 100%)`,
-          opacity: 0.5 * Math.min(localT / 0.5, 1),
+          opacity: 0.28 * Math.min(localT / 0.5, 1),
         }}
       />
 
@@ -167,7 +167,7 @@ function Planet({ color, glow, size, cx, cy, ring, tilt = -15, label, localT, ba
           style={{
             bottom: -Math.max(14, size * 0.045),
             fontSize: Math.max(11, Math.min(22, size * 0.028)),
-            opacity: Math.max(0, labelOpacity),
+            opacity: Math.max(0, labelOpacity * 0.7),
           }}
         >
           {label}

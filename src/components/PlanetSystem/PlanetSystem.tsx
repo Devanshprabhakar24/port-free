@@ -98,17 +98,22 @@ function PlanetSystem() {
   return (
     <div className="pointer-events-none fixed inset-0 z-[14] overflow-hidden">
       {PLANETS.map((p, i) => {
-        const overlap = 0.25
+        // OVERLAP must match OVERLAP in useFlyThroughDepth (0.35)
+        const overlap = 0.35
         const localT = (localTs[i] ?? -0.5) + overlap
-        const visible = localT >= -0.25 && localT <= 1.25
+        // Keep slightly wider than OVERLAP so there's always at least one planet on screen
+        const visible = localT >= -(overlap + 0.05) && localT <= 1 + overlap + 0.05
         if (!visible) {
           return <div key={p.name + i} style={{ display: 'none' }} />
         }
 
         const vw = window.innerWidth
+        const vh = window.innerHeight
         const scaleFactor = Math.min(1, vw / 1440)
         const scale = getScale(localT)
-        const size = p.baseSize * scale * scaleFactor
+        // Cap at 2× viewport diagonal so the planet fills screen smoothly before fading
+        const maxSize = Math.sqrt(vw * vw + vh * vh) * 2
+        const size = Math.min(p.baseSize * scale * scaleFactor, maxSize)
 
         const parallaxFactor = Math.max(0, 1 - Math.max(0, localT - 0.5) * 2)
         const cx = window.innerWidth * (p.cx / 100) + spxRef.current * parallaxFactor

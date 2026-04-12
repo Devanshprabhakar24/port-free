@@ -85,7 +85,7 @@ function Hero({ mouse, onViewProjects, onHireMe, shouldRenderScene = true }: Her
         <div className="mb-[22px] h-px w-[50px] bg-[rgba(124,58,237,0.5)]" />
 
         <h1 className="text-[clamp(38px,4.5vw,68px)] font-[900] leading-[1] tracking-[-0.02em] text-[#f1f5f9]">
-          <span className="whitespace-nowrap">Interfaces That</span>
+          <span>Interfaces That</span>
         </h1>
 
         <h1

@@ -454,8 +454,9 @@ function ProjectsScene() {
         camera={{ position: [0, 0.1, 4.3], fov: 48 }}
         dpr={[1, Math.min(window.devicePixelRatio, 2)]}
         gl={{ antialias: true, alpha: true }}
+        onCreated={({ gl }) => gl.setClearColor(0x000000, 0)}
       >
-        <color attach="background" args={['#07070d']} />
+        {/* Transparent background — the site's space background shows through */}
         <SceneContent groupRef={groupRef} activeIndexRef={activeIndexRef} />
       </Canvas>
 

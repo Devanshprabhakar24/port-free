@@ -77,10 +77,15 @@ export default function Projects({ mouse }: { mouse: MousePosition }) {
 
   return (
     <div className="mx-auto min-h-screen max-w-7xl px-6 pb-14 pt-16 md:pt-12">
-      <div className="mb-10 text-center">
-        <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-fuchsia-300">Selected Work</p>
-        <h2 className="mt-3 font-display text-4xl font-bold text-white md:text-6xl">Projects That Shipped</h2>
-        <p className="mx-auto mt-4 max-w-120 text-[14px] leading-[1.7] text-[#64748b]">
+      <div className="relative mb-12 text-center">
+        <div className="pointer-events-none absolute left-1/2 top-1/2 h-32 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[rgba(124,58,237,0.12)] blur-[60px]" />
+
+        <p className="relative mb-3 font-mono text-[10px] uppercase tracking-[0.28em] text-[#7c3aed]">Selected Work</p>
+        <h2 className="relative font-display text-[clamp(36px,4.5vw,64px)] font-black leading-[1] tracking-[-0.03em] text-white">
+          Projects That <span className="text-gradient">Shipped</span>
+        </h2>
+        <div className="mx-auto mt-4 h-px w-16 bg-gradient-to-r from-transparent via-[rgba(124,58,237,0.5)] to-transparent" />
+        <p className="mx-auto mt-5 max-w-md text-[14px] leading-[1.8] text-[#64748b]">
           Real products built for real clients. Each one shipped on time,
           within budget, and still running in production.
         </p>

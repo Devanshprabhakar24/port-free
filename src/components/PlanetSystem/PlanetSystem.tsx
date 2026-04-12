@@ -8,15 +8,31 @@ import type { SectionId } from '../../store/scrollSectionStore'
 const SECTION_IDS: SectionId[] = ['hero', 'about', 'projects', 'contact']
 
 const PLANETS = [
-  { name: 'Mercury', color: '#888888', glow: 'rgba(180,180,180,0.5)', baseSize: 340, cx: 50, cy: 50 },
-  { name: 'Venus', color: '#c8a050', glow: 'rgba(220,160,60,0.5)', baseSize: 440, cx: 55, cy: 45 },
-  { name: 'Earth', color: '#2a7fc7', glow: 'rgba(40,120,200,0.5)', baseSize: 420, cx: 48, cy: 52, earth: true },
-  { name: 'Mars', color: '#c1440e', glow: 'rgba(200,60,10,0.5)', baseSize: 380, cx: 52, cy: 48 },
-  { name: 'Jupiter', color: '#c88b3a', glow: 'rgba(200,130,50,0.5)', baseSize: 560, cx: 50, cy: 50, bands: true },
-  { name: 'Saturn', color: '#d4b86a', glow: 'rgba(210,180,80,0.5)', baseSize: 500, cx: 50, cy: 50, ring: true, bands: true },
-  { name: 'Uranus', color: '#7de8e8', glow: 'rgba(80,220,220,0.5)', baseSize: 460, cx: 50, cy: 50 },
-  { name: 'Neptune', color: '#3050c8', glow: 'rgba(50,80,200,0.5)', baseSize: 440, cx: 50, cy: 50 },
+  { name: 'Venus', color: '#c8a050', glow: 'rgba(220,160,60,0.5)', baseSize: 400, cx: 68, cy: 48 },
+  { name: 'Earth', color: '#2a7fc7', glow: 'rgba(40,120,200,0.5)', baseSize: 400, cx: 65, cy: 52, earth: true },
+  { name: 'Mars', color: '#c1440e', glow: 'rgba(200,60,10,0.5)', baseSize: 360, cx: 70, cy: 50 },
+  { name: 'Jupiter', color: '#c88b3a', glow: 'rgba(200,130,50,0.5)', baseSize: 500, cx: 68, cy: 52, bands: true },
+  { name: 'Saturn', color: '#d4b86a', glow: 'rgba(210,180,80,0.5)', baseSize: 440, cx: 66, cy: 50, ring: true, bands: true },
+  { name: 'Uranus', color: '#7de8e8', glow: 'rgba(80,220,220,0.5)', baseSize: 420, cx: 70, cy: 50 },
+  { name: 'Neptune', color: '#3050c8', glow: 'rgba(50,80,200,0.5)', baseSize: 400, cx: 68, cy: 52 },
 ] as const
+
+function hashString(value: string) {
+  let hash = 0
+
+  for (let i = 0; i < value.length; i += 1) {
+    hash = ((hash << 5) - hash + value.charCodeAt(i)) | 0
+  }
+
+  return Math.abs(hash)
+}
+
+function createSeededRandom(seed: number) {
+  return () => {
+    const next = Math.sin(seed += 1) * 10000
+    return next - Math.floor(next)
+  }
+}
 
 function easeOut(t: number) {
   return 1 - Math.pow(1 - t, 3)
@@ -37,8 +53,27 @@ function getScale(localT: number): number {
 function PlanetSystem() {
   const isMobile = useIsMobile()
   const reducedMotion = usePrefersReducedMotion()
-  const { localTs } = useFlyThroughDepth()
+  const { localTs, progress } = useFlyThroughDepth()
   const setSection = useScrollSectionStore((s) => s.setSection)
+
+  const planetLayouts = useMemo(
+    () => PLANETS.map((planet, index) => {
+      const random = createSeededRandom(hashString(planet.name) + index * 97)
+      const baseX = 58 + random() * 24
+      const baseY = 34 + random() * 34
+      const driftX = -6 + random() * 12
+      const driftY = -5 + random() * 10
+
+      return {
+        ...planet,
+        cx: baseX,
+        cy: baseY,
+        driftX,
+        driftY,
+      }
+    }),
+    [],
+  )
 
   const pmxRef = useRef(0)
   const pmyRef = useRef(0)
@@ -74,30 +109,42 @@ function PlanetSystem() {
 
   useEffect(() => {
     if (activePlanetIdx < 0) return
-    const sectionIndex = Math.min(SECTION_IDS.length - 1, Math.floor(activePlanetIdx / 2))
+    const sectionSize = PLANETS.length / SECTION_IDS.length
+    const sectionIndex = Math.min(SECTION_IDS.length - 1, Math.floor(activePlanetIdx / sectionSize))
     setSection(SECTION_IDS[sectionIndex])
   }, [activePlanetIdx, setSection])
 
   if (isMobile) {
     return (
-      <div className="pointer-events-none fixed inset-0 z-[14] overflow-hidden">
+      <div className="pointer-events-none fixed inset-0 z-[5] overflow-hidden">
         <div className="mobile-gradient-animated absolute inset-0 opacity-70" />
       </div>
     )
   }
 
   if (reducedMotion) {
-    const p = PLANETS[0]
+    const p = planetLayouts[0]
     return (
-      <div className="pointer-events-none fixed inset-0 z-[14] overflow-hidden">
+      <div className="pointer-events-none fixed inset-0 z-[5] overflow-hidden">
         <Planet {...p} size={p.baseSize} cx={window.innerWidth / 2} cy={window.innerHeight / 2} localT={0.5} />
       </div>
     )
   }
 
+  // Keep the first hero frame clean; planets fade in only after slight scroll.
+  const introBlend = Math.max(0, Math.min(1, (progress - 0.012) / 0.05))
+
   return (
-    <div className="pointer-events-none fixed inset-0 z-[14] overflow-hidden">
-      {PLANETS.map((p, i) => {
+    <div
+      className="pointer-events-none fixed inset-0 z-[5] overflow-hidden"
+      style={{
+        perspective: '1200px',
+        perspectiveOrigin: '62% 50%',
+        opacity: introBlend,
+        transition: 'opacity 220ms linear',
+      }}
+    >
+      {planetLayouts.map((p, i) => {
         // OVERLAP must match OVERLAP in useFlyThroughDepth (0.35)
         const overlap = 0.35
         const localT = (localTs[i] ?? -0.5) + overlap
@@ -116,8 +163,16 @@ function PlanetSystem() {
         const size = Math.min(p.baseSize * scale * scaleFactor, maxSize)
 
         const parallaxFactor = Math.max(0, 1 - Math.max(0, localT - 0.5) * 2)
-        const cx = window.innerWidth * (p.cx / 100) + spxRef.current * parallaxFactor
-        const cy = window.innerHeight * (p.cy / 100) + spyRef.current * parallaxFactor
+        const cx = window.innerWidth * (p.cx / 100) + spxRef.current * parallaxFactor + p.driftX * (0.35 + localT * 0.35)
+        const cy = window.innerHeight * (p.cy / 100) + spyRef.current * parallaxFactor + p.driftY * (0.35 + localT * 0.35)
+
+        const t = Math.max(0, Math.min(1.25, localT))
+        const prePass = Math.max(0, Math.min(1, t / 0.75))
+        const blast = t > 0.75 ? (t - 0.75) / 0.5 : 0
+        const zOffset = -260 + prePass * 560 + blast * 440
+        const rotateYDeg = spxRef.current * 0.16 + (t - 0.5) * 14
+        const tiltXDeg = spyRef.current * -0.12 + (0.5 - t) * 6
+        const spinDeg = (i % 2 === 0 ? 1 : -1) * (t * 18)
 
         return (
           <Planet
@@ -127,6 +182,10 @@ function PlanetSystem() {
             size={size}
             cx={cx}
             cy={cy}
+            zOffset={zOffset}
+            rotateYDeg={rotateYDeg}
+            tiltXDeg={tiltXDeg}
+            spinDeg={spinDeg}
             ring={'ring' in p ? p.ring : false}
             bands={'bands' in p ? p.bands : false}
             earth={'earth' in p ? p.earth : false}

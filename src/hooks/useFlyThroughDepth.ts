@@ -6,7 +6,7 @@ export type FlyThroughState = {
   progress: number
 }
 
-const PLANET_COUNT = 8
+const PLANET_COUNT = 7
 
 // Overlap constant: how far outside [0,1] a planet's localT can travel
 // before it's considered off-screen. Larger = more overlap between adjacent
@@ -21,7 +21,6 @@ export function useFlyThroughDepth(): FlyThroughState {
 
   const targetRef = useRef<number[]>(Array(PLANET_COUNT).fill(-OVERLAP - 0.1))
   const currentRef = useRef<number[]>(Array(PLANET_COUNT).fill(-OVERLAP - 0.1))
-  const rafRef = useRef<number | null>(null)
   const progressRef = useRef(0)
 
   useEffect(() => {
@@ -37,25 +36,11 @@ export function useFlyThroughDepth(): FlyThroughState {
       targetRef.current = next
     }
 
-    const animate = () => {
-      const cur = currentRef.current
-      const tgt = targetRef.current
-      const lerp = 0.14
-      const next = cur.map((c, i) => c + (tgt[i] - c) * lerp)
-      currentRef.current = next
-      const settled = next.every((v, i) => Math.abs(v - tgt[i]) < 0.001)
-      setState({ localTs: next, progress: progressRef.current })
-      if (settled) {
-        rafRef.current = null
-        return
-      }
-      rafRef.current = requestAnimationFrame(animate)
-    }
-
     const schedule = (scrollY: number) => {
       calc(scrollY)
-      if (rafRef.current !== null) return
-      rafRef.current = requestAnimationFrame(animate)
+      const next = targetRef.current
+      currentRef.current = next
+      setState({ localTs: next, progress: progressRef.current })
     }
 
     let unsubLenis: (() => void) | null = null
@@ -97,7 +82,6 @@ export function useFlyThroughDepth(): FlyThroughState {
       clearInterval(pollId)
       unsubLenis?.()
       window.removeEventListener('resize', onResize)
-      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current)
     }
   }, [])
 

@@ -131,15 +131,6 @@ function About({ mouse: _mouse, shouldRenderScene = true }: { mouse: MousePositi
       <div className="pointer-events-none absolute inset-0" style={{ backgroundImage: starsPattern }} />
 
       <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          backgroundImage:
-            'linear-gradient(rgba(124,58,237,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(124,58,237,0.04) 1px, transparent 1px)',
-          backgroundSize: '40px 40px',
-        }}
-      />
-
-      <div
         className="pointer-events-none absolute -left-10 -top-15 h-75 w-100 rounded-full"
         style={{ background: 'radial-gradient(ellipse at 40% 40%, rgba(88,28,135,0.2) 0%, transparent 70%)' }}
       />
@@ -169,7 +160,7 @@ function About({ mouse: _mouse, shouldRenderScene = true }: { mouse: MousePositi
             Results.
           </h2>
 
-          <p className="mb-10 max-w-95 border-l-2 border-[rgba(124,58,237,0.3)] pl-4 text-[14px] leading-[1.8] text-[#64748b]">
+          <p className="mb-10 max-w-md border-l-2 border-[rgba(124,58,237,0.4)] pl-5 text-[15px] leading-[1.9] text-[#64748b]">
             I take your idea from a rough brief to a <span className="text-[#94a3b8]">live, polished product</span> that impresses investors, converts users, and holds up under real-world load. Every project I ship is <span className="text-[#94a3b8]">production-grade from day one</span> — not refactored later.
           </p>
 
@@ -188,25 +179,25 @@ function About({ mouse: _mouse, shouldRenderScene = true }: { mouse: MousePositi
             ))}
           </div>
 
-          <div className="grid grid-cols-4 border-t border-[rgba(255,255,255,0.05)] pt-8">
+          <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
             {STATS.map((stat, index) => (
               <button
                 key={stat.coordinate}
                 onMouseEnter={() => onStatHover(index)}
-                className={`text-left ${index > 0 ? 'border-l border-[rgba(255,255,255,0.05)] pl-5' : 'pr-5'}`}
+                className="glass-surface group rounded-2xl p-4 text-left transition-all duration-300 hover:border-[rgba(124,58,237,0.3)] hover:bg-[rgba(124,58,237,0.05)]"
               >
-                <div className="font-mono text-[9px] tracking-[0.08em] text-[#7c3aed]">{stat.coordinate}</div>
-                <div className="mt-1 text-[32px] font-extrabold leading-none text-[#f1f5f9]">
+                <div className="mb-2 font-mono text-[8px] tracking-[0.12em] text-[#7c3aed]">{stat.coordinate}</div>
+                <div className="tabular-nums text-[36px] font-black leading-none text-[#f1f5f9]">
                   {counterValues[index]}
                   {stat.suffix}
                 </div>
-                <div className="mt-1 text-[10px] uppercase tracking-widest text-[#475569]">{stat.label}</div>
+                <div className="mt-1.5 text-[10px] uppercase tracking-[0.12em] text-[#475569]">{stat.label}</div>
               </button>
             ))}
           </div>
         </div>
 
-        <div className="relative z-[5] min-h-[420px] overflow-hidden rounded-2xl border border-[rgba(124,58,237,0.12)] bg-[#07070d]/55 lg:min-h-105">
+        <div className="relative z-[5] min-h-[420px] overflow-hidden rounded-2xl border border-[rgba(124,58,237,0.1)] bg-transparent lg:min-h-105">
           {isMobile || !shouldRenderScene ? <div className="mobile-gradient-animated h-full w-full" /> : <SkillsScene />}
         </div>
       </div>

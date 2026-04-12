@@ -265,7 +265,7 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
                 <div>
                   <label className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#7c3aed]">NAME &gt;</label>
                   <input
-                    className="mt-2 w-full border-0 border-b border-[#7c3aed] bg-transparent px-0 py-3 text-white outline-none placeholder:text-slate-500"
+                    className="mt-2 w-full rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] px-4 py-3 text-[14px] text-[#f1f5f9] placeholder-[#334155] backdrop-blur-sm transition-all duration-200 focus:border-[rgba(124,58,237,0.5)] focus:bg-[rgba(124,58,237,0.04)] focus:outline-none focus:ring-1 focus:ring-[rgba(124,58,237,0.3)]"
                     placeholder="e.g. Rahul Sharma"
                     required
                   />
@@ -273,7 +273,7 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
                 <div>
                   <label className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#7c3aed]">EMAIL &gt;</label>
                   <input
-                    className="mt-2 w-full border-0 border-b border-[#7c3aed] bg-transparent px-0 py-3 text-white outline-none placeholder:text-slate-500"
+                    className="mt-2 w-full rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] px-4 py-3 text-[14px] text-[#f1f5f9] placeholder-[#334155] backdrop-blur-sm transition-all duration-200 focus:border-[rgba(124,58,237,0.5)] focus:bg-[rgba(124,58,237,0.04)] focus:outline-none focus:ring-1 focus:ring-[rgba(124,58,237,0.3)]"
                     type="email"
                     placeholder="your@email.com"
                     required
@@ -282,7 +282,7 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
                 <div>
                   <label className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#7c3aed]">MESSAGE &gt;</label>
                   <textarea
-                    className="mt-2 h-32 w-full border-0 border-b border-[#7c3aed] bg-transparent px-0 py-3 text-white outline-none placeholder:text-slate-500"
+                    className="mt-2 h-32 w-full rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] px-4 py-3 text-[14px] text-[#f1f5f9] placeholder-[#334155] backdrop-blur-sm transition-all duration-200 focus:border-[rgba(124,58,237,0.5)] focus:bg-[rgba(124,58,237,0.04)] focus:outline-none focus:ring-1 focus:ring-[rgba(124,58,237,0.3)]"
                     placeholder="Tell me about your project, budget, and timeline..."
                     required
                   />
@@ -294,6 +294,8 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
                     <span style={{ animation: 'blink 1s step-end infinite' }}>_</span>
                   </p>
                 ) : null}
+
+                <div className="mb-6 h-px w-full bg-gradient-to-r from-transparent via-[rgba(124,58,237,0.3)] to-transparent" />
 
                 <div className="relative pt-1">
                   <button

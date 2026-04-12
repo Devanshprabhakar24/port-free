@@ -73,11 +73,11 @@ function Hero({ mouse, onViewProjects, onHireMe, shouldRenderScene = true }: Her
 
       <div
         className="pointer-events-none absolute inset-0 z-[2]"
-        style={{ background: 'linear-gradient(90deg, rgba(3,1,10,0.92) 0%, rgba(3,1,10,0.72) 40%, rgba(3,1,10,0.4) 72%, rgba(3,1,10,0.18) 100%)' }}
+        style={{ background: 'linear-gradient(90deg, rgba(3,1,10,0.75) 0%, rgba(3,1,10,0.55) 45%, rgba(3,1,10,0.20) 75%, transparent 100%)' }}
       />
 
       <div className="relative z-10 flex min-h-screen items-center">
-        <div className="w-full pl-6 pr-6 pb-[60px] pt-[120px] md:pl-12 md:pr-8 lg:max-w-[55%] lg:pl-16 lg:pr-0">
+        <div className="w-full pl-[max(24px,5vw)] pr-6 pb-[60px] pt-[120px] md:pr-8 lg:max-w-[55%] lg:pr-0">
         <div className="mb-[10px] font-mono text-[10px] tracking-[0.22em] text-[#64748b]">
           AVAILABLE FOR HIRE · INDIA · 2026_
         </div>
@@ -114,9 +114,10 @@ function Hero({ mouse, onViewProjects, onHireMe, shouldRenderScene = true }: Her
           <button
             onClick={onViewProjects}
             data-cursor-label="VIEW"
-            className="rounded-full border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] px-[24px] py-[12px] text-[13px] text-[#f1f5f9] backdrop-blur-[8px] transition duration-300 hover:border-[rgba(124,58,237,0.6)] hover:bg-[rgba(124,58,237,0.08)]"
+            className="group flex items-center gap-2 rounded-full border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] px-6 py-3 text-[13px] text-[#f1f5f9] backdrop-blur-[8px] transition-all duration-300 hover:border-[rgba(124,58,237,0.6)] hover:bg-[rgba(124,58,237,0.08)]"
           >
-            See My Work →
+            See My Work
+            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
           </button>
 
           <button
@@ -144,29 +145,27 @@ function Hero({ mouse, onViewProjects, onHireMe, shouldRenderScene = true }: Her
       </div>
       </div>
 
-      <div className="pointer-events-none absolute right-[48px] top-[88px] z-20 hidden flex-col items-end gap-[4px] lg:flex">
-        <div className="mb-[6px] grid grid-cols-3 gap-[4px]">
-          {Array.from({ length: 9 }).map((_, index) => (
-            <span
-              key={index}
-              className="h-[4px] w-[4px] rounded-full bg-[rgba(124,58,237,0.4)]"
-            />
-          ))}
+      <div className="pointer-events-none absolute right-6 top-20 z-20 hidden flex-col items-end gap-1 lg:flex">
+        <div className="glass-surface flex flex-col gap-1.5 rounded-xl px-4 py-3">
+          <div className="mb-1.5 grid grid-cols-3 gap-1">
+            {Array.from({ length: 9 }).map((_, index) => (
+              <span key={index} className="h-[3px] w-[3px] rounded-full bg-[rgba(124,58,237,0.5)]" />
+            ))}
+          </div>
+          <div className="font-mono text-[9px] text-emerald-400">
+            SYS:ONLINE<span style={{ animation: 'blink 1.5s infinite' }}>_</span>
+          </div>
+          <div className="font-mono text-[9px] text-[#475569]">LOC:EARTH_IN</div>
+          <div className="font-mono text-[9px] text-[#475569]">LAT:26.4499°N</div>
         </div>
-        <div className="font-mono text-[9px] tracking-[0.08em] text-[#22c55e]">
-          SYS:ONLINE<span style={{ animation: 'blink 1.5s infinite' }}>_</span>
-        </div>
-        <div className="font-mono text-[9px] tracking-[0.08em] text-[#475569]">LOC:EARTH_IN</div>
-        <div className="font-mono text-[9px] tracking-[0.08em] text-[#475569]">LAT:26.4499°N</div>
       </div>
 
-      <div className="pointer-events-none absolute bottom-[28px] left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-[6px]">
-        <div className="h-[40px] w-px bg-[rgba(255,255,255,0.15)]" />
-        <div
-          className="h-1.25 w-1.25 rounded-full bg-[rgba(124,58,237,0.8)]"
-          style={{ animation: 'scrollbounce 1.2s ease-in-out infinite' }}
-        />
-        <div className="font-mono text-[9px] tracking-[0.2em] text-[#475569]">SCROLL</div>
+      <div className="pointer-events-none absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-2">
+        <div className="h-10 w-px bg-gradient-to-b from-transparent via-[rgba(124,58,237,0.5)] to-transparent" />
+        <div className="relative h-6 w-[11px] overflow-hidden rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.08)] px-[5px] py-1">
+          <div className="absolute left-1/2 top-1 h-1.5 w-[3px] -translate-x-1/2 rounded-full bg-[rgba(124,58,237,0.9)]" style={{ animation: 'scrollbounce 1.4s ease-in-out infinite' }} />
+        </div>
+        <span className="font-mono text-[8px] tracking-[0.25em] text-[#334155]">SCROLL</span>
       </div>
 
     </div>

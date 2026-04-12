@@ -164,7 +164,7 @@ function Navbar({ mouse, currentSection, onNavigate }: NavbarProps) {
           className="flex w-full items-center justify-between px-5 py-5 transition-all duration-300 md:px-10"
           style={{
             background: scrolled ? 'rgba(3,1,10,0.85)' : 'transparent',
-            borderBottom: scrolled ? '1px solid transparent' : '1px solid transparent',
+            borderBottom: scrolled ? '1px solid rgba(255,255,255,0.06)' : '1px solid transparent',
             backdropFilter: scrolled ? 'blur(20px)' : 'blur(0px)',
           }}
         >
@@ -174,10 +174,13 @@ function Navbar({ mouse, currentSection, onNavigate }: NavbarProps) {
               event.preventDefault()
               onNavigate('hero')
             }}
-            className="flex items-center gap-2 text-[11px] tracking-[0.18em] text-[rgba(255,255,255,0.9)]"
+            className="group flex items-center gap-2.5"
           >
-            <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(34,197,94,0.8)] animate-pulse" />
-            DEVANSH PRABHAKAR
+            <div className="relative h-7 w-7 overflow-hidden rounded-full">
+              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#7c3aed] to-[#ec4899]" />
+              <span className="absolute inset-0 flex items-center justify-center text-[9px] font-bold tracking-wider text-white">DP</span>
+            </div>
+            <span className="text-[11px] tracking-[0.18em] text-white/90 transition-colors group-hover:text-white">DEVANSH PRABHAKAR</span>
           </a>
 
           <div className="hidden items-center gap-8 md:flex">
@@ -203,6 +206,9 @@ function Navbar({ mouse, currentSection, onNavigate }: NavbarProps) {
                   </span>
                 ))}
                 <span className="absolute left-0 top-[calc(100%+6px)] h-px w-full origin-left scale-x-0 bg-[#7c3aed] transition-transform duration-200 group-hover:scale-x-100" />
+                {currentSection === item.id ? (
+                  <span className="absolute -bottom-1.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-[#7c3aed] shadow-[0_0_6px_rgba(124,58,237,0.9)]" />
+                ) : null}
               </a>
             ))}
 

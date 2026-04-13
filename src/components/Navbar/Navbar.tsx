@@ -216,7 +216,7 @@ function Navbar({ mouse, currentSection, onNavigate }: NavbarProps) {
               ref={hireRef}
               onClick={() => onNavigate('contact')}
               data-cursor-label="HIRE"
-              className="rounded-full bg-gradient-to-r md:from-[#7c3aed]/90 md:to-[#ec4899]/90 px-5 md:px-8 py-[8px] md:py-[13px] text-[12px] md:text-[17px] font-medium md:font-semibold tracking-[0.03em] text-white shadow-[0_0_24px_rgba(124,58,237,0.28)] md:shadow-[0_0_32px_rgba(124,58,237,0.32)] hover:scale-[1.02] md:hover:scale-[1.05] transition-all duration-200"
+              className="rounded-full bg-gradient-to-r from-[#7c3aed]/90 to-[#ec4899]/90 px-5 py-[8px] text-[12px] font-medium tracking-[0.03em] text-white shadow-[0_0_20px_rgba(124,58,237,0.25)] transition-all duration-200 hover:scale-[1.02] md:px-8 md:py-[13px] md:text-[17px] md:font-semibold md:shadow-[0_0_32px_rgba(124,58,237,0.32)] md:hover:scale-[1.05]"
             >
               Hire Me →
             </button>

@@ -54,16 +54,18 @@ body {
   overflow-x: hidden;
 }
 
-/* Hide system cursor globally for custom magnetic cursor */
-body,
-a,
-button,
-input,
-textarea,
-select,
-label,
-[role='button'] {
-  cursor: none !important;
+/* Hide system cursor globally for custom magnetic cursor - desktop only */
+@media (min-width: 768px) {
+  body,
+  a,
+  button,
+  input,
+  textarea,
+  select,
+  label,
+  [role='button'] {
+    cursor: none !important;
+  }
 }
 
 body::before {

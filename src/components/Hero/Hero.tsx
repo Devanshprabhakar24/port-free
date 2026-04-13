@@ -58,13 +58,9 @@ function Hero({ mouse, onViewProjects, shouldRenderScene = true }: HeroProps) {
 
       <div className="pointer-events-none absolute inset-0 z-[1]">
         {shouldRenderScene && webGLReady && !reducedMotion ? (
-          !isMobile ? (
-            <Suspense fallback={<div className="h-full w-full bg-[#03010a]" />}>
-              <HeroScene mouse={mouse} />
-            </Suspense>
-          ) : (
-            <div className="mobile-gradient-animated h-full w-full" style={mobileStyle} />
-          )
+          <Suspense fallback={<div className="h-full w-full bg-[#03010a]" />}>
+            <HeroScene mouse={mouse} />
+          </Suspense>
         ) : (
           <div className="mobile-gradient-animated h-full w-full" style={isMobile ? mobileStyle : undefined} />
         )}
@@ -76,14 +72,14 @@ function Hero({ mouse, onViewProjects, shouldRenderScene = true }: HeroProps) {
       />
 
       <div className="relative z-10 flex min-h-screen items-center">
-        <div className="w-full pl-[max(24px,5vw)] pr-6 pb-[60px] pt-[120px] md:pr-8 lg:max-w-[55%] lg:pr-0">
-          <div className="mb-[10px] font-mono text-[10px] tracking-[0.22em] text-[#64748b]">
+        <div className="w-full px-[max(20px,5vw)] pb-[60px] pt-[100px] md:pl-[max(24px,5vw)] md:pr-8 md:pt-[120px] lg:max-w-[55%] lg:pr-0">
+          <div className="mb-[10px] font-mono text-[9px] tracking-[0.20em] text-[#64748b] md:text-[10px] md:tracking-[0.22em]">
             Available for freelance work • Quick response • Open to projects
           </div>
 
-          <div className="mb-[22px] h-px w-[50px] bg-[rgba(124,58,237,0.5)]" />
+          <div className="mb-[18px] h-px w-[40px] bg-[rgba(124,58,237,0.5)] md:mb-[22px] md:w-[50px]" />
 
-          <h1 className="text-[clamp(38px,4.5vw,68px)] font-[900] leading-[1.05] tracking-[-0.02em] text-[#f1f5f9]">
+          <h1 className="text-[clamp(32px,8vw,68px)] font-[900] leading-[1.1] tracking-[-0.02em] text-[#f1f5f9] md:text-[clamp(38px,4.5vw,68px)] md:leading-[1.05]">
             I Build Web Apps That Help{' '}
             <span
               style={{
@@ -104,11 +100,9 @@ function Hero({ mouse, onViewProjects, shouldRenderScene = true }: HeroProps) {
             </span>
           </h1>
 
-          <p className="mb-[32px] mt-[22px] max-w-95 text-[17px] leading-[1.7] text-[#94a3b8]">
+          <p className="mb-[28px] mt-[18px] max-w-[90vw] text-[15px] leading-[1.65] text-[#94a3b8] md:mb-[32px] md:mt-[22px] md:max-w-95 md:text-[17px] md:leading-[1.7]">
             Full stack developer helping startups and businesses build fast, scalable, and reliable web applications.
           </p>
-
-          {/* Trust line already included above. Remove extra fluff. */}
         </div>
       </div>
 
@@ -127,9 +121,9 @@ function Hero({ mouse, onViewProjects, shouldRenderScene = true }: HeroProps) {
         </div>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-4">
+      <div className="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-3 md:gap-4">
         <motion.div
-          className="flex flex-col items-center gap-[14px]"
+          className="flex flex-col items-center gap-[12px] md:gap-[14px]"
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.75, duration: 0.55 }}
@@ -137,17 +131,17 @@ function Hero({ mouse, onViewProjects, shouldRenderScene = true }: HeroProps) {
           <button
             onClick={onViewProjects}
             data-cursor-label="VIEW"
-            className="group flex items-center gap-2 rounded-full border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,237,0.04)] px-10 py-[18px] text-[18px] text-[#f1f5f9] backdrop-blur-[8px] transition-all duration-300 hover:border-[rgba(124,58,237,0.6)] hover:bg-[rgba(124,58,237,0.08)]"
+            className="group flex items-center gap-2 rounded-full border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,237,0.04)] px-8 py-[14px] text-[16px] text-[#f1f5f9] backdrop-blur-[8px] transition-all duration-300 hover:border-[rgba(124,58,237,0.6)] hover:bg-[rgba(124,58,237,0.08)] md:px-10 md:py-[18px] md:text-[18px]"
           >
             View My Work
             <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
           </button>
         </motion.div>
-        <div className="h-10 w-px bg-gradient-to-b from-transparent via-[rgba(124,58,237,0.5)] to-transparent" />
-        <div className="relative h-6 w-[11px] overflow-hidden rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.08)] px-[5px] py-1">
-          <div className="absolute left-1/2 top-1 h-1.5 w-[3px] -translate-x-1/2 rounded-full bg-[rgba(124,58,237,0.9)]" style={{ animation: 'scrollbounce 1.4s ease-in-out infinite' }} />
+        <div className="h-8 w-px bg-gradient-to-b from-transparent via-[rgba(124,58,237,0.5)] to-transparent md:h-10" />
+        <div className="relative h-5 w-[10px] overflow-hidden rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.08)] px-[4px] py-1 md:h-6 md:w-[11px] md:px-[5px]">
+          <div className="absolute left-1/2 top-1 h-1 w-[2px] -translate-x-1/2 rounded-full bg-[rgba(124,58,237,0.9)] md:h-1.5 md:w-[3px]" style={{ animation: 'scrollbounce 1.4s ease-in-out infinite' }} />
         </div>
-        <span className="font-mono text-[8px] tracking-[0.25em] text-[#334155]">SCROLL</span>
+        <span className="font-mono text-[7px] tracking-[0.22em] text-[#334155] md:text-[8px] md:tracking-[0.25em]">SCROLL</span>
       </div>
 
     </div>

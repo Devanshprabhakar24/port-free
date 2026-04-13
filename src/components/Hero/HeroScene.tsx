@@ -50,26 +50,26 @@ function DistortedSphere({ mouse, idle }: { mouse: MousePosition; idle: boolean 
 
   return (
     <group ref={groupRef}>
-      <mesh scale={1.32}>
-        <sphereGeometry args={[1.06, 96, 96]} />
+      <mesh scale={0.9}>
+        <sphereGeometry args={[0.75, 96, 96]} />
         <meshStandardMaterial color="#2e1065" emissive="#7c3aed" emissiveIntensity={0.2} roughness={0.72} metalness={0.08} />
       </mesh>
 
-      <mesh scale={1.4}>
-        <sphereGeometry args={[1.06, 96, 96]} />
+      <mesh scale={0.98}>
+        <sphereGeometry args={[0.75, 96, 96]} />
         <meshBasicMaterial color="#4f46e5" transparent opacity={0.09} side={THREE.BackSide} />
       </mesh>
 
-      <mesh position={[0.48, 0.25, 0.9]}>
-        <sphereGeometry args={[0.03, 20, 20]} />
+      <mesh position={[0.34, 0.18, 0.64]}>
+        <sphereGeometry args={[0.022, 20, 20]} />
         <meshBasicMaterial color="#ec4899" />
       </mesh>
-      <mesh position={[-0.45, -0.24, 0.82]}>
-        <sphereGeometry args={[0.02, 20, 20]} />
+      <mesh position={[-0.32, -0.17, 0.58]}>
+        <sphereGeometry args={[0.016, 20, 20]} />
         <meshBasicMaterial color="#a78bfa" />
       </mesh>
-      <mesh position={[0.18, -0.54, 0.8]}>
-        <sphereGeometry args={[0.022, 20, 20]} />
+      <mesh position={[0.13, -0.38, 0.56]}>
+        <sphereGeometry args={[0.018, 20, 20]} />
         <meshBasicMaterial color="#fb923c" />
       </mesh>
     </group>

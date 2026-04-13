@@ -2,91 +2,97 @@
 
 ## Overview
 
-The planet animation system now runs on mobile devices with the same visual experience as desktop, but with performance optimizations to ensure smooth 60fps rendering.
+The planet animation system now runs on mobile devices with the same visual experience as desktop, using adaptive quality settings based on device capabilities. The system automatically detects device performance and adjusts rendering quality for optimal 60fps performance.
+
+## Adaptive Quality System
+
+The system detects three device tiers:
+
+1. **Desktop/High-end**: Full quality rendering
+2. **Mobile/Mid-range**: Optimized rendering with reduced complexity
+3. **Low-end**: Minimal quality for maximum performance
+
+### Device Detection
+
+- Automatically detects mobile vs desktop
+- Checks available RAM (if supported)
+- Analyzes CPU cores (hardware concurrency)
+- Tests WebGL capabilities
+- Considers Android version for older devices
 
 ## Key Optimizations
 
-### 1. Geometry Complexity
+### 1. Geometry Complexity (Adaptive)
 
-- **Desktop**: 64x64 sphere segments for planets, 32x32 for glow
-- **Mobile**: 32x32 sphere segments for planets, 16x16 for glow
-- Reduces vertex count by ~75% while maintaining visual quality
+- **Desktop/High-end**: 64x64 sphere segments for planets, 32x32 for glow
+- **Mobile/Mid-range**: 32x32 sphere segments for planets, 16x16 for glow
+- **Low-end**: 24x24 sphere segments for planets, 12x12 for glow
+- Reduces vertex count by up to 85% on low-end devices
 
-### 2. Texture Quality
+### 2. Texture Quality (Adaptive)
 
 - **Desktop**: Anisotropy level 4 for crisp textures
 - **Mobile**: Anisotropy level 2 to reduce memory bandwidth
+- **Low-end**: Anisotropy level 1 for minimal memory usage
 
-### 3. Planet Sizes
+### 3. Planet Sizes (Adaptive)
 
-- Mobile planets are scaled to 70% of desktop size
-- Reduces fill rate and overdraw
-- Maintains visual hierarchy and animation flow
+- **Desktop**: Full size (100%)
+- **Mobile**: 70% of desktop size
+- **Low-end**: 50% of desktop size
+- Reduces fill rate and overdraw significantly
 
 ### 4. Lighting
 
 - **Desktop**: Full lighting setup with 4 light sources
-  - Ambient light
-  - Main directional light
-  - Fill directional light
-  - Point light accent
-- **Mobile**: Simplified to 2 light sources
-  - Ambient light
-  - Main directional light
+- **Mobile/Low-end**: Simplified to 2 light sources
 - Reduces shader complexity and GPU load
 
 ### 5. Shader Optimization
 
 - **Desktop**: Full atmospheric glow with sun-facing calculations
-- **Mobile**: Simplified rim lighting shader
-  - Removes expensive smoothstep operations
-  - Removes sun direction calculations
-  - Reduces fragment shader instructions by ~40%
+- **Mobile/Low-end**: Simplified rim lighting shader
+- Reduces fragment shader instructions by ~40%
 
-### 6. Rendering Quality
+### 6. Rendering Quality (Adaptive)
 
-- **Desktop**:
-  - DPR up to 1.5x
-  - Antialiasing disabled (already smooth at high res)
-  - High-performance power preference
-- **Mobile**:
-  - DPR capped at 1.0x
-  - Antialiasing disabled
-  - Default power preference (battery-friendly)
+- **Desktop**: DPR up to 1.5x, high-performance mode
+- **Mobile**: DPR 1.0x, battery-friendly mode
+- **Low-end**: DPR 1.0x forced, all optimizations enabled
 
 ### 7. Glow Effects
 
 - **Desktop**: Glow mesh scaled to 1.35x planet size
 - **Mobile**: Glow mesh scaled to 1.25x planet size
-- Reduces overdraw and blending operations
+
+## Performance Monitoring
+
+Built-in performance monitor tracks FPS, frame time, and memory usage.
+
+Enable monitoring:
+
+- Automatically enabled in development mode
+- Add `?debug=performance` to URL in production
 
 ## Performance Targets
 
-- **Mobile**: 60fps on mid-range devices (iPhone 12, Samsung Galaxy S21)
+- **Low-end Mobile**: 60fps on iPhone SE 2020, budget Android
+- **Mid-range Mobile**: 60fps on iPhone 12, Samsung Galaxy S21
 - **Desktop**: 60fps on integrated graphics
-- **High-end**: Smooth performance with room for other animations
 
-## Testing Recommendations
+## Debug Tools
 
-Test on various devices:
+### Performance Monitor
 
-- Low-end: iPhone SE 2020, budget Android
-- Mid-range: iPhone 13, Samsung Galaxy A series
-- High-end: iPhone 15 Pro, Samsung Galaxy S24
+```typescript
+import { performanceMonitor } from "./utils/performanceMonitor";
+performanceMonitor.enable();
+const stats = performanceMonitor.update();
+```
 
-Monitor:
+### Device Capabilities
 
-- Frame rate (should stay at 60fps)
-- GPU usage (should be under 70%)
-- Battery drain (should be minimal)
-- Thermal throttling (should not occur during normal scrolling)
-
-## Future Improvements
-
-Potential optimizations if needed:
-
-1. Implement LOD (Level of Detail) system based on planet distance
-2. Use texture atlases to reduce draw calls
-3. Implement frustum culling for off-screen planets
-4. Add quality presets (low/medium/high) based on device detection
-5. Lazy load textures as planets come into view
+```typescript
+import { getDeviceCapabilities } from "./utils/deviceCapabilities";
+const caps = getDeviceCapabilities();
+```

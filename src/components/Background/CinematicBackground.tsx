@@ -33,8 +33,13 @@ import { motion } from 'framer-motion'
 import { useScrollSectionStore } from '../../store/scrollSectionStore'
 import { useIsMobile } from '../../hooks/useIsMobile'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
+import { getDeviceCapabilities } from '../../utils/deviceCapabilities'
 import type { SectionId } from '../../store/scrollSectionStore'
 import DepthIndicator from '../PlanetSystem/DepthIndicator'
+
+// Detect device capabilities for adaptive rendering
+const deviceCaps = getDeviceCapabilities()
+const isLowEndDevice = deviceCaps.isLowEnd
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -360,21 +365,96 @@ function CinematicBackground() {
     return (
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#03010a]">
         <NebulaBase />
-        <div className="mobile-gradient-animated absolute inset-0 opacity-60" />
-        {/* Single responsive planet — CSS handles the size */}
-        <div className="absolute rounded-full" style={{
-          right: '5%', top: '12%',
-          width: 'min(260px, 55vw)', height: 'min(260px, 55vw)',
-          background:'radial-gradient(circle at 32% 30%, rgba(255,255,255,0.18), rgba(124,58,237,0.42) 45%, rgba(16,12,36,0.2) 80%)',
-          filter: 'blur(1px)',
-        }} />
-        {/* Small ambient accent */}
-        <div className="absolute rounded-full" style={{
-          left: '8%', bottom: '22%',
-          width: 'min(90px, 20vw)', height: 'min(90px, 20vw)',
-          background:'radial-gradient(circle at 40% 40%, rgba(37,99,235,0.40), rgba(16,12,36,0.0) 80%)',
-          filter: 'blur(4px)',
-        }} />
+        
+        {/* Animated gradient overlay - simplified for mobile */}
+        <motion.div 
+          className="absolute inset-0"
+          style={{
+            background: 'radial-gradient(circle at 70% 20%, rgba(124,58,237,0.15) 0%, transparent 50%), radial-gradient(circle at 30% 80%, rgba(37,99,235,0.10) 0%, transparent 40%)',
+          }}
+          animate={{
+            opacity: [0.4, 0.7, 0.4],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
+        
+        {/* Main planet - responsive sizing */}
+        <motion.div 
+          className="absolute rounded-full"
+          style={{
+            right: isLowEndDevice ? '8%' : '5%',
+            top: isLowEndDevice ? '15%' : '12%',
+            width: isLowEndDevice ? 'min(200px, 45vw)' : 'min(260px, 55vw)',
+            height: isLowEndDevice ? 'min(200px, 45vw)' : 'min(260px, 55vw)',
+            background: 'radial-gradient(circle at 32% 30%, rgba(255,255,255,0.18), rgba(124,58,237,0.42) 45%, rgba(16,12,36,0.2) 80%)',
+            filter: isLowEndDevice ? 'blur(0.5px)' : 'blur(1px)',
+            boxShadow: '0 0 40px rgba(124,58,237,0.3), 0 0 80px rgba(124,58,237,0.15)',
+          }}
+          animate={{
+            scale: [1, 1.05, 1],
+            opacity: [0.85, 1, 0.85],
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
+        
+        {/* Small ambient accent - only on mid-range+ devices */}
+        {!isLowEndDevice && (
+          <motion.div 
+            className="absolute rounded-full"
+            style={{
+              left: '8%',
+              bottom: '22%',
+              width: 'min(90px, 20vw)',
+              height: 'min(90px, 20vw)',
+              background: 'radial-gradient(circle at 40% 40%, rgba(37,99,235,0.40), rgba(16,12,36,0.0) 80%)',
+              filter: 'blur(4px)',
+            }}
+            animate={{
+              scale: [1, 1.08, 1],
+              opacity: [0.5, 0.8, 0.5],
+            }}
+            transition={{
+              duration: 7,
+              repeat: Infinity,
+              ease: 'easeInOut',
+              delay: 2,
+            }}
+          />
+        )}
+        
+        {/* Simplified star field for mobile */}
+        <div className="absolute inset-0">
+          {!isLowEndDevice && Array.from({ length: 20 }).map((_, i) => (
+            <motion.span
+              key={i}
+              className="absolute rounded-full bg-white"
+              style={{
+                left: `${(i * 37 + 11) % 100}%`,
+                top: `${(i * 53 + 17) % 100}%`,
+                width: i % 3 === 0 ? '2px' : '1px',
+                height: i % 3 === 0 ? '2px' : '1px',
+                opacity: 0.3 + (i % 5) * 0.1,
+              }}
+              animate={{
+                opacity: [0.3, 0.7, 0.3],
+              }}
+              transition={{
+                duration: 3 + (i % 4),
+                repeat: Infinity,
+                ease: 'easeInOut',
+                delay: i * 0.2,
+              }}
+            />
+          ))}
+        </div>
       </div>
     )
   }

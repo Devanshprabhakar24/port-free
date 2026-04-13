@@ -16,21 +16,20 @@ function detectWebGLCapabilities(): { maxTextureSize: number; supportsWebGL2: bo
   const canvas = document.createElement('canvas')
   
   // Try WebGL2 first
-  let gl = canvas.getContext('webgl2')
-  const supportsWebGL2 = !!gl
-  
-  // Fall back to WebGL1
-  if (!gl) {
-    gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
+  const gl2 = canvas.getContext('webgl2') as WebGL2RenderingContext | null
+  if (gl2) {
+    const maxTextureSize = gl2.getParameter(gl2.MAX_TEXTURE_SIZE) as number
+    return { maxTextureSize, supportsWebGL2: true }
   }
   
+  // Fall back to WebGL1
+  const gl = (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')) as WebGLRenderingContext | null
   if (!gl) {
     return { maxTextureSize: 2048, supportsWebGL2: false }
   }
   
-  const maxTextureSize = gl.getParameter(gl.MAX_TEXTURE_SIZE)
-  
-  return { maxTextureSize, supportsWebGL2 }
+  const maxTextureSize = gl.getParameter(gl.MAX_TEXTURE_SIZE) as number
+  return { maxTextureSize, supportsWebGL2: false }
 }
 
 function isLowEndDevice(): boolean {

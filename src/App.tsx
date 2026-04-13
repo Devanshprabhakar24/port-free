@@ -46,7 +46,6 @@ function App() {
           <Hero
             mouse={mouse}
             onViewProjects={() => scrollToSection('projects')}
-            onHireMe={() => scrollToSection('contact')}
             shouldRenderScene={heroNear}
           />
         </section>

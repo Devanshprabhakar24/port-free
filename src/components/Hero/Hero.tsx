@@ -12,11 +12,10 @@ const HeroScene = lazy(() => import('./HeroScene'))
 type HeroProps = {
   mouse: MousePosition
   onViewProjects: () => void
-  onHireMe: () => void
   shouldRenderScene?: boolean
 }
 
-function Hero({ mouse, onViewProjects, onHireMe, shouldRenderScene = true }: HeroProps) {
+function Hero({ mouse, onViewProjects, shouldRenderScene = true }: HeroProps) {
   const isMobile = useIsMobile()
   const reducedMotion = usePrefersReducedMotion()
   const scrollProgress = useScrollProgress()

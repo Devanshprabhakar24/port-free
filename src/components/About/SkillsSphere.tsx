@@ -39,8 +39,8 @@ export default function SkillsSphere({
     base.y += (base.y - pointer.y) * influence * 0.08
 
     meshRef.current.position.lerp(base, 0.08)
-    const targetScale = hovered ? 1.35 : 1
-    meshRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.14)
+    // Always keep scale at 1 (no bigger on hover)
+    meshRef.current.scale.lerp(new THREE.Vector3(1, 1, 1), 0.14)
   })
 
   return (

@@ -217,6 +217,7 @@ function Navbar({ mouse, currentSection, onNavigate }: NavbarProps) {
               onClick={() => onNavigate('contact')}
               data-cursor-label="HIRE"
               className="rounded-full bg-linear-to-r from-[#7c3aed] to-[#ec4899] px-5 py-[8px] text-[12px] font-medium tracking-[0.03em] text-white shadow-[0_0_24px_rgba(124,58,237,0.28)] transition duration-200 hover:scale-[1.02]"
+            className="rounded-full bg-linear-to-r from-[#7c3aed] to-[#ec4899] px-8 py-[13px] text-[17px] font-semibold tracking-[0.03em] text-white shadow-[0_0_32px_rgba(124,58,237,0.32)] transition duration-200 hover:scale-[1.05]"
             >
               Let's Talk →
             </button>

@@ -114,7 +114,7 @@ function Hero({ mouse, onViewProjects, onHireMe, shouldRenderScene = true }: Her
           <button
             onClick={onViewProjects}
             data-cursor-label="VIEW"
-            className="group flex items-center gap-2 rounded-full border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] px-6 py-3 text-[13px] text-[#f1f5f9] backdrop-blur-[8px] transition-all duration-300 hover:border-[rgba(124,58,237,0.6)] hover:bg-[rgba(124,58,237,0.08)]"
+            className="group flex items-center gap-2 rounded-full border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] px-9 py-4 text-[17px] text-[#f1f5f9] backdrop-blur-[8px] transition-all duration-300 hover:border-[rgba(124,58,237,0.6)] hover:bg-[rgba(124,58,237,0.08)]"
           >
             View Projects
             <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -123,7 +123,7 @@ function Hero({ mouse, onViewProjects, onHireMe, shouldRenderScene = true }: Her
           <button
             onClick={onHireMe}
             data-cursor-label="HIRE"
-            className="rounded-full bg-linear-to-r from-[#7c3aed] to-[#ec4899] px-[28px] py-[12px] text-[13px] font-medium text-white shadow-[0_0_28px_rgba(124,58,237,0.45)] transition duration-300 hover:scale-[1.03] hover:shadow-[0_0_48px_rgba(124,58,237,0.7)]"
+            className="rounded-full bg-linear-to-r from-[#7c3aed] to-[#ec4899] px-[38px] py-[16px] text-[17px] font-semibold text-white shadow-[0_0_32px_rgba(124,58,237,0.45)] transition duration-300 hover:scale-[1.05] hover:shadow-[0_0_56px_rgba(124,58,237,0.7)]"
           >
             Start a Project
           </button>

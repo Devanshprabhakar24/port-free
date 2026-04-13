@@ -78,62 +78,39 @@ function Hero({ mouse, onViewProjects, onHireMe, shouldRenderScene = true }: Her
 
       <div className="relative z-10 flex min-h-screen items-center">
         <div className="w-full pl-[max(24px,5vw)] pr-6 pb-[60px] pt-[120px] md:pr-8 lg:max-w-[55%] lg:pr-0">
-        <div className="mb-[10px] font-mono text-[10px] tracking-[0.22em] text-[#64748b]">
-          Available for freelance work • Quick response • Open to projects
+          <div className="mb-[10px] font-mono text-[10px] tracking-[0.22em] text-[#64748b]">
+            Available for freelance work • Quick response • Open to projects
+          </div>
+
+          <div className="mb-[22px] h-px w-[50px] bg-[rgba(124,58,237,0.5)]" />
+
+          <h1 className="text-[clamp(38px,4.5vw,68px)] font-[900] leading-[1.05] tracking-[-0.02em] text-[#f1f5f9]">
+            I Build Web Apps That Help{' '}
+            <span
+              style={{
+                background: 'linear-gradient(110deg, #a78bfa 0%, #ec4899 55%, #fb923c 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundSize: '200% 200%',
+                animation: 'gradientShift 4s ease infinite',
+                display: 'inline-block',
+                fontFamily: 'inherit',
+                fontWeight: 'inherit',
+                fontSize: 'inherit',
+                lineHeight: 'inherit',
+                letterSpacing: 'inherit',
+              }}
+            >
+              Businesses Grow
+            </span>
+          </h1>
+
+          <p className="mb-[32px] mt-[22px] max-w-95 text-[17px] leading-[1.7] text-[#94a3b8]">
+            Full stack developer helping startups and businesses build fast, scalable, and reliable web applications.
+          </p>
+
+          {/* Trust line already included above. Remove extra fluff. */}
         </div>
-
-        <div className="mb-[22px] h-px w-[50px] bg-[rgba(124,58,237,0.5)]" />
-
-        <h1 className="text-[clamp(38px,4.5vw,68px)] font-[900] leading-[1.05] tracking-[-0.02em] text-[#f1f5f9]">
-          I Build Web Apps That Help{' '}
-          <span
-            style={{
-              background: 'linear-gradient(110deg, #a78bfa 0%, #ec4899 55%, #fb923c 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundSize: '200% 200%',
-              animation: 'gradientShift 4s ease infinite',
-              display: 'inline-block',
-              fontFamily: 'inherit',
-              fontWeight: 'inherit',
-              fontSize: 'inherit',
-              lineHeight: 'inherit',
-              letterSpacing: 'inherit',
-            }}
-          >
-            Businesses Grow
-          </span>
-        </h1>
-
-        <p className="mb-[32px] mt-[22px] max-w-95 text-[17px] leading-[1.7] text-[#94a3b8]">
-          Full stack developer helping startups and businesses build fast, scalable, and reliable web applications.
-        </p>
-
-        <motion.div
-          className="mb-[28px] flex flex-wrap items-center gap-[14px]"
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.75, duration: 0.55 }}
-        >
-          <button
-            onClick={onHireMe}
-            data-cursor-label="HIRE"
-            className="rounded-full bg-linear-to-r from-[#7c3aed] to-[#ec4899] px-[38px] py-[16px] text-[17px] font-semibold text-white shadow-[0_0_32px_rgba(124,58,237,0.45)] transition duration-300 hover:scale-[1.05] hover:shadow-[0_0_56px_rgba(124,58,237,0.7)]"
-          >
-            Hire Me
-          </button>
-          <button
-            onClick={onViewProjects}
-            data-cursor-label="VIEW"
-            className="group flex items-center gap-2 rounded-full border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] px-9 py-4 text-[17px] text-[#f1f5f9] backdrop-blur-[8px] transition-all duration-300 hover:border-[rgba(124,58,237,0.6)] hover:bg-[rgba(124,58,237,0.08)]"
-          >
-            View My Work
-            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-          </button>
-        </motion.div>
-
-        {/* Trust line already included above. Remove extra fluff. */}
-      </div>
       </div>
 
       <div className="pointer-events-none absolute right-6 top-20 z-20 hidden flex-col items-end gap-1 lg:flex">
@@ -151,7 +128,22 @@ function Hero({ mouse, onViewProjects, onHireMe, shouldRenderScene = true }: Her
         </div>
       </div>
 
-      <div className="pointer-events-none absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-2">
+      <div className="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-4">
+        <motion.div
+          className="flex flex-col items-center gap-[14px]"
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.75, duration: 0.55 }}
+        >
+          <button
+            onClick={onViewProjects}
+            data-cursor-label="VIEW"
+            className="group flex items-center gap-2 rounded-full border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,237,0.04)] px-10 py-[18px] text-[18px] text-[#f1f5f9] backdrop-blur-[8px] transition-all duration-300 hover:border-[rgba(124,58,237,0.6)] hover:bg-[rgba(124,58,237,0.08)]"
+          >
+            View My Work
+            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+          </button>
+        </motion.div>
         <div className="h-10 w-px bg-gradient-to-b from-transparent via-[rgba(124,58,237,0.5)] to-transparent" />
         <div className="relative h-6 w-[11px] overflow-hidden rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.08)] px-[5px] py-1">
           <div className="absolute left-1/2 top-1 h-1.5 w-[3px] -translate-x-1/2 rounded-full bg-[rgba(124,58,237,0.9)]" style={{ animation: 'scrollbounce 1.4s ease-in-out infinite' }} />

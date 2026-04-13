@@ -474,11 +474,17 @@ function HeroScene({ mouse }: { mouse: MousePosition }) {
   const idle = !reducedMotion
   const isLowGPU = (gpu?.tier ?? 2) <= 1
 
+  // Mobile optimization: reduced particle counts and simplified effects
+  const nearStarCount = isMobile ? 300 : NEAR_STAR_COUNT
+  const midStarCount = isMobile ? 400 : MID_STAR_COUNT
+  const farStarCount = isMobile ? 300 : FAR_STAR_COUNT
+  const asteroidCount = isMobile ? 0 : ASTEROID_COUNT
+
   return (
     <Canvas
       camera={{ position: [0, 0, 4.65], fov: 58 }}
-      dpr={[1, isMobile ? 1.5 : Math.min(window.devicePixelRatio, 2)]}
-      gl={{ antialias: true, alpha: true }}
+      dpr={[1, isMobile ? 1 : Math.min(window.devicePixelRatio, 2)]}
+      gl={{ antialias: !isMobile, alpha: true }}
       onCreated={({ gl }) => {
         gl.setClearColor(new THREE.Color('#03010a'), 1)
         gl.toneMapping = THREE.ACESFilmicToneMapping
@@ -487,21 +493,21 @@ function HeroScene({ mouse }: { mouse: MousePosition }) {
       className="h-full w-full"
     >
       <fogExp2 attach="fog" args={['#07070d', 0.065]} />
-      <ambientLight color="#0a0520" intensity={isLowGPU ? 0.44 : 0.26} />
-      <pointLight position={[3.8, 3.6, 2.4]} intensity={8.5} color="#7c3aed" distance={14} />
-      <pointLight position={[-2.4, -2.6, 1.6]} intensity={3.6} color="#ec4899" distance={9} />
-      <pointLight position={[0, 8, -4]} color="#3b82f6" intensity={5.8} distance={110} />
-      <pointLight position={[-8, 0, 2]} color="#7c3aed" intensity={2.5} distance={90} />
-      <directionalLight position={[4, 2, -2]} intensity={1.6} color="#ec4899" />
+      <ambientLight color="#0a0520" intensity={isLowGPU || isMobile ? 0.44 : 0.26} />
+      <pointLight position={[3.8, 3.6, 2.4]} intensity={isMobile ? 4 : 8.5} color="#7c3aed" distance={14} />
+      <pointLight position={[-2.4, -2.6, 1.6]} intensity={isMobile ? 2 : 3.6} color="#ec4899" distance={9} />
+      <pointLight position={[0, 8, -4]} color="#3b82f6" intensity={isMobile ? 3 : 5.8} distance={110} />
+      <pointLight position={[-8, 0, 2]} color="#7c3aed" intensity={isMobile ? 1.5 : 2.5} distance={90} />
+      <directionalLight position={[4, 2, -2]} intensity={isMobile ? 1 : 1.6} color="#ec4899" />
       <CameraRig mouse={mouse} idle={idle}>
         <DistortedSphere mouse={mouse} idle={idle} />
-        <StarLayer count={NEAR_STAR_COUNT} size={1.5} color="#ffffff" opacity={0.85} driftSpeed={0.00008} rotationSpeed={0.01} />
-        <StarLayer count={MID_STAR_COUNT} size={0.8} color="#a5b4fc" opacity={0.55} driftSpeed={0.00012} rotationSpeed={0.018} />
-        <StarLayer count={FAR_STAR_COUNT} size={0.4} color="#ffffff" opacity={0.3} driftSpeed={0.00004} rotationSpeed={0.004} />
-        <ShootingStars />
-        <NebulaClouds />
+        <StarLayer count={nearStarCount} size={1.5} color="#ffffff" opacity={0.85} driftSpeed={0.00008} rotationSpeed={0.01} />
+        <StarLayer count={midStarCount} size={0.8} color="#a5b4fc" opacity={0.55} driftSpeed={0.00012} rotationSpeed={isMobile ? 0.008 : 0.018} />
+        <StarLayer count={farStarCount} size={0.4} color="#ffffff" opacity={0.3} driftSpeed={0.00004} rotationSpeed={isMobile ? 0.002 : 0.004} />
+        {!isMobile && <ShootingStars />}
+        {!isMobile && <NebulaClouds />}
         <PlanetAndRing />
-        <AsteroidBelt />
+        {asteroidCount > 0 && <AsteroidBelt />}
       </CameraRig>
     </Canvas>
   )

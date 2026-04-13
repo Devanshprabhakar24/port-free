@@ -302,8 +302,12 @@ function PlanetSystem() {
 
   if (isMobile) {
     return (
-      <div className="pointer-events-none fixed inset-0 z-[5] overflow-hidden">
-        <div className="mobile-gradient-animated absolute inset-0 opacity-70" />
+      <div className="mobile-planet-system">
+        <div className="mobile-planet-glow mobile-glow-1" />
+        <div className="mobile-planet-glow mobile-glow-2" />
+        <div className="mobile-planet mobile-planet-1" />
+        <div className="mobile-planet mobile-planet-2" />
+        <div className="mobile-planet mobile-planet-3" />
       </div>
     )
   }

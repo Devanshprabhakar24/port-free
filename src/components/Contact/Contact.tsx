@@ -2,7 +2,6 @@ import { Canvas } from '@react-three/fiber'
 import gsap from 'gsap'
 import { motion } from 'framer-motion'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { FormEvent } from 'react'
 import { useIsMobile } from '../../hooks/useIsMobile'
 import type { MousePosition } from '../../hooks/useMousePosition'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
@@ -33,6 +32,13 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
   const particleWrapRef = useRef<HTMLDivElement>(null)
   const [starSweepTick, setStarSweepTick] = useState(0)
   const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  })
 
   const runBurst = useCallback(() => {
     const root = particleWrapRef.current
@@ -65,11 +71,35 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
     })
   }, [reducedMotion])
 
-  const onSubmit = useCallback((event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    runBurst()
-    setSubmitted(true)
-  }, [runBurst])
+    setLoading(true)
+    setError(null)
+
+    try {
+      const response = await fetch('http://localhost:5000/api/contact/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to send message')
+      }
+
+      runBurst()
+      setSubmitted(true)
+      setFormData({ name: '', email: '', message: '' })
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to send message')
+    } finally {
+      setLoading(false)
+    }
+  }, [formData, runBurst])
 
   useEffect(() => {
     if (reducedMotion) {
@@ -283,6 +313,8 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
                   <input
                     className="w-full rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] px-4 py-3.5 text-[15px] text-white placeholder-slate-500 backdrop-blur-sm transition-all duration-300 focus:border-violet-400/50 focus:bg-white/[0.08] focus:outline-none focus:ring-2 focus:ring-violet-400/20"
                     placeholder="Your name"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     required
                   />
                 </div>
@@ -295,6 +327,8 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
                     className="w-full rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] px-4 py-3.5 text-[15px] text-white placeholder-slate-500 backdrop-blur-sm transition-all duration-300 focus:border-violet-400/50 focus:bg-white/[0.08] focus:outline-none focus:ring-2 focus:ring-violet-400/20"
                     type="email"
                     placeholder="dev24prabhakar@gmail.com"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     required
                   />
                 </div>
@@ -306,9 +340,22 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
                   <textarea
                     className="h-36 w-full resize-none rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] px-4 py-3.5 text-[15px] text-white placeholder-slate-500 backdrop-blur-sm transition-all duration-300 focus:border-violet-400/50 focus:bg-white/[0.08] focus:outline-none focus:ring-2 focus:ring-violet-400/20"
                     placeholder="Tell me about your project, budget, and timeline..."
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     required
                   />
                 </div>
+
+                {error && (
+                  <motion.p 
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center gap-2 rounded-lg border border-red-400/30 bg-red-500/10 px-4 py-3 font-mono text-[12px] font-medium uppercase tracking-[0.16em] text-red-400"
+                  >
+                    <span className="h-2 w-2 rounded-full bg-red-400" />
+                    {error}
+                  </motion.p>
+                )}
 
                 {submitted ? (
                   <motion.p 
@@ -325,13 +372,16 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
                 <div className="relative pt-2">
                   <button
                     type="submit"
-                    className="group relative w-full overflow-hidden rounded-xl border border-white/20 bg-gradient-to-r from-violet-600 via-pink-600 to-orange-500 px-6 py-4 font-semibold text-white shadow-[0_8px_32px_rgba(124,58,237,0.4)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_12px_40px_rgba(124,58,237,0.5)] active:scale-[0.98]"
+                    disabled={loading}
+                    className="group relative w-full overflow-hidden rounded-xl border border-white/20 bg-gradient-to-r from-violet-600 via-pink-600 to-orange-500 px-6 py-4 font-semibold text-white shadow-[0_8px_32px_rgba(124,58,237,0.4)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_12px_40px_rgba(124,58,237,0.5)] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <span className="relative z-10 flex items-center justify-center gap-2 text-[16px]">
-                      Start Your Project
-                      <svg className="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                      </svg>
+                      {loading ? 'Sending...' : 'Start Your Project'}
+                      {!loading && (
+                        <svg className="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                      )}
                     </span>
                     <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
                   </button>

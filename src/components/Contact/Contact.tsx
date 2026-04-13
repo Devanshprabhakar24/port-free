@@ -149,12 +149,12 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
           <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
             <div className="space-y-7">
               <div className="inline-flex rounded-full border border-violet-300/35 bg-violet-500/10 px-4 py-1.5 text-[11px] uppercase tracking-[0.22em] text-violet-200">
-                Let's Build Something
+                Start a Project
               </div>
 
               <div>
                 <h2 className="font-mono text-2xl uppercase tracking-[0.15em] text-white md:text-3xl">
-                  Ready When You Are
+                  Let's Build Something That Matters
                 </h2>
                 <p className="mt-4 max-w-xl text-[1.02rem] italic leading-relaxed text-slate-400">
                   Tell me about your project. I'll respond within 24 hours with a clear plan and honest estimate.
@@ -266,7 +266,7 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
                   <label className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#7c3aed]">NAME &gt;</label>
                   <input
                     className="mt-2 w-full rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] px-4 py-3 text-[14px] text-[#f1f5f9] placeholder-[#334155] backdrop-blur-sm transition-all duration-200 focus:border-[rgba(124,58,237,0.5)] focus:bg-[rgba(124,58,237,0.04)] focus:outline-none focus:ring-1 focus:ring-[rgba(124,58,237,0.3)]"
-                    placeholder="e.g. Rahul Sharma"
+                    placeholder="Your name"
                     required
                   />
                 </div>
@@ -302,7 +302,7 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
                     type="submit"
                     className="btn-primary group relative w-full overflow-hidden px-4 py-3.5 font-semibold text-white"
                   >
-                    <span className="relative z-10">Send Message →</span>
+                    <span className="relative z-10">Send Request →</span>
                     <span className="submit-shimmer absolute inset-0 -translate-x-[140%] bg-[linear-gradient(115deg,transparent_30%,rgba(255,255,255,0.35)_50%,transparent_70%)] transition-transform duration-700 group-hover:translate-x-[140%]" />
                   </button>
                   <div ref={particleWrapRef} className="pointer-events-none absolute inset-0 flex items-center justify-center gap-2">
@@ -313,7 +313,7 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
                 </div>
 
                 <p className="pt-2 font-mono text-[10px] tracking-[0.12em] text-[#334155]">
-                  No commitment. No spam. Just a conversation.
+                  No spam. Just real conversations.
                 </p>
 
                 <div className="pt-3">

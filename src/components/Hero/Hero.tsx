@@ -98,11 +98,11 @@ function Hero({ mouse, onViewProjects, onHireMe, shouldRenderScene = true }: Her
             animation: 'gradientShift 4s ease infinite',
           }}
         >
-          Close Deals.
+          Turn Ideas Into Revenue.
         </h1>
 
         <p className="mb-[32px] mt-[22px] max-w-95 text-[14px] leading-[1.7] text-[#94a3b8]">
-          I build the digital products that turn first-time visitors into paying customers — fast, premium, and built to last.
+          I build fast, scalable web applications with modern UI and powerful backend systems that convert users into customers.
         </p>
 
         <motion.div
@@ -116,7 +116,7 @@ function Hero({ mouse, onViewProjects, onHireMe, shouldRenderScene = true }: Her
             data-cursor-label="VIEW"
             className="group flex items-center gap-2 rounded-full border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] px-6 py-3 text-[13px] text-[#f1f5f9] backdrop-blur-[8px] transition-all duration-300 hover:border-[rgba(124,58,237,0.6)] hover:bg-[rgba(124,58,237,0.08)]"
           >
-            See My Work
+            View Projects
             <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
           </button>
 
@@ -135,10 +135,10 @@ function Hero({ mouse, onViewProjects, onHireMe, shouldRenderScene = true }: Her
               className="h-[7px] w-[7px] rounded-full bg-emerald-400"
               style={{ boxShadow: '0 0 8px rgba(34,197,94,0.9)', animation: 'pulse 2s ease-in-out infinite' }}
             />
-            <span className="font-mono text-[10px] text-emerald-400 tracking-[0.16em]">OPEN TO PROJECTS</span>
+            <span className="font-mono text-[10px] text-emerald-400 tracking-[0.16em]">AVAILABLE FOR FREELANCE</span>
           </div>
           <span className="font-mono text-[10px] text-[rgba(71,85,105,0.5)]">·</span>
-          <span className="font-mono text-[10px] text-[#475569]">30+ products shipped</span>
+          <span className="font-mono text-[10px] text-[#475569]">30+ projects delivered</span>
           <span className="font-mono text-[10px] text-[rgba(71,85,105,0.5)]">·</span>
           <span className="font-mono text-[10px] text-[#475569]">4 yrs experience</span>
         </div>

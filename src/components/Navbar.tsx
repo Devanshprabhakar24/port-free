@@ -62,7 +62,7 @@ export default function Navbar({ activeSection, onNavigate }: NavbarProps) {
               className="relative rounded-full border border-fuchsia-300/60 bg-fuchsia-400/10 px-5 py-2 text-sm font-semibold text-white"
             >
               <span className="absolute inset-0 animate-pulse rounded-full border border-fuchsia-300/40" />
-              <span className="relative">Hire Me</span>
+              <span className="relative">Start a Project</span>
             </button>
           </div>
 

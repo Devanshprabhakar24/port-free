@@ -13,21 +13,21 @@ type Project = {
 
 const projects: Project[] = [
   {
-    title: 'Luxe Commerce',
-    stack: 'React, Node.js, Stripe',
-    summary: 'Premium e-commerce architecture with conversion-first UX.',
+    title: 'MyLaundry',
+    stack: 'React, Node.js, MongoDB',
+    summary: 'Full-stack laundry management with real-time tracking and admin dashboard.',
     url: 'https://github.com',
   },
   {
-    title: 'Realtime Ops',
-    stack: 'TypeScript, Redis, WebSockets',
-    summary: 'Live operations dashboard with instant data pipelines.',
+    title: 'ZTUBE',
+    stack: 'TypeScript, Next.js, Cloud Storage',
+    summary: 'Video-sharing SaaS with upload, compression, and media management.',
     url: 'https://github.com',
   },
   {
     title: 'SaaS Command',
     stack: 'Next.js, Prisma, PostgreSQL',
-    summary: 'Multi-tenant admin suite with robust auth and billing.',
+    summary: 'Multi-tenant admin suite with auth, billing, and role management.',
     url: 'https://github.com',
   },
 ]

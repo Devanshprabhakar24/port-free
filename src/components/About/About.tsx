@@ -19,9 +19,9 @@ type StatItem = {
 
 const STATS: StatItem[] = [
   { coordinate: '[04] YEARS', target: 4, suffix: '+', shortLabel: 'YEARS', label: 'Experience' },
-  { coordinate: '[30] PROJ', target: 30, suffix: '+', shortLabel: 'PROJ', label: 'Projects' },
-  { coordinate: '[15] CLI', target: 15, suffix: '', shortLabel: 'CLI', label: 'Happy Clients' },
-  { coordinate: '[99] SAT', target: 99, suffix: '%', shortLabel: 'SAT', label: 'Satisfaction Rate' },
+  { coordinate: '[30] PROJ', target: 30, suffix: '+', shortLabel: 'PROJ', label: 'Projects Delivered' },
+  { coordinate: '[15] CLI', target: 15, suffix: '+', shortLabel: 'CLI', label: 'Clients Served' },
+  { coordinate: '[99] SAT', target: 99, suffix: '%', shortLabel: 'SAT', label: 'Client Satisfaction' },
 ]
 
 function About({ mouse: _mouse, shouldRenderScene = true }: { mouse: MousePosition; shouldRenderScene?: boolean }) {
@@ -157,20 +157,20 @@ function About({ mouse: _mouse, shouldRenderScene = true }: { mouse: MousePositi
               WebkitTextFillColor: 'transparent',
             }}
           >
-            You Get
+            You Don't Just Get Code —
             <br />
-            Results.
+            You Get Results.
           </h2>
 
           <p className="mb-10 max-w-md border-l-2 border-[rgba(124,58,237,0.4)] pl-5 text-[15px] leading-[1.9] text-[#64748b]">
-            I take your idea from a rough brief to a <span className="text-[#94a3b8]">live, polished product</span> that impresses investors, converts users, and holds up under real-world load. Every project I ship is <span className="text-[#94a3b8]">production-grade from day one</span> — not refactored later.
+            I take your idea from concept to a <span className="text-[#94a3b8]">production-ready product</span> that performs in real-world conditions. Every system I build is designed for <span className="text-[#94a3b8]">scalability, performance, and long-term use</span>.
           </p>
 
           <div className="mb-8 space-y-2.5">
             {[
-              'Clean, documented code you actually own',
-              'Weekly updates — no radio silence',
-              'Post-launch support for 30 days',
+              'Clean, maintainable, and scalable code',
+              'Regular updates and clear communication',
+              'Post-delivery support included',
             ].map((item) => (
               <div key={item} className="flex items-start gap-3">
                 <span className="mt-0.75 h-3.5 w-3.5 shrink-0 rounded-full border border-[rgba(124,58,237,0.5)] flex items-center justify-center">

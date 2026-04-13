@@ -59,24 +59,24 @@ function App() {
           <div className="relative min-h-screen px-6 pb-8 pt-24 lg:px-[48px]">
             <div className="mx-auto mb-8 grid w-full max-w-7xl gap-6 lg:grid-cols-[1.25fr_0.75fr]">
               <div className="rounded-[28px] border border-white/10 bg-white/3 p-8 backdrop-blur-xl">
-                <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.22em] text-[#7c3aed]">SYSTEM DASHBOARD</p>
+                <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.22em] text-[#7c3aed]">SERVICES</p>
                 <h2 className="max-w-2xl text-[clamp(34px,3.4vw,56px)] font-black leading-[0.95] tracking-[-0.03em] text-white">
-                  A calmer cockpit for modern product delivery.
+                  What I Can Build For You.
                 </h2>
                 <p className="mt-6 max-w-xl text-[15px] leading-[1.8] text-slate-300">
-                  This control layer remains in the same universe while you scroll deeper into projects.
+                  From full-stack web apps to secure APIs and admin dashboards — production-ready systems built for scale.
                 </p>
               </div>
 
               <div className="grid gap-4">
                 {[
-                  ['Latency', '12ms'],
-                  ['Motion', 'Smooth'],
-                  ['Theme', 'Nebula'],
+                  ['Full Stack Apps', 'Frontend, backend, and database — end to end'],
+                  ['API Development', 'Secure, scalable APIs for any platform'],
+                  ['Admin Dashboards', 'Analytics, controls, and real-time data'],
                 ].map(([label, value]) => (
                   <div key={label} className="rounded-[24px] border border-white/10 bg-white/3 p-6 backdrop-blur-xl">
                     <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-slate-500">{label}</div>
-                    <div className="mt-3 text-3xl font-black text-white">{value}</div>
+                    <div className="mt-3 text-lg font-semibold text-white">{value}</div>
                   </div>
                 ))}
               </div>

@@ -44,14 +44,14 @@ const FONT_URL = 'https://threejs.org/examples/fonts/helvetiker_regular.typeface
 const PROJECTS: ProjectItem[] = [
   {
     id: 'p1',
-    name: 'Luxe Commerce',
-    stacks: ['React', 'Node', 'Stripe'],
+    name: 'MyLaundry',
+    stacks: ['React', 'Node', 'MongoDB'],
     gradient: ['#7c3aed', '#ec4899'],
   },
   {
     id: 'p2',
-    name: 'Realtime Ops',
-    stacks: ['TypeScript', 'Redis', 'WS'],
+    name: 'ZTUBE',
+    stacks: ['TypeScript', 'Next.js', 'Cloud'],
     gradient: ['#4f46e5', '#22d3ee'],
   },
   {
@@ -63,7 +63,7 @@ const PROJECTS: ProjectItem[] = [
   {
     id: 'p4',
     name: 'Insight Studio',
-    stacks: ['Next', 'R3F', 'GSAP'],
+    stacks: ['Three.js', 'GSAP', 'API'],
     gradient: ['#8b5cf6', '#14b8a6'],
   },
 ]
@@ -102,7 +102,7 @@ const createGradientTexture = (start: string, end: string, label: string) => {
 
   ctx.font = '34px Cabinet Grotesk, sans-serif'
   ctx.fillStyle = 'rgba(248,250,252,0.9)'
-  ctx.fillText('Cinematic Full Stack Experience', 94, 252)
+  ctx.fillText('Production-Ready Full Stack Build', 94, 252)
 
   const texture = new THREE.CanvasTexture(canvas)
   texture.colorSpace = THREE.SRGBColorSpace

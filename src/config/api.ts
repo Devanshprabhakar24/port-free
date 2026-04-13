@@ -4,9 +4,9 @@
 const isProduction = import.meta.env.PROD
 
 export const API_CONFIG = {
-  // Update this with your Render backend URL after deployment
+  // Production backend URL
   BACKEND_URL: isProduction 
-    ? 'https://port-free.onrender.com' // Your Render backend URL
+    ? 'https://port-free.onrender.com'
     : 'http://localhost:5000',
   
   ENDPOINTS: {

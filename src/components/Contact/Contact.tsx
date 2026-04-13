@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useIsMobile } from '../../hooks/useIsMobile'
 import type { MousePosition } from '../../hooks/useMousePosition'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
+import { CONTACT_API_URL } from '../../config/api'
 import TerrainBackground from './TerrainBackground'
 
 const CONSTELLATION_POINTS = [
@@ -77,7 +78,7 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
     setError(null)
 
     try {
-      const response = await fetch('http://localhost:5000/api/contact/submit', {
+      const response = await fetch(CONTACT_API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

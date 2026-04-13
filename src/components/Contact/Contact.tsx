@@ -89,13 +89,18 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.message || 'Failed to send message')
+        // Show specific validation errors if available
+        const errorMessage = data.errors 
+          ? data.errors.join(', ') 
+          : data.message || 'Failed to send message'
+        throw new Error(errorMessage)
       }
 
       runBurst()
       setSubmitted(true)
       setFormData({ name: '', email: '', message: '' })
     } catch (err) {
+      console.error('Contact form error:', err)
       setError(err instanceof Error ? err.message : 'Failed to send message')
     } finally {
       setLoading(false)

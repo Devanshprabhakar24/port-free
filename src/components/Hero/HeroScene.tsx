@@ -464,7 +464,7 @@ function CameraRig({
     groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, mouse.smoothX * 0.2 + drift, 0.05)
   })
 
-  return <group ref={groupRef} position={[0.12, 0.02, 0]}>{children}</group>
+  return <group ref={groupRef} position={[-0.8, 0.02, 0]}>{children}</group>
 }
 
 function HeroScene({ mouse }: { mouse: MousePosition }) {

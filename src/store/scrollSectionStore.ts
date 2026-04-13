@@ -1,11 +1,11 @@
 import { create } from 'zustand'
 import { subscribeWithSelector } from 'zustand/middleware'
 
-export type SectionId = 'hero' | 'about' | 'projects' | 'contact'
+export type SectionId = 'hero' | 'about' | 'services' | 'projects' | 'contact'
 export type VelocityBand = 'slow' | 'medium' | 'fast'
 export type ScrollDirection = 'down' | 'up'
 
-const SECTION_ORDER: SectionId[] = ['hero', 'about', 'projects', 'contact']
+const SECTION_ORDER: SectionId[] = ['hero', 'about', 'services', 'projects', 'contact']
 
 type ScrollSectionState = {
   currentSection: SectionId

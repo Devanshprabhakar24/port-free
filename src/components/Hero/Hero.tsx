@@ -80,7 +80,7 @@ function Hero({ mouse, onViewProjects, shouldRenderScene = true }: HeroProps) {
           <div className="mb-[18px] h-px w-[40px] bg-[rgba(124,58,237,0.5)] md:mb-[22px] md:w-[50px]" />
 
           <h1 className="text-[clamp(32px,8vw,68px)] font-[900] leading-[1.1] tracking-[-0.02em] text-[#f1f5f9] md:text-[clamp(38px,4.5vw,68px)] md:leading-[1.05]">
-            I Build Web Apps That Help{' '}
+            I Build Web Apps That{' '}
             <span
               style={{
                 background: 'linear-gradient(110deg, #a78bfa 0%, #ec4899 55%, #fb923c 100%)',
@@ -88,7 +88,7 @@ function Hero({ mouse, onViewProjects, shouldRenderScene = true }: HeroProps) {
                 WebkitTextFillColor: 'transparent',
                 backgroundSize: '200% 200%',
                 animation: 'gradientShift 4s ease infinite',
-                display: 'inline-block',
+                display: 'block',
                 fontFamily: 'inherit',
                 fontWeight: 'inherit',
                 fontSize: 'inherit',
@@ -96,7 +96,7 @@ function Hero({ mouse, onViewProjects, shouldRenderScene = true }: HeroProps) {
                 letterSpacing: 'inherit',
               }}
             >
-              Businesses Grow
+              Help Businesses Grow
             </span>
           </h1>
 

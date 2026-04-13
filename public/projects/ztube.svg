@@ -1,0 +1,104 @@
+<svg width="800" height="500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="darkBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1d29;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f1117;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="500" fill="url(#darkBg)"/>
+  
+  <!-- Sidebar -->
+  <rect width="160" height="500" fill="#0f1117"/>
+  
+  <!-- Logo -->
+  <rect x="20" y="20" width="40" height="40" rx="8" fill="#3b82f6"/>
+  <text x="40" y="45" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#ffffff" text-anchor="middle">Z</text>
+  
+  <!-- Sidebar Menu -->
+  <g opacity="0.8">
+    <rect x="20" y="80" width="20" height="20" fill="#6b7280"/>
+    <text x="50" y="95" font-family="Arial, sans-serif" font-size="12" fill="#9ca3af">Home Page</text>
+    
+    <rect x="20" y="120" width="20" height="20" fill="#6b7280"/>
+    <text x="50" y="135" font-family="Arial, sans-serif" font-size="12" fill="#9ca3af">Social Share</text>
+    
+    <rect x="20" y="160" width="20" height="20" fill="#6b7280"/>
+    <text x="50" y="175" font-family="Arial, sans-serif" font-size="12" fill="#9ca3af">Video Upload</text>
+  </g>
+  
+  <!-- Sign Out Button -->
+  <rect x="20" y="450" width="120" height="35" rx="5" fill="none" stroke="#ef4444" stroke-width="2"/>
+  <text x="80" y="472" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ef4444" text-anchor="middle">Sign Out</text>
+  
+  <!-- Main Content Area -->
+  <!-- Header -->
+  <text x="200" y="50" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#ffffff">Cloudinary Showcase</text>
+  
+  <!-- User Info -->
+  <circle cx="720" cy="35" r="18" fill="#3b82f6"/>
+  <text x="750" y="40" font-family="Arial, sans-serif" font-size="12" fill="#9ca3af">dev24prabhakar@gmail.com</text>
+  
+  <!-- Videos Section Title -->
+  <text x="200" y="100" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#ffffff">Videos</text>
+  
+  <!-- Video Card 1 -->
+  <rect x="200" y="120" width="240" height="180" rx="8" fill="#1f2937"/>
+  
+  <!-- Video Thumbnail -->
+  <rect x="200" y="120" width="240" height="135" rx="8" fill="#374151"/>
+  <text x="320" y="180" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#ef4444" text-anchor="middle">AFFECTING</text>
+  <text x="320" y="200" font-family="Arial, sans-serif" font-size="12" fill="#ef4444" text-anchor="middle">DEMOCRACY</text>
+  
+  <!-- Play Button -->
+  <circle cx="320" cy="187" r="25" fill="rgba(255,255,255,0.9)"/>
+  <polygon points="315,177 315,197 330,187" fill="#1f2937"/>
+  
+  <!-- Duration -->
+  <rect x="405" y="235" width="30" height="16" rx="3" fill="#000000" opacity="0.7"/>
+  <text x="420" y="246" font-family="Arial, sans-serif" font-size="10" fill="#ffffff" text-anchor="middle">0:25</text>
+  
+  <!-- Video Info -->
+  <text x="210" y="275" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#ffffff">yt</text>
+  <text x="210" y="292" font-family="Arial, sans-serif" font-size="10" fill="#6b7280">Uploaded 2 months ago</text>
+  
+  <!-- File Size Info -->
+  <rect x="200" y="305" width="110" height="50" rx="5" fill="#111827"/>
+  <text x="210" y="322" font-family="Arial, sans-serif" font-size="9" fill="#9ca3af">Original</text>
+  <text x="210" y="335" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#ffffff">4.22 MB</text>
+  <text x="210" y="348" font-family="Arial, sans-serif" font-size="9" fill="#9ca3af">Compressed</text>
+  
+  <!-- Compression Badge -->
+  <rect x="200" y="360" width="80" height="20" rx="3" fill="#065f46"/>
+  <text x="240" y="373" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#10b981" text-anchor="middle">Compression: 0%</text>
+  
+  <!-- Action Buttons -->
+  <circle cx="360" cy="370" r="15" fill="#ef4444"/>
+  <circle cx="390" cy="370" r="15" fill="#3b82f6"/>
+  <rect x="410" y="360" width="50" height="25" rx="5" fill="#ef4444"/>
+  <text x="435" y="376" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="middle">Delete</text>
+  
+  <!-- Video Card 2 -->
+  <rect x="460" y="120" width="240" height="180" rx="8" fill="#1f2937"/>
+  
+  <!-- Video Thumbnail 2 -->
+  <rect x="460" y="120" width="240" height="135" rx="8" fill="#78350f"/>
+  
+  <!-- Play Button 2 -->
+  <circle cx="580" cy="187" r="25" fill="rgba(255,255,255,0.9)"/>
+  <polygon points="575,177 575,197 590,187" fill="#1f2937"/>
+  
+  <!-- Duration 2 -->
+  <rect x="665" y="235" width="30" height="16" rx="3" fill="#000000" opacity="0.7"/>
+  <text x="680" y="246" font-family="Arial, sans-serif" font-size="10" fill="#ffffff" text-anchor="middle">1:05</text>
+  
+  <!-- Video Info 2 -->
+  <text x="470" y="275" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#ffffff">video</text>
+  <text x="470" y="292" font-family="Arial, sans-serif" font-size="10" fill="#6b7280">Uploaded 3 months ago</text>
+  
+  <!-- Decorative Elements -->
+  <circle cx="750" cy="450" r="3" fill="#3b82f6" opacity="0.3"/>
+  <circle cx="230" cy="480" r="2" fill="#ec4899" opacity="0.3"/>
+  <circle cx="650" cy="470" r="2" fill="#8b5cf6" opacity="0.3"/>
+</svg>

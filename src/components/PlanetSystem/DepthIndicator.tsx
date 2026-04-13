@@ -26,7 +26,7 @@ function calcDepths(): Record<SectionId, number> {
 function DepthIndicator() {
   const isMobile = useIsMobile()
   const [visible, setVisible] = useState(false)
-  const [depths, setDepths] = useState<Record<SectionId, number>>({ hero: 1, about: 0, projects: 0, contact: 0 })
+  const [depths, setDepths] = useState<Record<SectionId, number>>({ hero: 1, about: 0, services: 0, projects: 0, contact: 0 })
 
   useEffect(() => {
     const t = window.setTimeout(() => setVisible(true), 2000)

@@ -71,12 +71,6 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
     setSubmitted(true)
   }, [runBurst])
 
-  const socialLinks = [
-    { label: 'GitHub', href: 'https://github.com/yourhandle' },
-    { label: 'LinkedIn', href: 'https://linkedin.com/in/yourhandle' },
-    { label: 'Email Me', href: 'mailto:your@email.com' },
-  ]
-
   useEffect(() => {
     if (reducedMotion) {
       return
@@ -148,61 +142,80 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
         <div className="premium-surface rounded-3xl p-8 md:p-10 lg:p-14">
           <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
             <div className="space-y-7">
-              <div className="inline-flex rounded-full border border-violet-300/35 bg-violet-500/10 px-4 py-1.5 text-[11px] uppercase tracking-[0.22em] text-violet-200">
-                Start a Project
+              <div className="inline-flex items-center gap-2 rounded-full border border-violet-300/35 bg-violet-500/10 px-4 py-2 backdrop-blur-sm">
+                <span className="h-2 w-2 animate-pulse rounded-full bg-violet-400 shadow-[0_0_8px_rgba(167,139,250,0.8)]" />
+                <span className="text-[11px] font-medium uppercase tracking-[0.22em] text-violet-200">Start a Project</span>
               </div>
 
               <div>
-                <h2 className="font-mono text-2xl uppercase tracking-[0.15em] text-white md:text-3xl">
-                  Let's Build Something That Matters
+                <h2 className="bg-gradient-to-r from-white via-violet-100 to-pink-100 bg-clip-text font-mono text-[clamp(24px,2.8vw,42px)] font-bold uppercase leading-[1.3] tracking-[0.12em] text-transparent md:text-[clamp(28px,3.2vw,48px)]">
+                  Have a Project in Mind?
                 </h2>
-                <p className="mt-4 max-w-xl text-[1.02rem] italic leading-relaxed text-slate-400">
-                  Tell me about your project. I'll respond within 24 hours with a clear plan and honest estimate.
+                <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-slate-300 md:text-[16px]">
+                  Send me your idea and I'll reply within 24 hours with a clear plan and honest estimate.
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 gap-3 sm:max-w-md">
-                <div className="rounded-2xl border border-white/10 bg-white/3 px-4 py-4">
-                  <div className="text-[11px] uppercase tracking-[0.16em] text-slate-400">Response Time</div>
-                  <div className="mt-1 font-display text-2xl text-white">24h</div>
+              <div className="grid grid-cols-2 gap-4 sm:max-w-md">
+                <div className="group rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] p-5 backdrop-blur-sm transition-all duration-300 hover:border-violet-400/30 hover:bg-white/[0.08]">
+                  <div className="mb-2 text-[10px] font-medium uppercase tracking-[0.18em] text-violet-400">Response Time</div>
+                  <div className="font-display text-3xl font-bold text-white">24h</div>
+                  <div className="mt-1 h-1 w-12 rounded-full bg-gradient-to-r from-violet-500 to-pink-500" />
                 </div>
-                <div className="rounded-2xl border border-white/10 bg-white/3 px-4 py-4">
-                  <div className="text-[11px] uppercase tracking-[0.16em] text-slate-400">Availability</div>
-                  <div className="mt-1 flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(34,197,94,0.8)]" />
-                    <span className="font-display text-xl text-white">Now Open</span>
+                <div className="group rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] p-5 backdrop-blur-sm transition-all duration-300 hover:border-emerald-400/30 hover:bg-white/[0.08]">
+                  <div className="mb-2 text-[10px] font-medium uppercase tracking-[0.18em] text-emerald-400">Status</div>
+                  <div className="flex items-center gap-2">
+                    <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(34,197,94,0.8)]" />
+                    <span className="font-display text-xl font-semibold text-white">Available</span>
                   </div>
+                  <div className="mt-1 h-1 w-12 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500" />
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center gap-4">
-                <a
-                  href="mailto:your@email.com"
-                  className="btn-glass px-5 py-2 text-sm text-white"
-                >
-                  your@email.com
-                </a>
-                <a
-                  href="https://wa.me/919999999999"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn-glass px-5 py-2 text-sm text-white"
-                >
-                  WhatsApp / +91 99999 99999
-                </a>
+              <div className="space-y-3">
+                <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-slate-400">Quick Contact</p>
+                <div className="flex flex-wrap gap-3">
+                  <a
+                    href="mailto:dev24prabhakar@gmail.com"
+                    className="group flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-5 py-2.5 text-sm font-medium text-white backdrop-blur-sm transition-all duration-300 hover:border-violet-400/50 hover:bg-violet-500/10 hover:shadow-[0_0_20px_rgba(124,58,237,0.3)]"
+                  >
+                    <svg className="h-4 w-4 transition-transform group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    dev24prabhakar@gmail.com
+                  </a>
+                  <a
+                    href="tel:+918009968319"
+                    className="group flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-5 py-2.5 text-sm font-medium text-white backdrop-blur-sm transition-all duration-300 hover:border-emerald-400/50 hover:bg-emerald-500/10 hover:shadow-[0_0_20px_rgba(34,197,94,0.3)]"
+                  >
+                    <svg className="h-4 w-4 transition-transform group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                    +91 8009968319
+                  </a>
+                </div>
               </div>
 
-              <div className="flex flex-wrap items-center gap-4">
-                {socialLinks.map((social) => (
+              <div className="flex flex-wrap gap-3">
+                <p className="w-full text-[11px] font-medium uppercase tracking-[0.16em] text-slate-400">Connect</p>
+                {[
+                  { label: 'GitHub', href: 'https://github.com/Devanshprabhakar24' },
+                  { label: 'LinkedIn', href: 'https://linkedin.com/in/devansh24prabhakar' },
+                  { label: 'LeetCode', href: 'https://leetcode.com' },
+                ].map((social) => (
                   <motion.a
                     key={social.label}
                     href={social.href}
                     target="_blank"
                     rel="noreferrer"
-                    whileHover={{ rotateX: 10, rotateY: -12, scale: 1.05 }}
-                    className="btn-glass px-5 py-2 text-sm text-white"
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="group flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-5 py-2.5 text-sm font-medium text-white backdrop-blur-sm transition-all duration-300 hover:border-pink-400/50 hover:bg-pink-500/10 hover:shadow-[0_0_20px_rgba(236,72,153,0.3)]"
                   >
                     {social.label}
+                    <svg className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
                   </motion.a>
                 ))}
               </div>
@@ -261,49 +274,66 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
                 </svg>
               </div>
 
-              <form className="relative z-10 space-y-4" onSubmit={onSubmit}>
-                <div>
-                  <label className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#7c3aed]">NAME &gt;</label>
+              <form className="relative z-10 space-y-5" onSubmit={onSubmit}>
+                <div className="group">
+                  <label className="mb-2 flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-violet-400">
+                    <span className="h-1 w-1 rounded-full bg-violet-400" />
+                    NAME
+                  </label>
                   <input
-                    className="mt-2 w-full rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] px-4 py-3 text-[14px] text-[#f1f5f9] placeholder-[#334155] backdrop-blur-sm transition-all duration-200 focus:border-[rgba(124,58,237,0.5)] focus:bg-[rgba(124,58,237,0.04)] focus:outline-none focus:ring-1 focus:ring-[rgba(124,58,237,0.3)]"
+                    className="w-full rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] px-4 py-3.5 text-[15px] text-white placeholder-slate-500 backdrop-blur-sm transition-all duration-300 focus:border-violet-400/50 focus:bg-white/[0.08] focus:outline-none focus:ring-2 focus:ring-violet-400/20"
                     placeholder="Your name"
                     required
                   />
                 </div>
-                <div>
-                  <label className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#7c3aed]">EMAIL &gt;</label>
+                <div className="group">
+                  <label className="mb-2 flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-violet-400">
+                    <span className="h-1 w-1 rounded-full bg-violet-400" />
+                    EMAIL
+                  </label>
                   <input
-                    className="mt-2 w-full rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] px-4 py-3 text-[14px] text-[#f1f5f9] placeholder-[#334155] backdrop-blur-sm transition-all duration-200 focus:border-[rgba(124,58,237,0.5)] focus:bg-[rgba(124,58,237,0.04)] focus:outline-none focus:ring-1 focus:ring-[rgba(124,58,237,0.3)]"
+                    className="w-full rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] px-4 py-3.5 text-[15px] text-white placeholder-slate-500 backdrop-blur-sm transition-all duration-300 focus:border-violet-400/50 focus:bg-white/[0.08] focus:outline-none focus:ring-2 focus:ring-violet-400/20"
                     type="email"
-                    placeholder="your@email.com"
+                    placeholder="dev24prabhakar@gmail.com"
                     required
                   />
                 </div>
-                <div>
-                  <label className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#7c3aed]">MESSAGE &gt;</label>
+                <div className="group">
+                  <label className="mb-2 flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-violet-400">
+                    <span className="h-1 w-1 rounded-full bg-violet-400" />
+                    MESSAGE
+                  </label>
                   <textarea
-                    className="mt-2 h-32 w-full rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] px-4 py-3 text-[14px] text-[#f1f5f9] placeholder-[#334155] backdrop-blur-sm transition-all duration-200 focus:border-[rgba(124,58,237,0.5)] focus:bg-[rgba(124,58,237,0.04)] focus:outline-none focus:ring-1 focus:ring-[rgba(124,58,237,0.3)]"
+                    className="h-36 w-full resize-none rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] px-4 py-3.5 text-[15px] text-white placeholder-slate-500 backdrop-blur-sm transition-all duration-300 focus:border-violet-400/50 focus:bg-white/[0.08] focus:outline-none focus:ring-2 focus:ring-violet-400/20"
                     placeholder="Tell me about your project, budget, and timeline..."
                     required
                   />
                 </div>
 
                 {submitted ? (
-                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-emerald-400">
-                    SIGNAL RECEIVED. AWAITING RESPONSE...
+                  <motion.p 
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center gap-2 rounded-lg border border-emerald-400/30 bg-emerald-500/10 px-4 py-3 font-mono text-[12px] font-medium uppercase tracking-[0.16em] text-emerald-400"
+                  >
+                    <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
+                    MESSAGE SENT. I'LL REPLY WITHIN 24 HOURS
                     <span style={{ animation: 'blink 1s step-end infinite' }}>_</span>
-                  </p>
+                  </motion.p>
                 ) : null}
 
-                <div className="mb-6 h-px w-full bg-gradient-to-r from-transparent via-[rgba(124,58,237,0.3)] to-transparent" />
-
-                <div className="relative pt-1">
+                <div className="relative pt-2">
                   <button
                     type="submit"
-                    className="btn-primary group relative w-full overflow-hidden px-4 py-3.5 font-semibold text-white"
+                    className="group relative w-full overflow-hidden rounded-xl border border-white/20 bg-gradient-to-r from-violet-600 via-pink-600 to-orange-500 px-6 py-4 font-semibold text-white shadow-[0_8px_32px_rgba(124,58,237,0.4)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_12px_40px_rgba(124,58,237,0.5)] active:scale-[0.98]"
                   >
-                    <span className="relative z-10">Send Request →</span>
-                    <span className="submit-shimmer absolute inset-0 -translate-x-[140%] bg-[linear-gradient(115deg,transparent_30%,rgba(255,255,255,0.35)_50%,transparent_70%)] transition-transform duration-700 group-hover:translate-x-[140%]" />
+                    <span className="relative z-10 flex items-center justify-center gap-2 text-[16px]">
+                      Start Your Project
+                      <svg className="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                      </svg>
+                    </span>
+                    <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
                   </button>
                   <div ref={particleWrapRef} className="pointer-events-none absolute inset-0 flex items-center justify-center gap-2">
                     {Array.from({ length: 12 }).map((_, i) => (
@@ -312,31 +342,38 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
                   </div>
                 </div>
 
-                <p className="pt-2 font-mono text-[10px] tracking-[0.12em] text-[#334155]">
+                <p className="flex items-center gap-2 pt-2 text-[11px] text-slate-500">
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
                   No spam. Just real conversations.
                 </p>
 
                 <div className="pt-3">
-                  <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.18em] text-slate-500">Signal Strength</p>
-                  <div className="flex items-end gap-1.5">
-                    {[8, 12, 16, 20, 24].map((height, index) => (
+                  <p className="mb-3 flex items-center gap-2 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-slate-400">
+                    <span className="h-px w-8 bg-gradient-to-r from-emerald-500 to-transparent" />
+                    Signal Strength
+                  </p>
+                  <div className="flex items-end gap-2">
+                    {[10, 14, 18, 22, 26].map((height, index) => (
                       <motion.span
                         key={height}
-                        className="w-1.5 rounded-sm bg-emerald-400"
+                        className="w-2 rounded-sm bg-gradient-to-t from-emerald-500 to-emerald-300"
                         style={{ height }}
-                        animate={reducedMotion ? undefined : { opacity: [0.45, 1, 0.45] }}
+                        animate={reducedMotion ? undefined : { opacity: [0.4, 1, 0.4] }}
                         transition={
                           reducedMotion
                             ? undefined
                             : {
                                 repeat: Number.POSITIVE_INFINITY,
-                                duration: 1,
-                                delay: index * 0.08,
+                                duration: 1.2,
+                                delay: index * 0.1,
                                 ease: 'easeInOut',
                               }
                         }
                       />
                     ))}
+                    <span className="ml-2 font-mono text-[11px] font-medium text-emerald-400">STRONG</span>
                   </div>
                 </div>
               </form>

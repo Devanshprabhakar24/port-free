@@ -8,24 +8,24 @@ const Carousel3D = lazy(() => import('./Carousel3D'))
 
 const mobileCards = [
   {
-    title: 'MyLaundry',
-    stack: ['React', 'Node.js', 'MongoDB'],
-    impact: 'Full-stack laundry management with real-time order tracking, admin dashboard, and secure auth.',
-  },
-  {
     title: 'ZTUBE',
-    stack: ['TypeScript', 'Next.js', 'Cloud Storage'],
-    impact: 'Video-sharing SaaS with upload, compression, and cloud-based media management.',
+    stack: ['TypeScript', 'Next.js', 'PostgreSQL', 'Cloudinary'],
+    impact: 'Video-sharing SaaS platform with secure authentication, cloud media handling, and optimized upload system.',
   },
   {
-    title: 'SaaS Command',
-    stack: ['Next.js', 'Prisma', 'PostgreSQL'],
-    impact: 'Multi-tenant SaaS with auth, billing, role management, and admin controls.',
+    title: 'E-Commerce',
+    stack: ['Node.js', 'MongoDB', 'JWT', 'Express'],
+    impact: 'Backend system with scalable APIs, authentication, and optimized database queries for performance.',
   },
   {
-    title: 'Insight Studio',
-    stack: ['Three.js', 'GSAP', 'REST API'],
-    impact: 'Interactive data visualization tool with real-time analytics dashboards.',
+    title: 'MyLaundry',
+    stack: ['React', 'Node.js', 'MongoDB', 'RBAC'],
+    impact: 'Full-stack laundry management system with order tracking, admin dashboard, and role-based access.',
+  },
+  {
+    title: 'Vaccine Scheduler',
+    stack: ['DAG Engine', 'Node.js', 'Razorpay', 'Notifications'],
+    impact: 'Automated scheduling system with notifications and secure payment integration.',
   },
 ]
 
@@ -80,14 +80,14 @@ export default function Projects({ mouse }: { mouse: MousePosition }) {
       <div className="relative mb-12 text-center">
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-32 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[rgba(124,58,237,0.12)] blur-[60px]" />
 
-        <p className="relative mb-3 font-mono text-[10px] uppercase tracking-[0.28em] text-[#7c3aed]">Selected Work</p>
-        <h2 className="relative font-display text-[clamp(36px,4.5vw,64px)] font-black leading-[1] tracking-[-0.03em] text-white">
-          Projects That <span className="text-gradient">Deliver Results</span>
+        <p className="relative mb-3 font-mono text-[10px] uppercase tracking-[0.28em] text-[#7c3aed]">Recent Work</p>
+        <h2 className="relative font-display text-[clamp(32px,4.2vw,58px)] font-black leading-[1.2] tracking-[-0.03em] text-white">
+          Real Projects.{' '}
+          <span className="text-gradient">Real Results.</span>
         </h2>
         <div className="mx-auto mt-4 h-px w-16 bg-gradient-to-r from-transparent via-[rgba(124,58,237,0.5)] to-transparent" />
         <p className="mx-auto mt-5 max-w-md text-[14px] leading-[1.8] text-[#64748b]">
-          Real-world applications built with performance, scalability,
-          and user experience in mind.
+          Here are some systems I've built for real-world use cases.
         </p>
       </div>
 

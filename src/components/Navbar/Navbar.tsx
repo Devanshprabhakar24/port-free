@@ -13,7 +13,8 @@ type RouteItem = {
 const links: RouteItem[] = [
   { id: 'hero', label: 'Home' },
   { id: 'about', label: 'Why Me' },
-  { id: 'projects', label: 'Work' },
+  { id: 'services', label: 'Services' },
+  { id: 'projects', label: 'Projects' },
   { id: 'contact', label: 'Hire Me' },
 ]
 
@@ -174,16 +175,16 @@ function Navbar({ mouse, currentSection, onNavigate }: NavbarProps) {
               event.preventDefault()
               onNavigate('hero')
             }}
-            className="group flex items-center gap-2.5"
+            className="group flex items-center gap-3"
           >
-            <div className="relative h-7 w-7 overflow-hidden rounded-full">
+            <div className="relative h-9 w-9 overflow-hidden rounded-full">
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#7c3aed] to-[#ec4899]" />
-              <span className="absolute inset-0 flex items-center justify-center text-[9px] font-bold tracking-wider text-white">DP</span>
+              <span className="absolute inset-0 flex items-center justify-center text-[11px] font-bold tracking-wider text-white">DP</span>
             </div>
-            <span className="text-[11px] tracking-[0.18em] text-white/90 transition-colors group-hover:text-white">DEVANSH PRABHAKAR</span>
+            <span className="text-[13px] tracking-[0.18em] text-white/90 transition-colors group-hover:text-white">DEVANSH PRABHAKAR</span>
           </a>
 
-          <div className="hidden items-center gap-8 md:flex">
+          <div className="hidden items-center gap-10 md:flex">
             {splitLabels.map((item, index) => (
               <a
                 key={item.id}
@@ -196,7 +197,7 @@ function Navbar({ mouse, currentSection, onNavigate }: NavbarProps) {
                 ref={(el) => {
                   linkRefs.current[index] = el
                 }}
-                className={`group relative overflow-hidden text-[13px] tracking-[0.02em] transition-colors duration-200 ${
+                className={`group relative overflow-hidden text-[15px] tracking-[0.02em] transition-colors duration-200 ${
                   currentSection === item.id ? 'text-white' : 'text-[#94a3b8] hover:text-[#f1f5f9]'
                 }`}
               >
@@ -215,16 +216,16 @@ function Navbar({ mouse, currentSection, onNavigate }: NavbarProps) {
             <button
               ref={hireRef}
               onClick={() => onNavigate('contact')}
-              data-cursor-label="HIRE"
-              className="rounded-full bg-gradient-to-r from-[#7c3aed]/90 to-[#ec4899]/90 px-5 py-[8px] text-[12px] font-medium tracking-[0.03em] text-white shadow-[0_0_20px_rgba(124,58,237,0.25)] transition-all duration-200 hover:scale-[1.02] md:px-8 md:py-[13px] md:text-[17px] md:font-semibold md:shadow-[0_0_32px_rgba(124,58,237,0.32)] md:hover:scale-[1.05]"
+              data-cursor-label="START"
+              className="rounded-full bg-gradient-to-r from-[#7c3aed]/90 to-[#ec4899]/90 px-6 py-[10px] text-[14px] font-medium tracking-[0.03em] text-white shadow-[0_0_20px_rgba(124,58,237,0.25)] transition-all duration-200 hover:scale-[1.02] md:px-9 md:py-[15px] md:text-[18px] md:font-semibold md:shadow-[0_0_32px_rgba(124,58,237,0.32)] md:hover:scale-[1.05]"
             >
-              Hire Me →
+              Start Project →
             </button>
           </div>
 
           <button
             onClick={() => setMobileOpen((s) => !s)}
-            className="text-slate-100 md:hidden"
+            className="text-slate-100 text-[15px] md:hidden"
             aria-label="Open menu"
           >
             Menu
@@ -261,10 +262,10 @@ function Navbar({ mouse, currentSection, onNavigate }: NavbarProps) {
               <div className="mt-10 border-t border-[rgba(255,255,255,0.06)] pt-6">
                 <div className="flex items-center gap-2 mb-3">
                   <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(34,197,94,0.8)] animate-pulse" />
-                  <span className="font-mono text-[10px] tracking-[0.16em] text-emerald-400">AVAILABLE FOR HIRE</span>
+                  <span className="font-mono text-[10px] tracking-[0.16em] text-emerald-400">AVAILABLE FOR PROJECTS</span>
                 </div>
                 <p className="text-[13px] text-[#475569] leading-[1.6]">
-                  Open to freelance projects and long-term collaborations.
+                  Open to freelance work and long-term collaborations.
                 </p>
               </div>
             </div>

@@ -8,17 +8,17 @@ export type DepthMap = Record<SectionId, number>
 
 export function useScrollDepth(): DepthMap {
   const [depths, setDepths] = useState<DepthMap>({
-    hero: 1, about: 0, projects: 0, contact: 0,
+    hero: 1, about: 0, services: 0, projects: 0, contact: 0,
   })
 
-  const targetRef = useRef<DepthMap>({ hero: 1, about: 0, projects: 0, contact: 0 })
-  const currentRef = useRef<DepthMap>({ hero: 1, about: 0, projects: 0, contact: 0 })
+  const targetRef = useRef<DepthMap>({ hero: 1, about: 0, services: 0, projects: 0, contact: 0 })
+  const currentRef = useRef<DepthMap>({ hero: 1, about: 0, services: 0, projects: 0, contact: 0 })
   const rafRef = useRef<number | null>(null)
 
   useEffect(() => {
     const calculateTarget = () => {
       const vh = window.innerHeight
-      const next: DepthMap = { hero: 0, about: 0, projects: 0, contact: 0 }
+      const next: DepthMap = { hero: 0, about: 0, services: 0, projects: 0, contact: 0 }
       SECTIONS.forEach((id) => {
         const el = document.getElementById(id)
         if (!el) return
@@ -42,6 +42,7 @@ export function useScrollDepth(): DepthMap {
       const next: DepthMap = {
         hero:     lerp(current.hero,     target.hero,     0.12),
         about:    lerp(current.about,    target.about,    0.12),
+        services: lerp(current.services, target.services, 0.12),
         projects: lerp(current.projects, target.projects, 0.12),
         contact:  lerp(current.contact,  target.contact,  0.12),
       }

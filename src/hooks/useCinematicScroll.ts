@@ -16,11 +16,11 @@ export function useCinematicScroll(): void {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     if (prefersReducedMotion) {
-      setDepths({ hero: 1, about: 0, projects: 0, contact: 0 })
+      setDepths({ hero: 1, about: 0, services: 0, projects: 0, contact: 0 })
       return
     }
 
-    setDepths({ hero: 1, about: 0, projects: 0, contact: 0 })
+    setDepths({ hero: 1, about: 0, services: 0, projects: 0, contact: 0 })
 
     const timelines: gsap.core.Timeline[] = []
 

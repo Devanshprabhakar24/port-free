@@ -18,10 +18,10 @@ type StatItem = {
 }
 
 const STATS: StatItem[] = [
-  { coordinate: '[04] YEARS', target: 4, suffix: '+', shortLabel: 'YEARS', label: 'Experience' },
-  { coordinate: '[30] PROJ', target: 30, suffix: '+', shortLabel: 'PROJ', label: 'Projects Delivered' },
-  { coordinate: '[15] CLI', target: 15, suffix: '+', shortLabel: 'CLI', label: 'Clients Served' },
-  { coordinate: '[99] SAT', target: 99, suffix: '%', shortLabel: 'SAT', label: 'Client Satisfaction' },
+  { coordinate: '[01] YEARS', target: 1, suffix: '+', shortLabel: 'YEARS', label: 'Years Experience' },
+  { coordinate: '[05] PROJ', target: 5, suffix: '+', shortLabel: 'PROJ', label: 'Real Projects' },
+  { coordinate: '[100] PROD', target: 100, suffix: '%', shortLabel: 'PROD', label: 'Production Ready' },
+  { coordinate: '[24] HOURS', target: 24, suffix: 'h', shortLabel: 'HOURS', label: 'Fast Response' },
 ]
 
 function About({ mouse: _mouse, shouldRenderScene = true }: { mouse: MousePosition; shouldRenderScene?: boolean }) {
@@ -128,7 +128,7 @@ function About({ mouse: _mouse, shouldRenderScene = true }: { mouse: MousePositi
   return (
     <div
       ref={sectionRef}
-      className="relative min-h-screen w-full overflow-hidden bg-[#03010a]"
+      className="relative min-h-screen w-full overflow-hidden bg-[#000000]"
     >
       <div className="pointer-events-none absolute inset-0" style={{ backgroundImage: starsPattern }} />
 
@@ -146,11 +146,11 @@ function About({ mouse: _mouse, shouldRenderScene = true }: { mouse: MousePositi
         <div className="relative z-10 flex flex-col justify-center px-6 py-16 lg:pl-12 lg:pr-0">
           <div className="mb-4 flex items-center gap-3">
             <div className="h-px w-5 bg-[rgba(124,58,237,0.6)]" />
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#7c3aed]">WHY WORK WITH ME</p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#7c3aed]">WHY CLIENTS WORK WITH ME</p>
           </div>
 
           <h2
-            className="mb-6 text-[clamp(32px,3.5vw,52px)] font-bold leading-[1.1]"
+            className="mb-6 text-[clamp(28px,3.2vw,48px)] font-bold leading-[1.2]"
             style={{
               background: 'linear-gradient(110deg, #a78bfa 0%, #ec4899 60%, #fb923c 100%)',
               WebkitBackgroundClip: 'text',
@@ -163,14 +163,14 @@ function About({ mouse: _mouse, shouldRenderScene = true }: { mouse: MousePositi
           </h2>
 
           <p className="mb-10 max-w-md border-l-2 border-[rgba(124,58,237,0.4)] pl-5 text-[15px] leading-[1.9] text-[#64748b]">
-            I take your idea from concept to a <span className="text-[#94a3b8]">production-ready product</span> that performs in real-world conditions. Every system I build is designed for <span className="text-[#94a3b8]">scalability, performance, and long-term use</span>.
+            I help startups and businesses turn ideas into <span className="text-[#94a3b8]">real products</span>. From frontend to backend, I build <span className="text-[#94a3b8]">scalable systems that are clean, reliable, and ready for production use</span>.
           </p>
 
           <div className="mb-8 space-y-2.5">
             {[
-              'Clean, maintainable, and scalable code',
-              'Regular updates and clear communication',
-              'Post-delivery support included',
+              'Clean, scalable, and maintainable code',
+              'Fast delivery with clear communication',
+              'Built for performance and real users',
             ].map((item) => (
               <div key={item} className="flex items-start gap-3">
                 <span className="mt-0.75 h-3.5 w-3.5 shrink-0 rounded-full border border-[rgba(124,58,237,0.5)] flex items-center justify-center">

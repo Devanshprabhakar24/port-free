@@ -13,6 +13,7 @@ type CinematicDepthState = {
 const DEFAULT_DEPTHS: DepthMap = {
   hero: 1,
   about: 0,
+  services: 0,
   projects: 0,
   contact: 0,
 }

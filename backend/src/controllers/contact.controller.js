@@ -29,38 +29,7 @@ exports.submitContact = asyncHandler(async (req, res) => {
   const { name, email, message } = req.body;
 
   try {
-    // 1. Send notification to yourself via SMTP
-    try {
-      const smtpTransporter = createSMTPTransporter();
-      const notificationOptions = {
-        from: `"Portfolio Contact" <${process.env.BREVO_FROM_EMAIL}>`,
-        to: process.env.RECIPIENT_EMAIL || 'dev24prabhakar@gmail.com',
-        subject: `Portfolio Contact: ${name}`,
-        html: `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            <h2 style="color: #7c3aed;">New Contact Form Submission</h2>
-            <div style="background: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
-              <p><strong>Name:</strong> ${name}</p>
-              <p><strong>Email:</strong> ${email}</p>
-              <p><strong>Message:</strong></p>
-              <p style="white-space: pre-wrap;">${message}</p>
-            </div>
-            <p style="color: #6b7280; font-size: 12px;">
-              Sent from your portfolio contact form at ${new Date().toLocaleString()}
-            </p>
-          </div>
-        `,
-        replyTo: email
-      };
-
-      await smtpTransporter.sendMail(notificationOptions);
-      console.log('✅ SMTP notification sent to:', process.env.RECIPIENT_EMAIL);
-    } catch (smtpError) {
-      console.error('⚠️ SMTP notification failed:', smtpError.message);
-      // Continue even if SMTP fails
-    }
-
-    // 2. Send auto-reply to user via Brevo API
+    // Send auto-reply to user via Brevo API
     try {
       const brevoClient = createBrevoClient();
       const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
@@ -84,16 +53,51 @@ exports.submitContact = asyncHandler(async (req, res) => {
           <p style="color: #6b7280; font-size: 12px;">
             Email: dev24prabhakar@gmail.com<br>
             Phone: +91 8009968319<br>
-            Website: <a href="https://devanshprabhakar.com" style="color: #7c3aed;">devanshprabhakar.com</a>
+            Website: <a href="https://port-free.vercel.app" style="color: #7c3aed;">port-free.vercel.app</a>
           </p>
         </div>
       `;
 
       await brevoClient.sendTransacEmail(sendSmtpEmail);
-      console.log('✅ Brevo auto-reply sent to:', email);
+      console.log('✅ Auto-reply sent to:', email);
     } catch (brevoError) {
-      console.error('⚠️ Brevo auto-reply failed:', brevoError.message);
-      // Continue even if Brevo fails
+      console.error('⚠️ Auto-reply failed:', brevoError.message);
+    }
+
+    // Send notification to yourself via Brevo (since SMTP is blocked on Render free tier)
+    try {
+      const brevoClient = createBrevoClient();
+      const notificationEmail = new SibApiV3Sdk.SendSmtpEmail();
+
+      notificationEmail.sender = {
+        name: 'Portfolio Contact Form',
+        email: process.env.BREVO_FROM_EMAIL
+      };
+      notificationEmail.to = [{
+        email: process.env.RECIPIENT_EMAIL || 'dev24prabhakar@gmail.com',
+        name: 'Devansh Prabhakar'
+      }];
+      notificationEmail.replyTo = { email: email, name: name };
+      notificationEmail.subject = `Portfolio Contact: ${name}`;
+      notificationEmail.htmlContent = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #7c3aed;">New Contact Form Submission</h2>
+          <div style="background: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
+            <p><strong>Name:</strong> ${name}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Message:</strong></p>
+            <p style="white-space: pre-wrap;">${message}</p>
+          </div>
+          <p style="color: #6b7280; font-size: 12px;">
+            Sent from your portfolio contact form at ${new Date().toLocaleString()}
+          </p>
+        </div>
+      `;
+
+      await brevoClient.sendTransacEmail(notificationEmail);
+      console.log('✅ Notification sent to:', process.env.RECIPIENT_EMAIL);
+    } catch (notificationError) {
+      console.error('⚠️ Notification failed:', notificationError.message);
     }
 
     res.status(200).json({
@@ -101,7 +105,7 @@ exports.submitContact = asyncHandler(async (req, res) => {
       message: 'Message sent successfully! I\'ll reply within 24 hours.'
     });
   } catch (error) {
-    console.error('❌ Email error:', error);
+    console.error('❌ Contact form error:', error);
     // Return success anyway so user doesn't see error
     res.status(200).json({
       success: true,

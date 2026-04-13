@@ -38,14 +38,12 @@ export function initScrollStore() {
   if (scrollStore._initialized) return
   scrollStore._initialized = true
 
-  let unsubLenis: (() => void) | null = null
   let pollId = 0
 
   const trySubscribeLenis = (): boolean => {
     if (!lenisInstance) return false
     const onScroll = ({ scroll }: { scroll: number }) => recalc(scroll)
     lenisInstance.on('scroll', onScroll)
-    unsubLenis = () => lenisInstance?.off('scroll', onScroll)
     recalc(lenisInstance.scroll ?? window.scrollY)
     return true
   }

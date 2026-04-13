@@ -6,11 +6,18 @@ import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 import { useScrollSectionStore } from '../../store/scrollSectionStore'
 import type { SectionId } from '../../store/scrollSectionStore'
 import { scrollStore, initScrollStore } from '../../hooks/scrollStore'
+import { performanceMonitor } from '../../utils/performanceMonitor'
+import { getDeviceCapabilities } from '../../utils/deviceCapabilities'
 import vertSrc from '../../shaders/planet.vert.glsl?raw'
 import fragSrc from '../../shaders/planet.frag.glsl?raw'
 
 const SECTION_IDS: SectionId[] = ['hero', 'about', 'projects', 'contact']
 const PLANET_COUNT = 6
+
+// Detect device capabilities once
+const deviceCaps = getDeviceCapabilities()
+const isMobileDevice = deviceCaps.isMobile
+const isLowEndDevice = deviceCaps.isLowEnd
 
 // ── Planet config ───────────────────────────────────────────────────────────
 interface PlanetDef {
@@ -24,29 +31,33 @@ interface PlanetDef {
   atmoThickness: number
 }
 
+// Mobile: reduce planet sizes by 30% for better performance
+// Low-end devices: reduce by 50%
+const mobileSizeMultiplier = isLowEndDevice ? 0.5 : isMobileDevice ? 0.7 : 1.0
+
 const PLANETS: PlanetDef[] = [
   {
-    name: 'Earth', color: '#2a7fc7', baseSize: 460, earth: true, side: 'left', yBias: -0.08, tiltBase: 0.41,
+    name: 'Earth', color: '#2a7fc7', baseSize: 460 * mobileSizeMultiplier, earth: true, side: 'left', yBias: -0.08, tiltBase: 0.41,
     texture: '/textures/earth.jpg', atmoColor: [0.22, 0.52, 1.00], atmoThickness: 1.0
   },
   {
-    name: 'Mars', color: '#c1440e', baseSize: 400, side: 'right', yBias: 0.12, tiltBase: 0.44,
+    name: 'Mars', color: '#c1440e', baseSize: 400 * mobileSizeMultiplier, side: 'right', yBias: 0.12, tiltBase: 0.44,
     texture: '/textures/mars.jpg', atmoColor: [0.82, 0.42, 0.18], atmoThickness: 0.25
   },
   {
-    name: 'Jupiter', color: '#c88b3a', baseSize: 540, side: 'left', yBias: -0.15, tiltBase: 0.05,
+    name: 'Jupiter', color: '#c88b3a', baseSize: 540 * mobileSizeMultiplier, side: 'left', yBias: -0.15, tiltBase: 0.05,
     texture: '/textures/jupiter.jpg', atmoColor: [0.58, 0.65, 0.88], atmoThickness: 0.7
   },
   {
-    name: 'Saturn', color: '#d4b86a', baseSize: 480, side: 'right', yBias: 0.06, tiltBase: 0.47,
+    name: 'Saturn', color: '#d4b86a', baseSize: 480 * mobileSizeMultiplier, side: 'right', yBias: 0.06, tiltBase: 0.47,
     texture: '/textures/saturn.jpg', atmoColor: [0.78, 0.72, 0.55], atmoThickness: 0.5
   },
   {
-    name: 'Uranus', color: '#7de8e8', baseSize: 440, side: 'left', yBias: 0.10, tiltBase: 1.71,
+    name: 'Uranus', color: '#7de8e8', baseSize: 440 * mobileSizeMultiplier, side: 'left', yBias: 0.10, tiltBase: 1.71,
     texture: '/textures/uranus.jpg', atmoColor: [0.38, 0.86, 0.94], atmoThickness: 0.9
   },
   {
-    name: 'Neptune', color: '#3050c8', baseSize: 420, side: 'right', yBias: -0.10, tiltBase: 0.49,
+    name: 'Neptune', color: '#3050c8', baseSize: 420 * mobileSizeMultiplier, side: 'right', yBias: -0.10, tiltBase: 0.49,
     texture: '/textures/neptune.jpg', atmoColor: [0.22, 0.48, 1.00], atmoThickness: 1.1
   },
 ]
@@ -68,8 +79,16 @@ function getScale(t: number): number {
 }
 
 // ── Shared geometry ─────────────────────────────────────────────────────────
-const sharedGeo = new THREE.SphereGeometry(1, 64, 64)
-const glowGeo = new THREE.SphereGeometry(1, 32, 32)
+// Adaptive geometry detail based on device capabilities
+const getGeometrySegments = () => {
+  if (isLowEndDevice) return { planet: 24, glow: 12 }
+  if (isMobileDevice) return { planet: 32, glow: 16 }
+  return { planet: 64, glow: 32 }
+}
+
+const segments = getGeometrySegments()
+const sharedGeo = new THREE.SphereGeometry(1, segments.planet, segments.planet)
+const glowGeo = new THREE.SphereGeometry(1, segments.glow, segments.glow)
 
 // ── Texture cache ───────────────────────────────────────────────────────────
 const textureLoader = new THREE.TextureLoader()
@@ -79,7 +98,8 @@ function getTexture(path: string): THREE.Texture {
   if (textureCache.has(path)) return textureCache.get(path)!
   const tex = textureLoader.load(path)
   tex.colorSpace = THREE.SRGBColorSpace
-  tex.anisotropy = 4
+  // Adaptive anisotropy based on device capabilities
+  tex.anisotropy = isLowEndDevice ? 1 : isMobileDevice ? 2 : 4
   tex.minFilter = THREE.LinearMipmapLinearFilter
   tex.magFilter = THREE.LinearFilter
   tex.wrapS = THREE.RepeatWrapping
@@ -89,7 +109,34 @@ function getTexture(path: string): THREE.Texture {
 }
 
 // Atmosphere glow — additive with soft edge
+// Mobile: simplified shader for better performance
 function makeGlowMat(r: number, g: number, b: number) {
+  if (isMobileDevice) {
+    // Simplified mobile version
+    return new THREE.ShaderMaterial({
+      transparent: true,
+      depthWrite: false,
+      side: THREE.BackSide,
+      blending: THREE.AdditiveBlending,
+      uniforms: { uColor: { value: new THREE.Color(r, g, b) } },
+      vertexShader: `
+        varying vec3 vNormal;
+        void main() {
+          vNormal = normalize(normalMatrix * normal);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+        }`,
+      fragmentShader: `
+        uniform vec3 uColor; varying vec3 vNormal;
+        void main() {
+          vec3 viewDir = normalize(vec3(0.0, 0.0, 1.0));
+          float rim = 1.0 - max(dot(viewDir, vNormal), 0.0);
+          float glow = pow(rim, 2.5) * 0.5;
+          gl_FragColor = vec4(uColor * glow, glow * 0.4);
+        }`,
+    })
+  }
+
+  // Full desktop version
   return new THREE.ShaderMaterial({
     transparent: true,
     depthWrite: false,
@@ -228,7 +275,8 @@ function PlanetInstance({ def, index, visW }: PlanetProps) {
     mesh.rotation.y += rotSpeed * 0.0015
     uniforms.uTime.value = clock.getElapsedTime()
 
-    if (glowRef.current) glowRef.current.scale.setScalar(1.35)
+    // Mobile: reduce glow scale for better performance
+    if (glowRef.current) glowRef.current.scale.setScalar(isMobileDevice ? 1.25 : 1.35)
 
     // Smooth fade during exit
     const opacity = t > 0.85 ? 1 - smoothstep(0.85, 1.10, t) : 1.0
@@ -245,6 +293,7 @@ function PlanetInstance({ def, index, visW }: PlanetProps) {
           uniforms={uniforms}
         />
       </mesh>
+      {/* Glow mesh - visible on all devices but simplified on mobile */}
       <mesh ref={glowRef} geometry={glowGeo} material={glowMat} />
     </group>
   )
@@ -260,6 +309,7 @@ function PlanetScene({ visW }: { visW: number }) {
 
   useFrame(() => {
     invalidate()
+    performanceMonitor.update()
 
     for (let i = 0; i < PLANET_COUNT; i++) {
       const lt = scrollStore.localTs[i]
@@ -277,12 +327,19 @@ function PlanetScene({ visW }: { visW: number }) {
     scrollStore.smoothProgress = lerp(scrollStore.smoothProgress, scrollStore.progress, 0.06)
   })
 
+  // Mobile: simplified lighting for better performance
+  const lightIntensity = isMobileDevice ? 0.8 : 1.0
+
   return (
     <>
-      <ambientLight intensity={0.04} color="#334488" />
-      <directionalLight position={[8, 3, 5]} intensity={1.6} color="#fff5e0" />
-      <directionalLight position={[-5, 2, -8]} intensity={0.25} color="#6688cc" />
-      <pointLight position={[0, 0, 12]} intensity={0.12} color="#ffffff" distance={30} />
+      <ambientLight intensity={0.04 * lightIntensity} color="#334488" />
+      <directionalLight position={[8, 3, 5]} intensity={1.6 * lightIntensity} color="#fff5e0" />
+      {!isMobileDevice && (
+        <>
+          <directionalLight position={[-5, 2, -8]} intensity={0.25} color="#6688cc" />
+          <pointLight position={[0, 0, 12]} intensity={0.12} color="#ffffff" distance={30} />
+        </>
+      )}
 
       {PLANETS.map((def, i) => (
         <PlanetInstance key={def.name} def={def} index={i} visW={visW} />
@@ -300,17 +357,6 @@ function PlanetSystem() {
 
   useEffect(() => { initScrollStore() }, [])
 
-  if (isMobile) {
-    return (
-      <div className="mobile-planet-system">
-        <div className="mobile-planet-glow mobile-glow-1" />
-        <div className="mobile-planet-glow mobile-glow-2" />
-        <div className="mobile-planet mobile-planet-1" />
-        <div className="mobile-planet mobile-planet-2" />
-        <div className="mobile-planet mobile-planet-3" />
-      </div>
-    )
-  }
   if (reducedMotion) return null
 
   const vw = typeof window !== 'undefined' ? window.innerWidth : 1440
@@ -320,22 +366,26 @@ function PlanetSystem() {
   const visH = 2 * camDist * Math.tan((fov / 2) * Math.PI / 180)
   const visW = visH * (vw / vh)
 
+  // Mobile optimizations: lower quality settings
+  const dpr = deviceCaps.recommendedDPR
+  const antialias = !isMobileDevice
+
   return (
     <div className="pointer-events-none fixed inset-0 z-[5] overflow-hidden">
       <Canvas
         frameloop="always"
         camera={{ position: [0, 0, camDist], fov, near: 0.1, far: 120 }}
-        dpr={Math.min(window.devicePixelRatio, 1.5)}
+        dpr={dpr}
         gl={{
-          antialias: false,
+          antialias,
           alpha: true,
-          powerPreference: 'high-performance',
+          powerPreference: isMobile ? 'default' : 'high-performance',
           precision: 'mediump',
         }}
         style={{ width: '100%', height: '100%' }}
         onCreated={({ gl }) => {
           gl.setClearColor(0x000000, 0)
-          gl.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
+          gl.setPixelRatio(dpr)
           const canvas = gl.domElement
           canvas.addEventListener('webglcontextlost', (e) => {
             e.preventDefault()

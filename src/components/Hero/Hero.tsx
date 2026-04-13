@@ -85,7 +85,24 @@ function Hero({ mouse, onViewProjects, onHireMe, shouldRenderScene = true }: Her
         <div className="mb-[22px] h-px w-[50px] bg-[rgba(124,58,237,0.5)]" />
 
         <h1 className="text-[clamp(38px,4.5vw,68px)] font-[900] leading-[1.05] tracking-[-0.02em] text-[#f1f5f9]">
-          I Build Web Apps That Help Businesses Grow
+          I Build Web Apps That Help{' '}
+          <span
+            style={{
+              background: 'linear-gradient(110deg, #a78bfa 0%, #ec4899 55%, #fb923c 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundSize: '200% 200%',
+              animation: 'gradientShift 4s ease infinite',
+              display: 'inline-block',
+              fontFamily: 'inherit',
+              fontWeight: 'inherit',
+              fontSize: 'inherit',
+              lineHeight: 'inherit',
+              letterSpacing: 'inherit',
+            }}
+          >
+            Businesses Grow
+          </span>
         </h1>
 
         <p className="mb-[32px] mt-[22px] max-w-95 text-[17px] leading-[1.7] text-[#94a3b8]">

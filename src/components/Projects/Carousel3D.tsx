@@ -40,7 +40,7 @@ const projects: Project[] = [
     stack: 'Node.js, Razorpay, DAG Engine',
     summary: 'Automated scheduling system with notifications and payment integration.',
     url: 'https://github.com',
-    image: '/projects/vaccine.jpg', // Add your project screenshot here
+    image: '/projects/mylaundry.svg', // Reusing existing image
   },
 ]
 

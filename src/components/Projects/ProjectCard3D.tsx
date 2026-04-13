@@ -259,6 +259,12 @@ export default function ProjectCard3D({
         onPointerOver={() => !isMobile && setHovered(true)}
         onPointerOut={() => !isMobile && setHovered(false)}
         onClick={() => window.open(url, '_blank', 'noopener,noreferrer')}
+        onPointerDown={(e) => {
+          // Enable click on mobile
+          if (isMobile) {
+            e.stopPropagation()
+          }
+        }}
       >
         {/* Front face with texture */}
         <mesh>

@@ -162,7 +162,7 @@ function Navbar({ mouse, currentSection, onNavigate }: NavbarProps) {
         style={{ fontFamily: 'Inter, sans-serif' }}
       >
         <nav
-          className="flex w-full items-center justify-between px-5 py-5 transition-all duration-300 md:px-10"
+          className="flex w-full items-center justify-between px-4 py-4 transition-all duration-300 md:px-10 md:py-5"
           style={{
             background: scrolled ? 'rgba(3,1,10,0.85)' : 'transparent',
             borderBottom: scrolled ? '1px solid rgba(255,255,255,0.06)' : '1px solid transparent',
@@ -175,13 +175,13 @@ function Navbar({ mouse, currentSection, onNavigate }: NavbarProps) {
               event.preventDefault()
               onNavigate('hero')
             }}
-            className="group flex items-center gap-3"
+            className="group flex items-center gap-2 md:gap-3"
           >
-            <div className="relative h-9 w-9 overflow-hidden rounded-full">
+            <div className="relative h-8 w-8 overflow-hidden rounded-full md:h-9 md:w-9">
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#7c3aed] to-[#ec4899]" />
-              <span className="absolute inset-0 flex items-center justify-center text-[11px] font-bold tracking-wider text-white">DP</span>
+              <span className="absolute inset-0 flex items-center justify-center text-[10px] font-bold tracking-wider text-white md:text-[11px]">DP</span>
             </div>
-            <span className="text-[13px] tracking-[0.18em] text-white/90 transition-colors group-hover:text-white">DEVANSH PRABHAKAR</span>
+            <span className="hidden text-[13px] tracking-[0.18em] text-white/90 transition-colors group-hover:text-white sm:inline">DEVANSH PRABHAKAR</span>
           </a>
 
           <div className="hidden items-center gap-10 md:flex">
@@ -225,10 +225,12 @@ function Navbar({ mouse, currentSection, onNavigate }: NavbarProps) {
 
           <button
             onClick={() => setMobileOpen((s) => !s)}
-            className="text-slate-100 text-[15px] md:hidden"
+            className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:border-[#7c3aed]/50 hover:bg-[#7c3aed]/10 md:hidden"
             aria-label="Open menu"
           >
-            Menu
+            <span className={`h-0.5 w-5 rounded-full bg-white transition-all duration-300 ${mobileOpen ? 'translate-y-2 rotate-45' : ''}`} />
+            <span className={`h-0.5 w-5 rounded-full bg-white transition-all duration-300 ${mobileOpen ? 'opacity-0' : ''}`} />
+            <span className={`h-0.5 w-5 rounded-full bg-white transition-all duration-300 ${mobileOpen ? '-translate-y-2 -rotate-45' : ''}`} />
           </button>
         </nav>
       </header>

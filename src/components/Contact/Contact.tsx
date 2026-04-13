@@ -345,7 +345,7 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
                   </label>
                   <textarea
                     className="h-36 w-full resize-none rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] px-4 py-3.5 text-[15px] text-white placeholder-slate-500 backdrop-blur-sm transition-all duration-300 focus:border-violet-400/50 focus:bg-white/[0.08] focus:outline-none focus:ring-2 focus:ring-violet-400/20"
-                    placeholder="Tell me about your project, budget, and timeline..."
+                    placeholder="Hi! I'd like to discuss..."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     required

@@ -25,8 +25,8 @@ exports.validateContact = (req, res, next) => {
     // Message validation
     if (!message || message.trim().length === 0) {
         errors.push('Message is required');
-    } else if (message.trim().length < 10) {
-        errors.push('Message must be at least 10 characters');
+    } else if (message.trim().length < 3) {
+        errors.push('Message must be at least 3 characters');
     } else if (message.trim().length > 5000) {
         errors.push('Message must be less than 5000 characters');
     }

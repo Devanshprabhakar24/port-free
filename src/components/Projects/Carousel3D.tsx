@@ -49,9 +49,9 @@ function CardRing() {
   const isMobile = useIsMobile()
 
   const positions = useMemo(() => {
-    // Bigger ring and cards - increased from previous values
-    const radius = isMobile ? 3.5 : 5
-    const depth = isMobile ? 2 : 2.8
+    // Bigger ring on desktop, keep mobile size
+    const radius = isMobile ? 3.5 : 6
+    const depth = isMobile ? 2 : 3.5
     
     return projects.map((_, index) => {
       const theta = (Math.PI * 2 * index) / projects.length
@@ -103,7 +103,7 @@ export default function Carousel3D() {
   return (
     <Canvas
       camera={{ 
-        position: [0, 0, isMobile ? 8 : 11], 
+        position: [0, 0, isMobile ? 8 : 13], 
         fov: isMobile ? 55 : 50 
       }}
       dpr={[1, isMobile ? 1.5 : Math.min(window.devicePixelRatio, 2)]}
@@ -115,7 +115,7 @@ export default function Carousel3D() {
       performance={{ min: 0.5 }} // Allow frame rate to drop if needed
     >
       <color attach="background" args={['#0a0a12']} />
-      <fog attach="fog" args={['#0a0a12', isMobile ? 6 : 8, isMobile ? 18 : 22]} />
+      <fog attach="fog" args={['#0a0a12', isMobile ? 6 : 10, isMobile ? 18 : 26]} />
       
       {/* Reduced lighting on mobile */}
       <ambientLight intensity={isMobile ? 0.7 : 0.6} />

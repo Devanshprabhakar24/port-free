@@ -34,9 +34,9 @@ export default function ProjectCard3D({
     config: { tension: 200, friction: 20 },
   })
 
-  // Bigger cards - increased from previous values
-  const cardWidth = isMobile ? 3.2 : 4.2
-  const cardHeight = isMobile ? 2 : 2.6
+  // Bigger cards on desktop, keep mobile size
+  const cardWidth = isMobile ? 3.2 : 5
+  const cardHeight = isMobile ? 2 : 3.2
 
   // Load project image if provided
   useMemo(() => {

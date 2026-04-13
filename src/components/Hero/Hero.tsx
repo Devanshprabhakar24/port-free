@@ -79,30 +79,17 @@ function Hero({ mouse, onViewProjects, onHireMe, shouldRenderScene = true }: Her
       <div className="relative z-10 flex min-h-screen items-center">
         <div className="w-full pl-[max(24px,5vw)] pr-6 pb-[60px] pt-[120px] md:pr-8 lg:max-w-[55%] lg:pr-0">
         <div className="mb-[10px] font-mono text-[10px] tracking-[0.22em] text-[#64748b]">
-          AVAILABLE FOR HIRE · INDIA · 2026_
+          Available for freelance work • Quick response • Open to projects
         </div>
 
         <div className="mb-[22px] h-px w-[50px] bg-[rgba(124,58,237,0.5)]" />
 
-        <h1 className="text-[clamp(38px,4.5vw,68px)] font-[900] leading-[1] tracking-[-0.02em] text-[#f1f5f9]">
-          <span>Interfaces That</span>
+        <h1 className="text-[clamp(38px,4.5vw,68px)] font-[900] leading-[1.05] tracking-[-0.02em] text-[#f1f5f9]">
+          I Build Web Apps That Help Businesses Grow
         </h1>
 
-        <h1
-          className="text-[clamp(38px,4.5vw,68px)] font-[900] leading-[1.05] tracking-[-0.02em]"
-          style={{
-            background: 'linear-gradient(110deg, #a78bfa 0%, #ec4899 55%, #fb923c 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundSize: '200% 200%',
-            animation: 'gradientShift 4s ease infinite',
-          }}
-        >
-          Turn Ideas Into Revenue.
-        </h1>
-
-        <p className="mb-[32px] mt-[22px] max-w-95 text-[14px] leading-[1.7] text-[#94a3b8]">
-          I build fast, scalable web applications with modern UI and powerful backend systems that convert users into customers.
+        <p className="mb-[32px] mt-[22px] max-w-95 text-[17px] leading-[1.7] text-[#94a3b8]">
+          Full stack developer helping startups and businesses build fast, scalable, and reliable web applications.
         </p>
 
         <motion.div
@@ -112,36 +99,23 @@ function Hero({ mouse, onViewProjects, onHireMe, shouldRenderScene = true }: Her
           transition={{ delay: 0.75, duration: 0.55 }}
         >
           <button
-            onClick={onViewProjects}
-            data-cursor-label="VIEW"
-            className="group flex items-center gap-2 rounded-full border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] px-9 py-4 text-[17px] text-[#f1f5f9] backdrop-blur-[8px] transition-all duration-300 hover:border-[rgba(124,58,237,0.6)] hover:bg-[rgba(124,58,237,0.08)]"
-          >
-            View Projects
-            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-          </button>
-
-          <button
             onClick={onHireMe}
             data-cursor-label="HIRE"
             className="rounded-full bg-linear-to-r from-[#7c3aed] to-[#ec4899] px-[38px] py-[16px] text-[17px] font-semibold text-white shadow-[0_0_32px_rgba(124,58,237,0.45)] transition duration-300 hover:scale-[1.05] hover:shadow-[0_0_56px_rgba(124,58,237,0.7)]"
           >
-            Start a Project
+            Hire Me
+          </button>
+          <button
+            onClick={onViewProjects}
+            data-cursor-label="VIEW"
+            className="group flex items-center gap-2 rounded-full border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] px-9 py-4 text-[17px] text-[#f1f5f9] backdrop-blur-[8px] transition-all duration-300 hover:border-[rgba(124,58,237,0.6)] hover:bg-[rgba(124,58,237,0.08)]"
+          >
+            View My Work
+            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
           </button>
         </motion.div>
 
-        <div className="flex flex-wrap items-center gap-[18px]">
-          <div className="flex items-center gap-[6px]">
-            <span
-              className="h-[7px] w-[7px] rounded-full bg-emerald-400"
-              style={{ boxShadow: '0 0 8px rgba(34,197,94,0.9)', animation: 'pulse 2s ease-in-out infinite' }}
-            />
-            <span className="font-mono text-[10px] text-emerald-400 tracking-[0.16em]">AVAILABLE FOR FREELANCE</span>
-          </div>
-          <span className="font-mono text-[10px] text-[rgba(71,85,105,0.5)]">·</span>
-          <span className="font-mono text-[10px] text-[#475569]">30+ projects delivered</span>
-          <span className="font-mono text-[10px] text-[rgba(71,85,105,0.5)]">·</span>
-          <span className="font-mono text-[10px] text-[#475569]">4 yrs experience</span>
-        </div>
+        {/* Trust line already included above. Remove extra fluff. */}
       </div>
       </div>
 

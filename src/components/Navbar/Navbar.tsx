@@ -12,9 +12,9 @@ type RouteItem = {
 
 const links: RouteItem[] = [
   { id: 'hero', label: 'Home' },
-  { id: 'about', label: 'About' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'contact', label: 'Contact' },
+  { id: 'about', label: 'Why Me' },
+  { id: 'projects', label: 'Work' },
+  { id: 'contact', label: 'Hire Me' },
 ]
 
 type NavbarProps = {
@@ -218,7 +218,7 @@ function Navbar({ mouse, currentSection, onNavigate }: NavbarProps) {
               data-cursor-label="HIRE"
               className="rounded-full bg-gradient-to-r md:from-[#7c3aed]/90 md:to-[#ec4899]/90 px-5 md:px-8 py-[8px] md:py-[13px] text-[12px] md:text-[17px] font-medium md:font-semibold tracking-[0.03em] text-white shadow-[0_0_24px_rgba(124,58,237,0.28)] md:shadow-[0_0_32px_rgba(124,58,237,0.32)] hover:scale-[1.02] md:hover:scale-[1.05] transition-all duration-200"
             >
-              Let's Talk →
+              Hire Me →
             </button>
           </div>
 

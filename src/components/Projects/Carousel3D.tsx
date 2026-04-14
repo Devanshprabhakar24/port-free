@@ -1,6 +1,6 @@
 import { PresentationControls } from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { useMemo, useRef, useState, useEffect, useCallback } from 'react'
+import { useMemo, useRef, useState, useCallback } from 'react'
 import * as THREE from 'three'
 import { AnimatePresence, motion } from 'framer-motion'
 import ProjectCard3D from './ProjectCard3D'

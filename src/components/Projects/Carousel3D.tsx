@@ -149,22 +149,7 @@ export default function Carousel3D() {
   const isMobile = useIsMobile()
   const [selectedProject, setSelectedProject] = useState<number | null>(null)
   const [targetRotation, setTargetRotation] = useState(0)
-  const [autoRotation, setAutoRotation] = useState(0)
   const [displayProjectIndex, setDisplayProjectIndex] = useState(0)
-
-  // Track auto-rotation for AUTO mode
-  useEffect(() => {
-    let frameId: number;
-    function update() {
-      setAutoRotation(() => {
-        const speed = isMobile ? 0.08 : 0.12;
-        return ((performance.now() / 1000) * speed) % (Math.PI * 2);
-      });
-      frameId = requestAnimationFrame(update);
-    }
-    update();
-    return () => cancelAnimationFrame(frameId);
-  }, [isMobile]);
 
   const handleDisplayProject = useCallback((index: number) => {
     // Only update from CardRing when in AUTO mode

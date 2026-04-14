@@ -85,7 +85,7 @@ export default function ProjectCard3D({
       const imgScale = Math.max(W / img.width, H / img.height)
       const x = (W - img.width * imgScale) / 2
       const y = (H - img.height * imgScale) / 2
-      
+
       ctx.drawImage(img, x, y, img.width * imgScale, img.height * imgScale)
 
       // Add subtle overlay gradient
@@ -98,7 +98,7 @@ export default function ProjectCard3D({
       // Add project title at bottom
       ctx.fillStyle = 'rgba(0,0,0,0.8)'
       ctx.fillRect(0, H - 100, W, 100)
-      
+
       ctx.fillStyle = '#ffffff'
       ctx.font = '700 48px "Cabinet Grotesk", sans-serif'
       ctx.fillText(title, 40, H - 50)
@@ -132,7 +132,7 @@ export default function ProjectCard3D({
       let line = ''
       y = 480
       const maxWidth = W - 160
-      
+
       for (let i = 0; i < words.length; i++) {
         const testLine = line + words[i] + ' '
         const metrics = ctx.measureText(testLine)
@@ -185,7 +185,7 @@ export default function ProjectCard3D({
       const imgHeight = 250
       const imgX = 80
       const imgY = 100
-      
+
       // Draw image with rounded corners effect
       ctx.save()
       ctx.fillStyle = 'rgba(0,0,0,0.3)'
@@ -193,7 +193,7 @@ export default function ProjectCard3D({
       ctx.globalAlpha = 0.9
       ctx.drawImage(img, imgX, imgY, imgWidth, imgHeight)
       ctx.restore()
-      
+
       // Image border
       ctx.strokeStyle = 'rgba(124,58,237,0.4)'
       ctx.lineWidth = 2
@@ -224,7 +224,7 @@ export default function ProjectCard3D({
       .split(',')
       .map((item) => `◆ ${item.trim()}`)
       .join('   ')
-    
+
     // Wrap stack text if too long
     const maxStackWidth = imageTexture ? 440 : W - 160
     const stackX = imageTexture ? 520 : 80
@@ -248,7 +248,7 @@ export default function ProjectCard3D({
     let y = imageTexture ? currentStackY + 20 : 360
     const maxWidth = imageTexture ? 440 : W - 160
     const summaryX = imageTexture ? 520 : 80
-    
+
     for (let i = 0; i < words.length; i++) {
       const testLine = line + words[i] + ' '
       const metrics = ctx.measureText(testLine)
@@ -267,7 +267,7 @@ export default function ProjectCard3D({
       y = Math.max(y + 35, 400) // Ensure details are below the image
       ctx.fillStyle = 'rgba(235,235,245,0.95)'
       ctx.font = '500 20px "Cabinet Grotesk", sans-serif'
-      
+
       details.forEach(detail => {
         const detailWords = detail.split(' ')
         let dLine = '• '
@@ -330,11 +330,11 @@ export default function ProjectCard3D({
         {/* Back face - Full project screenshot */}
         <mesh rotation-y={Math.PI} position={[0, 0, -0.01]}>
           <planeGeometry args={[cardWidth, cardHeight]} />
-          <meshStandardMaterial 
-            map={backTexture} 
-            roughness={0.4} 
+          <meshStandardMaterial
+            map={backTexture}
+            roughness={0.4}
             metalness={0.1}
-            emissive="#1a0a2e" 
+            emissive="#1a0a2e"
             emissiveIntensity={0.1}
           />
         </mesh>

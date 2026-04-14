@@ -74,7 +74,7 @@ function CardRing({ targetRotation, isManual, selectedProject, onDisplayProject 
   const positions = useMemo(() => {
     // Perfect numerical circle based on device
     const radius = isMobile ? 5 : 7.2
-    
+
     return projects.map((_, index) => {
       const theta = (Math.PI * 2 * index) / projects.length
       const cardAngle = theta + Math.PI / 2
@@ -98,7 +98,7 @@ function CardRing({ targetRotation, isManual, selectedProject, onDisplayProject 
         autoRotationRef.current = clock.getElapsedTime() * speed
         groupRef.current.rotation.y = autoRotationRef.current
       }
-      
+
       // Calculate which project is at the front and notify parent
       const theta = groupRef.current.rotation.y % (Math.PI * 2);
       const projectCount = projects.length;
@@ -117,10 +117,10 @@ function CardRing({ targetRotation, isManual, selectedProject, onDisplayProject 
   })
 
   return (
-    <PresentationControls 
-      global 
-      polar={[-0.3, 0.3]} 
-      azimuth={[-Infinity, Infinity]} 
+    <PresentationControls
+      global
+      polar={[-0.3, 0.3]}
+      azimuth={[-Infinity, Infinity]}
       snap={false}
       speed={isMobile ? 0.8 : 1.2}
     >
@@ -173,18 +173,18 @@ export default function Carousel3D() {
 
   // Determine which project to display
   let displayIndex = displayProjectIndex;
-  
+
   return (
     <div className="flex w-full flex-col h-auto min-h-full">
       {/* 3D Viewport Space - Condensed Height to make it specifically smaller */}
       <div className="relative h-[350px] md:h-[400px] w-full shrink-0">
         <Canvas
-          camera={{ 
-            position: [0, 0, isMobile ? 11 : 14], 
-            fov: isMobile ? 60 : 60 
+          camera={{
+            position: [0, 0, isMobile ? 11 : 14],
+            fov: isMobile ? 60 : 60
           }}
           dpr={[1, isMobile ? 1.5 : Math.min(typeof window !== 'undefined' ? window.devicePixelRatio : 1, 2)]}
-          gl={{ 
+          gl={{
             antialias: !isMobile,
             alpha: false,
             powerPreference: isMobile ? 'low-power' : 'high-performance'
@@ -193,13 +193,13 @@ export default function Carousel3D() {
         >
           <color attach="background" args={['#0a0a12']} />
           <fog attach="fog" args={['#0a0a12', isMobile ? 6 : 10, isMobile ? 18 : 26]} />
-          
+
           <ambientLight intensity={isMobile ? 0.7 : 0.6} />
           <directionalLight position={[5, 5, 5]} intensity={isMobile ? 0.8 : 1} castShadow={!isMobile} />
           <pointLight position={[0, 3, 0]} intensity={isMobile ? 1.2 : 1.5} color="#7c3aed" />
           {!isMobile && <pointLight position={[-3, 0, 3]} intensity={1.2} color="#ec4899" />}
           {!isMobile && <pointLight position={[3, 0, -3]} intensity={1} color="#fb923c" />}
-          
+
           <CardRing targetRotation={targetRotation} isManual={selectedProject !== null} selectedProject={selectedProject} onDisplayProject={handleDisplayProject} />
         </Canvas>
 
@@ -209,23 +209,20 @@ export default function Carousel3D() {
             {/* Auto Button */}
             <button
               onClick={resetToAuto}
-              className={`group relative overflow-hidden rounded-xl px-4 py-2.5 font-mono text-xs font-bold uppercase tracking-wider transition-all ${
-                selectedProject === null ? 'scale-105' : 'scale-100 hover:scale-105'
-              }`}
+              className={`group relative overflow-hidden rounded-xl px-4 py-2.5 font-mono text-xs font-bold uppercase tracking-wider transition-all ${selectedProject === null ? 'scale-105' : 'scale-100 hover:scale-105'
+                }`}
             >
-              <div className={`absolute inset-0 transition-all ${
-                selectedProject === null
-                  ? 'bg-gradient-to-r from-violet-600 to-purple-600 opacity-100'
-                  : 'bg-white/5 opacity-100 group-hover:bg-white/10'
-              }`} />
+              <div className={`absolute inset-0 transition-all ${selectedProject === null
+                ? 'bg-gradient-to-r from-violet-600 to-purple-600 opacity-100'
+                : 'bg-white/5 opacity-100 group-hover:bg-white/10'
+                }`} />
               {selectedProject === null && (
                 <div className="absolute inset-0">
                   <div className="absolute inset-0 bg-gradient-to-r from-violet-400/50 to-purple-400/50 blur-md" />
                 </div>
               )}
-              <span className={`relative flex items-center gap-2 transition-colors ${
-                selectedProject === null ? 'text-white' : 'text-slate-400 group-hover:text-slate-300'
-              }`}>
+              <span className={`relative flex items-center gap-2 transition-colors ${selectedProject === null ? 'text-white' : 'text-slate-400 group-hover:text-slate-300'
+                }`}>
                 {selectedProject === null && (
                   <svg className="h-3 w-3 animate-spin" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
@@ -244,38 +241,34 @@ export default function Carousel3D() {
               <button
                 key={index}
                 onClick={() => goToProject(index)}
-                className={`group relative h-10 w-10 overflow-hidden rounded-xl font-mono text-sm font-bold transition-all ${
-                  selectedProject === index ? 'scale-110' : 'scale-100 hover:scale-105'
-                }`}
+                className={`group relative h-10 w-10 overflow-hidden rounded-xl font-mono text-sm font-bold transition-all ${selectedProject === index ? 'scale-110' : 'scale-100 hover:scale-105'
+                  }`}
                 title={project.title}
               >
                 {/* Background */}
-                <div className={`absolute inset-0 transition-all ${
-                  selectedProject === index
-                    ? 'bg-gradient-to-br from-violet-600 to-purple-600 opacity-100'
-                    : 'bg-white/5 opacity-100 group-hover:bg-white/10'
-                }`} />
-                
+                <div className={`absolute inset-0 transition-all ${selectedProject === index
+                  ? 'bg-gradient-to-br from-violet-600 to-purple-600 opacity-100'
+                  : 'bg-white/5 opacity-100 group-hover:bg-white/10'
+                  }`} />
+
                 {/* Glow effect for selected */}
                 {selectedProject === index && (
                   <div className="absolute inset-0">
                     <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-violet-400/50 to-purple-400/50 blur-md" />
                   </div>
                 )}
-                
+
                 {/* Border */}
-                <div className={`absolute inset-0 rounded-xl border transition-all ${
-                  selectedProject === index
-                    ? 'border-violet-400/50'
-                    : 'border-white/10 group-hover:border-white/20'
-                }`} />
-                
+                <div className={`absolute inset-0 rounded-xl border transition-all ${selectedProject === index
+                  ? 'border-violet-400/50'
+                  : 'border-white/10 group-hover:border-white/20'
+                  }`} />
+
                 {/* Number */}
-                <span className={`relative transition-colors ${
-                  selectedProject === index
-                    ? 'text-white'
-                    : 'text-slate-400 group-hover:text-slate-300'
-                }`}>
+                <span className={`relative transition-colors ${selectedProject === index
+                  ? 'text-white'
+                  : 'text-slate-400 group-hover:text-slate-300'
+                  }`}>
                   {index + 1}
                 </span>
               </button>
@@ -302,11 +295,11 @@ export default function Carousel3D() {
                     <span className="h-2 w-2 rounded-full bg-violet-400 shadow-[0_0_10px_rgba(167,139,250,0.8)]" />
                     Mission {String(displayIndex + 1).padStart(2, '0')}
                   </div>
-                  
+
                   <h3 className="mb-4 font-display text-3xl font-bold text-white md:text-4xl">
                     {projects[displayIndex].title}
                   </h3>
-                  
+
                   <div className="mb-6 flex flex-wrap gap-2">
                     {projects[displayIndex].stack.split(',').map((tech, i) => (
                       <span key={i} className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-slate-300">
@@ -314,7 +307,7 @@ export default function Carousel3D() {
                       </span>
                     ))}
                   </div>
-                  
+
                   <a
                     href={projects[displayIndex].url}
                     target="_blank"
@@ -332,7 +325,7 @@ export default function Carousel3D() {
                   <p className="mb-6 text-lg leading-relaxed text-slate-300">
                     {projects[displayIndex].summary}
                   </p>
-                  
+
                   <div className="space-y-4">
                     {projects[displayIndex].details.map((detail, i) => (
                       <div key={i} className="flex items-start gap-4">

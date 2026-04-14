@@ -59,86 +59,72 @@ function App() {
           <About mouse={mouse} shouldRenderScene={aboutNear} />
         </section>
 
-        <section id="services" data-scroll-section className="min-h-screen">
-          <div className="mx-auto min-h-screen max-w-7xl px-4 py-16 sm:px-6 md:py-20">
+        <section id="services" data-scroll-section className="relative min-h-screen">
+          {/* Dark overlay to ensure text is perfectly readable against the bright planet bg */}
+          <div className="pointer-events-none absolute inset-0 bg-black/60 backdrop-blur-[3px]" aria-hidden="true" />
+          
+          <div className="relative z-10 mx-auto min-h-[90vh] flex flex-col justify-center max-w-6xl px-4 py-16 sm:px-6 md:py-20">
             {/* Section Header */}
-            <div className="mx-auto mb-10 max-w-3xl text-center">
-              <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.28em] text-[#7c3aed]">What I Offer</p>
-              <h2 className="mb-5 text-[clamp(28px,5vw,52px)] font-black leading-[1.15] tracking-[-0.03em] text-white">
+            <div className="mx-auto mb-16 max-w-3xl text-center">
+              <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.28em] text-[#7c3aed]">Technical Solutions for Business Growth</p>
+              <h2 className="mb-6 text-[clamp(28px,5vw,52px)] font-black leading-[1.15] tracking-[-0.03em] text-white">
                 Services That <span className="text-gradient">Drive Results</span>
               </h2>
-              <p className="mx-auto max-w-2xl text-[16px] leading-[1.8] text-slate-300 sm:text-[17px]">
-                I don't just write code — I build complete solutions. Here's how I can help your business grow with technology that actually works.
+              <p className="mx-auto max-w-2xl text-[16px] leading-[1.8] text-slate-300 sm:text-[18px]">
+                I don't just write code — I build scalable systems that handle real users and grow with your business.
               </p>
             </div>
 
             {/* Service Cards Grid */}
-            <div className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-5">
+            <div className="mx-auto grid w-full gap-6 lg:grid-cols-3">
               {[
                 {
                   icon: '🚀',
-                  title: 'Full-Stack Web Apps',
-                  desc: 'Complete web applications with modern frameworks. From user-facing frontends to robust backends — everything your product needs to launch.',
-                  examples: ['SaaS Platforms', 'E-Commerce', 'Social Platforms'],
+                  title: 'Custom SaaS & Web Apps',
+                  whatItDoes: 'End-to-end web applications built from the ground up to serve your users seamlessly.',
+                  whyItMatters: 'Turn your idea into a launched product quickly without sacrificing quality, security, or the ability to scale as your user base grows.'
                 },
                 {
                   icon: '⚙️',
-                  title: 'Backend & API Systems',
-                  desc: 'Secure, scalable server-side architectures with REST APIs, authentication, payment integration, and database design.',
-                  examples: ['REST APIs', 'Payment Gateways', 'Auth Systems'],
+                  title: 'Backend Systems & APIs',
+                  whatItDoes: 'Powerful, secure, and robust server architectures and databases that power your business logic.',
+                  whyItMatters: 'Stop worrying about crashes or slow load times. Ensure your platform handles heavy traffic and processes data efficiently.'
                 },
                 {
                   icon: '📊',
                   title: 'Dashboards & Admin Panels',
-                  desc: 'Custom dashboards to manage users, data, and analytics. Real-time updates, role-based access, and clean data visualization.',
-                  examples: ['Analytics Dashboards', 'CMS Panels', 'User Management'],
-                },
-                {
-                  icon: '📱',
-                  title: 'Responsive Web Design',
-                  desc: 'Beautiful, pixel-perfect interfaces that work flawlessly across all devices. Mobile-first design with smooth animations.',
-                  examples: ['Landing Pages', 'Portfolio Sites', 'Marketing Pages'],
-                },
-                {
-                  icon: '🏥',
-                  title: 'Health-Tech & Tracking',
-                  desc: 'Specialized in health and tracking systems — vaccination engines, growth monitoring, appointment scheduling, and medical records.',
-                  examples: ['Patient Portals', 'Health Trackers', 'Scheduling'],
-                },
-                {
-                  icon: '🔧',
-                  title: 'Bug Fixes & Optimization',
-                  desc: 'Existing app broken or slow? I debug, refactor, and optimize your codebase for better performance and maintainability.',
-                  examples: ['Performance Tuning', 'Code Refactoring', 'Bug Fixing'],
-                },
+                  whatItDoes: 'Custom management dashboards that connect directly to your business data.',
+                  whyItMatters: 'Stop tracking operations on disorganized spreadsheets. Save hours of time with automated tools that give you a birds-eye view of your business.'
+                }
               ].map((service) => (
                 <div
                   key={service.title}
-                  className="group rounded-[24px] border border-white/10 bg-white/[0.03] p-6 backdrop-blur-xl transition-all duration-300 hover:border-violet-500/30 hover:bg-white/[0.06] sm:p-7"
+                  className="group flex flex-col rounded-[24px] border border-white/10 bg-[#050508]/80 p-8 shadow-xl backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-violet-500/40 hover:bg-[#0a0a10]/90 hover:shadow-[0_15px_40px_rgba(124,58,237,0.15)]"
                 >
-                  <div className="mb-4 text-3xl">{service.icon}</div>
-                  <h3 className="mb-3 text-[18px] font-bold text-white sm:text-[20px]">{service.title}</h3>
-                  <p className="mb-4 text-[14px] leading-[1.7] text-slate-400 sm:text-[15px]">{service.desc}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {service.examples.map((ex) => (
-                      <span key={ex} className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-medium text-slate-300">
-                        {ex}
-                      </span>
-                    ))}
+                  <div className="mb-6 text-4xl transform transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3 origin-left">{service.icon}</div>
+                  <h3 className="mb-4 text-[22px] font-bold text-white">{service.title}</h3>
+                  
+                  <div className="mb-5 flex-1">
+                    <p className="mb-2 text-[12px] font-bold uppercase tracking-wider text-violet-400">What it does</p>
+                    <p className="text-[15px] leading-[1.7] text-slate-300">{service.whatItDoes}</p>
+                  </div>
+                  
+                  <div className="border-t border-white/10 pt-5">
+                    <p className="mb-2 text-[12px] font-bold uppercase tracking-wider text-emerald-400">Why it matters</p>
+                    <p className="text-[15px] leading-[1.7] text-slate-300">{service.whyItMatters}</p>
                   </div>
                 </div>
               ))}
             </div>
 
             {/* CTA below services */}
-            <div className="mx-auto mt-10 max-w-2xl text-center">
-              <p className="mb-4 text-[15px] text-slate-400">Not sure what you need? Let's talk — I'll help you figure it out.</p>
+            <div className="mx-auto mt-16 max-w-2xl text-center">
               <button
                 onClick={() => {
                   const el = document.getElementById('contact')
                   if (el) el.scrollIntoView({ behavior: 'smooth' })
                 }}
-                className="group inline-flex items-center gap-2 rounded-full border border-violet-400/40 bg-violet-500/10 px-8 py-3.5 text-[15px] font-semibold text-white transition-all duration-300 hover:border-violet-400/60 hover:bg-violet-500/20 hover:shadow-[0_0_30px_rgba(124,58,237,0.3)]"
+                className="group inline-flex items-center gap-2 rounded-full border border-violet-400/40 bg-violet-500/10 px-8 py-4 text-[16px] font-semibold text-white backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-violet-400/60 hover:bg-violet-500/20 hover:shadow-[0_0_30px_rgba(124,58,237,0.3)]"
               >
                 Let's Discuss Your Project
                 <span className="transition-transform group-hover:translate-x-1">→</span>

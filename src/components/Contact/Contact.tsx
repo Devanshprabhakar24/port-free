@@ -210,10 +210,10 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
 
               <div>
                 <h2 className="bg-gradient-to-r from-white via-violet-100 to-pink-100 bg-clip-text text-[clamp(26px,2.8vw,44px)] font-bold leading-[1.3] tracking-[-0.02em] text-transparent md:text-[clamp(30px,3.2vw,48px)]">
-                  Have a Project in Mind?
+                  Let's Talk
                 </h2>
                 <p className="mt-5 max-w-xl text-[16px] leading-[1.8] text-slate-300 md:text-[17px]">
-                  Tell me about your idea — I'll get back within <span className="font-semibold text-white">24 hours</span> with a clear plan, timeline, and honest estimate. No commitments.
+                  No spam. Just real conversations about how we can build something great. I'll help you turn your idea into a real, working product.
                 </p>
               </div>
 
@@ -413,7 +413,7 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
                 <div className="group">
                   <label className="mb-2 flex items-center gap-2 text-[13px] font-medium text-slate-300">
                     <span className="h-1.5 w-1.5 rounded-full bg-violet-400" />
-                    Tell Me About Your Project
+                    What business problem are you trying to solve?
                   </label>
                   <textarea
                     className="h-32 w-full resize-none rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] px-4 py-3.5 text-[15px] leading-[1.7] text-white placeholder-slate-500 backdrop-blur-sm transition-all duration-300 focus:border-violet-400/50 focus:bg-white/[0.08] focus:outline-none focus:ring-2 focus:ring-violet-400/20"

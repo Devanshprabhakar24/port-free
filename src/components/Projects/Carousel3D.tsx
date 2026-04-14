@@ -17,51 +17,51 @@ type Project = {
 
 const projects: Project[] = [
   {
-    title: 'ZTUBE',
-    stack: 'TypeScript, Next.js, PostgreSQL',
-    summary: 'A YouTube-like video platform with user auth, cloud uploads, streaming, and subscription system.',
-    url: 'https://ztube.vercel.app/home',
-    image: '/projects/ztube.svg',
-    details: [
-      'Built a highly scalable video-streaming backend with chunked media uploads for large files.',
-      'Implemented secure JWT-based authentication and role-based access control.',
-      'Designed a custom subscription, like/dislike, and personalized watch-history system.'
-    ]
-  },
-  {
-    title: 'Scatch',
-    stack: 'Node.js, MongoDB, JWT',
-    summary: 'Full e-commerce store with product catalog, cart, secure checkout, and JWT-based authentication.',
-    url: 'https://scatch-xi.vercel.app/',
-    image: '/projects/scatch.svg',
-    details: [
-      'Built a full-stack e-commerce architecture with secure Stripe payment processing.',
-      'Created a robust product catalog system with dynamic filtering, fast searching, and categories.',
-      'Implemented real-time cart state management and automated order tracking workflows.'
-    ]
-  },
-  {
-    title: 'MyLaundry',
-    stack: 'React, Node.js, MongoDB',
-    summary: 'Business management app with real-time order tracking, admin dashboard, and customer portal.',
-    url: 'https://my-laundry-lime.vercel.app/',
-    image: '/projects/mylaundry.svg',
-    details: [
-      'Developed a comprehensive admin dashboard for monitoring laundry orders and delivery status.',
-      'Created a seamless customer-facing portal for seamless order booking and tracking.',
-      'Integrated automated SMS and Email notification services for real-time order updates.'
-    ]
-  },
-  {
     title: 'WombTo18',
     stack: 'Node.js, Razorpay, DAG Engine',
     summary: 'Health-tech platform tracking child vaccination schedules, growth milestones, and doctor visits for 50K+ parents.',
     url: 'https://child-module.vercel.app',
     image: '/projects/wombto18.png',
     details: [
-      'Engineered a complex DAG-based vaccination schedule engine strictly following WHO guidelines.',
-      'Integrated Razorpay for seamless appointment and medical consultation bookings.',
-      'Designed highly secure medical records and physical growth tracking system used by 50,000+ parents.'
+      'The Problem: Managing vaccination schedules and growth milestones for thousands of children is incredibly complex and prone to human error.',
+      'The Solution: Engineered an intelligent scheduling engine that strictly follows WHO guidelines, paired with a secure medical booking system.',
+      'The Result: A highly secure, automated tracking system actively used by 50,000+ parents to monitor child health without the guesswork.'
+    ]
+  },
+  {
+    title: 'Scatch',
+    stack: 'Node.js, MongoDB, React',
+    summary: 'Custom e-commerce store with product catalog, cart, secure checkout, and user authentication.',
+    url: 'https://scatch-xi.vercel.app/',
+    image: '/projects/scatch.svg',
+    details: [
+      'The Problem: Generic storefronts limit business customization and struggle with scalable payment pipelines.',
+      'The Solution: Built a custom full-stack e-commerce architecture with secure Stripe payment processing and dynamic product filtering.',
+      'The Result: A premium shopping experience with real-time cart state management and automated order tracking workflows.'
+    ]
+  },
+  {
+    title: 'MyLaundry',
+    stack: 'React, Node.js, MongoDB',
+    summary: 'Business management portal with real-time order tracking, admin dashboard, and customer integration.',
+    url: 'https://my-laundry-lime.vercel.app/',
+    image: '/projects/mylaundry.svg',
+    details: [
+      'The Problem: Local laundry businesses lose time manually tracking customer orders, deliveries, and notifications.',
+      'The Solution: Developed a comprehensive admin dashboard and customer portal linked to automated SMS/email gateways.',
+      'The Result: Completely automated manual tracking, significantly improving order completion times and management visibility.'
+    ]
+  },
+  {
+    title: 'ZTUBE',
+    stack: 'TypeScript, Next.js, PostgreSQL',
+    summary: 'A scalable video platform with user auth, cloud uploads, streaming, and subscription system.',
+    url: 'https://ztube.vercel.app/home',
+    image: '/projects/ztube.svg',
+    details: [
+      'The Problem: Traditional video hosting platforms restrict creator monetization and control over data.',
+      'The Solution: Built a highly scalable video-streaming backend with chunked media uploads for large files and robust caching.',
+      'The Result: A dynamic, high-performance content engine capable of handling parallel video streams and custom subscriptions.'
     ]
   },
 ]

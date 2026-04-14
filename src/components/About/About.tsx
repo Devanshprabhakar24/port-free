@@ -150,36 +150,50 @@ function About({ mouse: _mouse, shouldRenderScene = true }: { mouse: MousePositi
           </div>
 
           <h2
-            className="mb-6 text-[clamp(30px,3.4vw,52px)] font-bold leading-[1.2]"
+            className="mb-6 text-[clamp(28px,3.2vw,48px)] font-bold leading-[1.2]"
             style={{
               background: 'linear-gradient(110deg, #a78bfa 0%, #ec4899 60%, #fb923c 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}
           >
-            You Don't Just Get Code —
+            I don’t just write code —
             <br />
-            You Get Results.
+            I partner to hit your business goals.
           </h2>
 
           <p className="mb-10 max-w-lg border-l-2 border-[rgba(124,58,237,0.4)] pl-5 text-[16px] leading-[1.9] text-[#94a3b8]">
-            I help startups and businesses turn ideas into <span className="text-white font-medium">real, working products</span>. From frontend to backend, I build <span className="text-white font-medium">scalable systems that are clean, reliable, and ready for production use</span>.
+            I build scalable web apps that handle real users and grow with your business. Stop worrying about crashes or slow load times. Ensure your platform handles heavy traffic and processes data efficiently.
           </p>
 
-          <div className="mb-8 space-y-3">
-            {[
-              'Clean, scalable, production-ready code',
-              'Fast delivery with daily progress updates',
-              'Built for real users and real traffic',
-              'Post-launch support & maintenance',
-            ].map((item) => (
-              <div key={item} className="flex items-start gap-3">
-                <span className="mt-1 h-4 w-4 shrink-0 rounded-full border border-[rgba(124,58,237,0.5)] flex items-center justify-center">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#7c3aed]" />
-                </span>
-                <span className="text-[15px] leading-[1.6] text-[#94a3b8]">{item}</span>
+          <div className="mb-8 space-y-4">
+            <div className="flex items-start gap-3">
+              <span className="mt-1 h-4 w-4 shrink-0 rounded-full border border-[rgba(124,58,237,0.5)] flex items-center justify-center">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#7c3aed]" />
+              </span>
+              <div>
+                <span className="font-semibold text-white">Custom SaaS & Web Platforms</span>
+                <p className="text-[14px] leading-[1.6] text-[#94a3b8]">Turn your idea into a launched product without sacrificing security or scalability.</p>
               </div>
-            ))}
+            </div>
+            <div className="flex items-start gap-3">
+              <span className="mt-1 h-4 w-4 shrink-0 rounded-full border border-[rgba(124,58,237,0.5)] flex items-center justify-center">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#ce31b5]" />
+              </span>
+              <div>
+                <span className="font-semibold text-white">Backend Systems & Custom APIs</span>
+                <p className="text-[14px] leading-[1.6] text-[#94a3b8]">Robust server architectures built to last. When your business takes off, your app won't break.</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <span className="mt-1 h-4 w-4 shrink-0 rounded-full border border-[rgba(124,58,237,0.5)] flex items-center justify-center">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#fb923c]" />
+              </span>
+              <div>
+                <span className="font-semibold text-white">Dashboards & Admin Panels</span>
+                <p className="text-[14px] leading-[1.6] text-[#94a3b8]">Save hours of time with automated tools that give you a birds-eye view of your business.</p>
+              </div>
+            </div>
           </div>
 
           <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">

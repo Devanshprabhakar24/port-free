@@ -33,16 +33,17 @@ export default function ProjectCard3D({
   const isMobile = useIsMobile()
 
   // Make the card pop out by updating its local Z position
+  // Dramatically increased base rendering scales to make cards massive!
   const { rotationY, scale, positionZ } = useSpring({
     rotationY: hovered ? Math.PI : 0,
-    scale: isSelected ? 1.2 : hovered ? 1.05 : 1,
-    positionZ: isSelected ? 2.5 : 0,
+    scale: isSelected ? 1.9 : hovered ? 1.45 : 1.35,
+    positionZ: isSelected ? 3.5 : 0,
     config: { tension: 200, friction: 20 },
   })
 
-  // Bigger cards
-  const cardWidth = isMobile ? 3.8 : 5.5
-  const cardHeight = isMobile ? 2.4 : 3.5
+  // Bigger cards requested by user
+  const cardWidth = isMobile ? 5.0 : 7.2
+  const cardHeight = isMobile ? 3.2 : 4.6
 
   // Load project image if provided
   useMemo(() => {

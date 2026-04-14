@@ -25,7 +25,7 @@ export default function Projects({ mouse }: { mouse: MousePosition }) {
         </p>
       </div>
 
-      <div className="relative z-[10] premium-surface h-130 overflow-hidden rounded-3xl">
+      <div className="relative z-[10] premium-surface flex flex-col h-auto w-full overflow-hidden rounded-3xl">
         {hasWebGL ? (
           <ErrorBoundary fallback={
             <div className="flex h-full items-center justify-center">

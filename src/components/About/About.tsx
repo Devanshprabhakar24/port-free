@@ -150,7 +150,7 @@ function About({ mouse: _mouse, shouldRenderScene = true }: { mouse: MousePositi
           </div>
 
           <h2
-            className="mb-6 text-[clamp(28px,3.2vw,48px)] font-bold leading-[1.2]"
+            className="mb-6 text-[clamp(30px,3.4vw,52px)] font-bold leading-[1.2]"
             style={{
               background: 'linear-gradient(110deg, #a78bfa 0%, #ec4899 60%, #fb923c 100%)',
               WebkitBackgroundClip: 'text',
@@ -162,21 +162,22 @@ function About({ mouse: _mouse, shouldRenderScene = true }: { mouse: MousePositi
             You Get Results.
           </h2>
 
-          <p className="mb-10 max-w-md border-l-2 border-[rgba(124,58,237,0.4)] pl-5 text-[15px] leading-[1.9] text-[#64748b]">
-            I help startups and businesses turn ideas into <span className="text-[#94a3b8]">real products</span>. From frontend to backend, I build <span className="text-[#94a3b8]">scalable systems that are clean, reliable, and ready for production use</span>.
+          <p className="mb-10 max-w-lg border-l-2 border-[rgba(124,58,237,0.4)] pl-5 text-[16px] leading-[1.9] text-[#94a3b8]">
+            I help startups and businesses turn ideas into <span className="text-white font-medium">real, working products</span>. From frontend to backend, I build <span className="text-white font-medium">scalable systems that are clean, reliable, and ready for production use</span>.
           </p>
 
-          <div className="mb-8 space-y-2.5">
+          <div className="mb-8 space-y-3">
             {[
-              'Clean, scalable, and maintainable code',
-              'Fast delivery with clear communication',
-              'Built for performance and real users',
+              'Clean, scalable, production-ready code',
+              'Fast delivery with daily progress updates',
+              'Built for real users and real traffic',
+              'Post-launch support & maintenance',
             ].map((item) => (
               <div key={item} className="flex items-start gap-3">
-                <span className="mt-0.75 h-3.5 w-3.5 shrink-0 rounded-full border border-[rgba(124,58,237,0.5)] flex items-center justify-center">
-                  <span className="h-1.25 w-1.25 rounded-full bg-[#7c3aed]" />
+                <span className="mt-1 h-4 w-4 shrink-0 rounded-full border border-[rgba(124,58,237,0.5)] flex items-center justify-center">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#7c3aed]" />
                 </span>
-                <span className="text-[13px] leading-[1.6] text-[#64748b]">{item}</span>
+                <span className="text-[15px] leading-[1.6] text-[#94a3b8]">{item}</span>
               </div>
             ))}
           </div>

@@ -73,13 +73,14 @@ function Hero({ mouse, onViewProjects, shouldRenderScene = true }: HeroProps) {
 
       <div className="relative z-10 flex min-h-screen items-center">
         <div className="w-full px-[max(20px,5vw)] pb-[60px] pt-[100px] md:pl-[max(24px,5vw)] md:pr-8 md:pt-[120px] lg:max-w-[55%] lg:pr-0">
-          <div className="mb-[10px] font-mono text-[9px] tracking-[0.20em] text-[#64748b] md:text-[10px] md:tracking-[0.22em]">
-            Available for freelance work • Quick response • Open to projects
+          <div className="mb-[10px] flex items-center gap-2 font-mono text-[11px] tracking-[0.20em] text-[#94a3b8] md:text-[12px] md:tracking-[0.22em]">
+            <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(34,197,94,0.8)]" />
+            Available for hire — Ready to start your project
           </div>
 
           <div className="mb-[18px] h-px w-[40px] bg-[rgba(124,58,237,0.5)] md:mb-[22px] md:w-[50px]" />
 
-          <h1 className="text-[clamp(32px,8vw,68px)] font-[900] leading-[1.1] tracking-[-0.02em] text-[#f1f5f9] md:text-[clamp(38px,4.5vw,68px)] md:leading-[1.05]">
+          <h1 className="text-[clamp(34px,8vw,72px)] font-[900] leading-[1.1] tracking-[-0.02em] text-[#f1f5f9] md:text-[clamp(40px,4.8vw,72px)] md:leading-[1.05]">
             I Build Web Apps That{' '}
             <span
               style={{
@@ -100,8 +101,8 @@ function Hero({ mouse, onViewProjects, shouldRenderScene = true }: HeroProps) {
             </span>
           </h1>
 
-          <p className="mb-[28px] mt-[18px] max-w-[90vw] text-[15px] leading-[1.65] text-[#94a3b8] md:mb-[32px] md:mt-[22px] md:max-w-95 md:text-[17px] md:leading-[1.7]">
-            Full stack developer helping startups and businesses build fast, scalable, and reliable web applications.
+          <p className="mb-[28px] mt-[18px] max-w-[90vw] text-[16px] leading-[1.75] text-[#cbd5e1] md:mb-[32px] md:mt-[22px] md:max-w-[520px] md:text-[18px] md:leading-[1.8]">
+            I'm a full-stack developer who turns your ideas into <span className="text-white font-medium">production-ready web apps</span>. From SaaS platforms to health-tech systems — I build fast, scalable solutions that your users will love.
           </p>
         </div>
       </div>
@@ -128,14 +129,27 @@ function Hero({ mouse, onViewProjects, shouldRenderScene = true }: HeroProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.75, duration: 0.55 }}
         >
-          <button
-            onClick={onViewProjects}
-            data-cursor-label="VIEW"
-            className="group flex items-center gap-2 rounded-full border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,237,0.04)] px-8 py-[14px] text-[16px] text-[#f1f5f9] backdrop-blur-[8px] transition-all duration-300 hover:border-[rgba(124,58,237,0.6)] hover:bg-[rgba(124,58,237,0.08)] md:px-10 md:py-[18px] md:text-[18px]"
-          >
-            View My Work
-            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-          </button>
+          <div className="flex flex-col items-center gap-3 sm:flex-row">
+            <button
+              onClick={() => {
+                const el = document.getElementById('contact')
+                if (el) el.scrollIntoView({ behavior: 'smooth' })
+              }}
+              data-cursor-label="HIRE"
+              className="group flex items-center gap-2 rounded-full bg-gradient-to-r from-violet-600 via-pink-600 to-orange-500 px-8 py-[14px] text-[16px] font-semibold text-white shadow-[0_8px_32px_rgba(124,58,237,0.4)] transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_12px_40px_rgba(124,58,237,0.5)] md:px-10 md:py-[18px] md:text-[18px]"
+            >
+              Hire Me
+              <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+            </button>
+            <button
+              onClick={onViewProjects}
+              data-cursor-label="VIEW"
+              className="group flex items-center gap-2 rounded-full border border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,237,0.04)] px-8 py-[14px] text-[16px] text-[#f1f5f9] backdrop-blur-[8px] transition-all duration-300 hover:border-[rgba(124,58,237,0.6)] hover:bg-[rgba(124,58,237,0.08)] md:px-10 md:py-[18px] md:text-[18px]"
+            >
+              View My Work
+              <span className="transition-transform duration-300 group-hover:translate-x-1">↓</span>
+            </button>
+          </div>
         </motion.div>
         <div className="h-8 w-px bg-gradient-to-b from-transparent via-[rgba(124,58,237,0.5)] to-transparent md:h-10" />
         <div className="relative h-5 w-[10px] overflow-hidden rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.08)] px-[4px] py-1 md:h-6 md:w-[11px] md:px-[5px]">

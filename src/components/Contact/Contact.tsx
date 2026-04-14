@@ -38,6 +38,8 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    projectType: '',
+    budget: '',
     message: ''
   })
 
@@ -68,7 +70,7 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
           duration: 0.65,
           ease: 'power3.out',
         },
-      )
+      ) 
     })
   }, [reducedMotion])
 
@@ -98,7 +100,7 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
 
       runBurst()
       setSubmitted(true)
-      setFormData({ name: '', email: '', message: '' })
+      setFormData({ name: '', email: '', projectType: '', budget: '', message: '' })
     } catch (err) {
       console.error('Contact form error:', err)
       setError(err instanceof Error ? err.message : 'Failed to send message')
@@ -184,11 +186,11 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
               </div>
 
               <div>
-                <h2 className="bg-gradient-to-r from-white via-violet-100 to-pink-100 bg-clip-text font-mono text-[clamp(24px,2.8vw,42px)] font-bold uppercase leading-[1.3] tracking-[0.12em] text-transparent md:text-[clamp(28px,3.2vw,48px)]">
+                <h2 className="bg-gradient-to-r from-white via-violet-100 to-pink-100 bg-clip-text text-[clamp(26px,2.8vw,44px)] font-bold leading-[1.3] tracking-[-0.02em] text-transparent md:text-[clamp(30px,3.2vw,48px)]">
                   Have a Project in Mind?
                 </h2>
-                <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-slate-300 md:text-[16px]">
-                  Send me your idea and I'll reply within 24 hours with a clear plan and honest estimate.
+                <p className="mt-5 max-w-xl text-[16px] leading-[1.8] text-slate-300 md:text-[17px]">
+                  Tell me about your idea — I'll get back within <span className="font-semibold text-white">24 hours</span> with a clear plan, timeline, and honest estimate. No commitments.
                 </p>
               </div>
 
@@ -310,42 +312,89 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
                 </svg>
               </div>
 
-              <form className="relative z-10 space-y-5" onSubmit={onSubmit}>
-                <div className="group">
-                  <label className="mb-2 flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-violet-400">
-                    <span className="h-1 w-1 rounded-full bg-violet-400" />
-                    NAME
-                  </label>
-                  <input
-                    className="w-full rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] px-4 py-3.5 text-[15px] text-white placeholder-slate-500 backdrop-blur-sm transition-all duration-300 focus:border-violet-400/50 focus:bg-white/[0.08] focus:outline-none focus:ring-2 focus:ring-violet-400/20"
-                    placeholder="Your name"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    required
-                  />
+              <form className="relative z-10 space-y-4" onSubmit={onSubmit}>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="group">
+                    <label className="mb-2 flex items-center gap-2 text-[13px] font-medium text-slate-300">
+                      <span className="h-1.5 w-1.5 rounded-full bg-violet-400" />
+                      Your Name
+                    </label>
+                    <input
+                      className="w-full rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] px-4 py-3.5 text-[15px] text-white placeholder-slate-500 backdrop-blur-sm transition-all duration-300 focus:border-violet-400/50 focus:bg-white/[0.08] focus:outline-none focus:ring-2 focus:ring-violet-400/20"
+                      placeholder="e.g. John Doe"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      required
+                    />
+                  </div>
+                  <div className="group">
+                    <label className="mb-2 flex items-center gap-2 text-[13px] font-medium text-slate-300">
+                      <span className="h-1.5 w-1.5 rounded-full bg-violet-400" />
+                      Email Address
+                    </label>
+                    <input
+                      className="w-full rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] px-4 py-3.5 text-[15px] text-white placeholder-slate-500 backdrop-blur-sm transition-all duration-300 focus:border-violet-400/50 focus:bg-white/[0.08] focus:outline-none focus:ring-2 focus:ring-violet-400/20"
+                      type="email"
+                      placeholder="you@company.com"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      required
+                    />
+                  </div>
                 </div>
-                <div className="group">
-                  <label className="mb-2 flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-violet-400">
-                    <span className="h-1 w-1 rounded-full bg-violet-400" />
-                    EMAIL
-                  </label>
-                  <input
-                    className="w-full rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] px-4 py-3.5 text-[15px] text-white placeholder-slate-500 backdrop-blur-sm transition-all duration-300 focus:border-violet-400/50 focus:bg-white/[0.08] focus:outline-none focus:ring-2 focus:ring-violet-400/20"
-                    type="email"
-                    placeholder="dev24prabhakar@gmail.com"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    required
-                  />
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="group">
+                    <label className="mb-2 flex items-center gap-2 text-[13px] font-medium text-slate-300">
+                      <span className="h-1.5 w-1.5 rounded-full bg-violet-400" />
+                      Project Type
+                    </label>
+                    <select
+                      className="w-full appearance-none rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] px-4 py-3.5 text-[15px] text-white backdrop-blur-sm transition-all duration-300 focus:border-violet-400/50 focus:bg-white/[0.08] focus:outline-none focus:ring-2 focus:ring-violet-400/20"
+                      value={formData.projectType}
+                      onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
+                      style={{ colorScheme: 'dark' }}
+                    >
+                      <option value="" className="bg-[#0f0f1e]">Select a type...</option>
+                      <option value="web-app" className="bg-[#0f0f1e]">Web Application</option>
+                      <option value="saas" className="bg-[#0f0f1e]">SaaS Platform</option>
+                      <option value="ecommerce" className="bg-[#0f0f1e]">E-Commerce Store</option>
+                      <option value="dashboard" className="bg-[#0f0f1e]">Dashboard / Admin Panel</option>
+                      <option value="landing" className="bg-[#0f0f1e]">Landing Page / Portfolio</option>
+                      <option value="api" className="bg-[#0f0f1e]">Backend / API</option>
+                      <option value="fix" className="bg-[#0f0f1e]">Bug Fix / Optimization</option>
+                      <option value="other" className="bg-[#0f0f1e]">Something Else</option>
+                    </select>
+                  </div>
+                  <div className="group">
+                    <label className="mb-2 flex items-center gap-2 text-[13px] font-medium text-slate-300">
+                      <span className="h-1.5 w-1.5 rounded-full bg-violet-400" />
+                      Budget Range
+                    </label>
+                    <select
+                      className="w-full appearance-none rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] px-4 py-3.5 text-[15px] text-white backdrop-blur-sm transition-all duration-300 focus:border-violet-400/50 focus:bg-white/[0.08] focus:outline-none focus:ring-2 focus:ring-violet-400/20"
+                      value={formData.budget}
+                      onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
+                      style={{ colorScheme: 'dark' }}
+                    >
+                      <option value="" className="bg-[#0f0f1e]">Select range...</option>
+                      <option value="under-500" className="bg-[#0f0f1e]">Under ₹40,000</option>
+                      <option value="500-2k" className="bg-[#0f0f1e]">₹40,000 – ₹1,50,000</option>
+                      <option value="2k-5k" className="bg-[#0f0f1e]">₹1,50,000 – ₹4,00,000</option>
+                      <option value="5k+" className="bg-[#0f0f1e]">₹4,00,000+</option>
+                      <option value="discuss" className="bg-[#0f0f1e]">Let's Discuss</option>
+                    </select>
+                  </div>
                 </div>
+
                 <div className="group">
-                  <label className="mb-2 flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-violet-400">
-                    <span className="h-1 w-1 rounded-full bg-violet-400" />
-                    MESSAGE
+                  <label className="mb-2 flex items-center gap-2 text-[13px] font-medium text-slate-300">
+                    <span className="h-1.5 w-1.5 rounded-full bg-violet-400" />
+                    Tell Me About Your Project
                   </label>
                   <textarea
-                    className="h-36 w-full resize-none rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] px-4 py-3.5 text-[15px] text-white placeholder-slate-500 backdrop-blur-sm transition-all duration-300 focus:border-violet-400/50 focus:bg-white/[0.08] focus:outline-none focus:ring-2 focus:ring-violet-400/20"
-                    placeholder="Hi! I'd like to discuss..."
+                    className="h-32 w-full resize-none rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] px-4 py-3.5 text-[15px] leading-[1.7] text-white placeholder-slate-500 backdrop-blur-sm transition-all duration-300 focus:border-violet-400/50 focus:bg-white/[0.08] focus:outline-none focus:ring-2 focus:ring-violet-400/20"
+                    placeholder="Describe your project idea, goals, and any important details. The more you share, the better I can help!"
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     required

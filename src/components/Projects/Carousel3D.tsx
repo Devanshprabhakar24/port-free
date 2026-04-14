@@ -2,6 +2,7 @@ import { PresentationControls } from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
+import { AnimatePresence, motion } from 'framer-motion'
 import ProjectCard3D from './ProjectCard3D'
 import { useIsMobile } from '../../hooks/useIsMobile'
 
@@ -11,48 +12,69 @@ type Project = {
   summary: string
   url: string
   image?: string // Optional project screenshot/image
+  details: string[]
 }
 
 const projects: Project[] = [
   {
     title: 'ZTUBE',
     stack: 'TypeScript, Next.js, PostgreSQL',
-    summary: 'Video-sharing SaaS platform with secure authentication and cloud media handling.',
+    summary: 'A YouTube-like video platform with user auth, cloud uploads, streaming, and subscription system.',
     url: 'https://ztube.vercel.app/home',
     image: '/projects/ztube.svg',
+    details: [
+      'Built a highly scalable video-streaming backend with chunked media uploads for large files.',
+      'Implemented secure JWT-based authentication and role-based access control.',
+      'Designed a custom subscription, like/dislike, and personalized watch-history system.'
+    ]
   },
   {
     title: 'Scatch',
     stack: 'Node.js, MongoDB, JWT',
-    summary: 'E-commerce platform for premium bags with secure authentication and payment.',
+    summary: 'Full e-commerce store with product catalog, cart, secure checkout, and JWT-based authentication.',
     url: 'https://scatch-xi.vercel.app/',
     image: '/projects/scatch.svg',
+    details: [
+      'Built a full-stack e-commerce architecture with secure Stripe payment processing.',
+      'Created a robust product catalog system with dynamic filtering, fast searching, and categories.',
+      'Implemented real-time cart state management and automated order tracking workflows.'
+    ]
   },
   {
     title: 'MyLaundry',
     stack: 'React, Node.js, MongoDB',
-    summary: 'Full-stack laundry management with order tracking and admin dashboard.',
+    summary: 'Business management app with real-time order tracking, admin dashboard, and customer portal.',
     url: 'https://my-laundry-lime.vercel.app/',
     image: '/projects/mylaundry.svg',
+    details: [
+      'Developed a comprehensive admin dashboard for monitoring laundry orders and delivery status.',
+      'Created a seamless customer-facing portal for seamless order booking and tracking.',
+      'Integrated automated SMS and Email notification services for real-time order updates.'
+    ]
   },
   {
     title: 'WombTo18',
     stack: 'Node.js, Razorpay, DAG Engine',
-    summary: 'Complete child health journey tracker with vaccination reminders and growth monitoring.',
+    summary: 'Health-tech platform tracking child vaccination schedules, growth milestones, and doctor visits for 50K+ parents.',
     url: 'https://child-module.vercel.app',
-    image: '/projects/wombto18.svg',
+    image: '/projects/wombto18.png',
+    details: [
+      'Engineered a complex DAG-based vaccination schedule engine strictly following WHO guidelines.',
+      'Integrated Razorpay for seamless appointment and medical consultation bookings.',
+      'Designed highly secure medical records and physical growth tracking system used by 50,000+ parents.'
+    ]
   },
 ]
 
-function CardRing({ targetRotation, isManual }: { targetRotation: number; isManual: boolean }) {
+function CardRing({ targetRotation, isManual, selectedProject }: { targetRotation: number; isManual: boolean; selectedProject: number | null }) {
   const groupRef = useRef<THREE.Group>(null)
   const isMobile = useIsMobile()
   const autoRotationRef = useRef(0)
 
   const positions = useMemo(() => {
-    // Bigger ring on desktop, keep mobile size
-    const radius = isMobile ? 3.5 : 6
-    const depth = isMobile ? 2 : 3.5
+    // Bigger ring on desktop, and larger on mobile too
+    const radius = isMobile ? 4.2 : 6.8
+    const depth = isMobile ? 2.5 : 4
     
     return projects.map((_, index) => {
       const theta = (Math.PI * 2 * index) / projects.length
@@ -97,8 +119,10 @@ function CardRing({ targetRotation, isManual }: { targetRotation: number; isManu
             summary={project.summary}
             url={project.url}
             image={project.image}
+            details={project.details}
             position={positions[index].position}
             rotation={positions[index].rotation}
+            isSelected={selectedProject === index}
           />
         ))}
       </group>
@@ -126,8 +150,8 @@ export default function Carousel3D() {
     <div className="relative h-full w-full">
       <Canvas
         camera={{ 
-          position: [0, 0, isMobile ? 8 : 13], 
-          fov: isMobile ? 55 : 50 
+          position: [0, 0, isMobile ? 9 : 12], 
+          fov: isMobile ? 55 : 55 
         }}
         dpr={[1, isMobile ? 1.5 : Math.min(window.devicePixelRatio, 2)]}
         gl={{ 
@@ -146,7 +170,7 @@ export default function Carousel3D() {
         {!isMobile && <pointLight position={[-3, 0, 3]} intensity={1.2} color="#ec4899" />}
         {!isMobile && <pointLight position={[3, 0, -3]} intensity={1} color="#fb923c" />}
         
-        <CardRing targetRotation={targetRotation} isManual={selectedProject !== null} />
+        <CardRing targetRotation={targetRotation} isManual={selectedProject !== null} selectedProject={selectedProject} />
       </Canvas>
 
       {/* Project Selection Buttons */}
@@ -228,17 +252,59 @@ export default function Carousel3D() {
           ))}
         </div>
 
-        {/* Project Name Indicator */}
-        {selectedProject !== null && (
-          <div className="mt-3 flex justify-center">
-            <div className="flex items-center gap-2 rounded-full border border-white/5 bg-black/30 px-4 py-1.5 backdrop-blur-sm">
-              <div className="h-1.5 w-1.5 rounded-full bg-violet-400 shadow-lg shadow-violet-400/50" />
-              <span className="font-mono text-[10px] font-medium uppercase tracking-wider text-slate-300">
-                {projects[selectedProject].title}
-              </span>
-            </div>
-          </div>
-        )}
+        {/* Project Details Panel Overlay */}
+        <AnimatePresence>
+          {selectedProject !== null && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+              className={`absolute z-30 ${isMobile ? 'top-4 left-4 right-4' : 'top-8 left-8 w-[380px]'} overflow-hidden rounded-2xl border border-white/10 bg-black/40 p-5 shadow-2xl backdrop-blur-xl`}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 to-transparent" />
+              
+              <div className="relative z-10">
+                <div className="mb-2 flex items-center gap-2 font-mono text-[10px] font-medium uppercase tracking-[0.16em] text-violet-400">
+                  <span className="h-1.5 w-1.5 rounded-full bg-violet-400 shadow-[0_0_8px_rgba(167,139,250,0.8)]" />
+                  Mission {String(selectedProject + 1).padStart(2, '0')}
+                </div>
+                
+                <h3 className="mb-1.5 font-display text-2xl font-bold text-white">
+                  {projects[selectedProject].title}
+                </h3>
+                
+                <div className="mb-4 flex flex-wrap gap-1.5">
+                  {projects[selectedProject].stack.split(',').map((tech, i) => (
+                    <span key={i} className="rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-[10px] font-medium text-slate-300">
+                      {tech.trim()}
+                    </span>
+                  ))}
+                </div>
+                
+                <div className="mb-4 space-y-2 border-l-2 border-violet-500/40 pl-3">
+                  {projects[selectedProject].details.map((detail, i) => (
+                    <p key={i} className="text-[13px] leading-[1.6] text-slate-300">
+                      {detail}
+                    </p>
+                  ))}
+                </div>
+                
+                <a
+                  href={projects[selectedProject].url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex w-full items-center justify-center gap-2 rounded-xl border border-violet-400/40 bg-violet-500/20 px-4 py-2.5 text-sm font-semibold text-white transition-all hover:bg-violet-500/30 hover:shadow-[0_0_20px_rgba(124,58,237,0.3)]"
+                >
+                  Visit Live Demo
+                  <svg className="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   )

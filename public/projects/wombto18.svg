@@ -1,56 +1,111 @@
-<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background Gradient -->
-  <rect width="400" height="300" fill="url(#womb-gradient)"/>
+<svg width="1024" height="640" viewBox="0 0 1024 640" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="womb-gradient" x1="0" y1="0" x2="400" y2="300" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#667eea"/>
-      <stop offset="50%" stop-color="#764ba2"/>
-      <stop offset="100%" stop-color="#f093fb"/>
+    <!-- Background gradient overlay -->
+    <linearGradient id="hero-overlay" x1="0" y1="0" x2="0" y2="640" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1a1a2e" stop-opacity="0.6"/>
+      <stop offset="40%" stop-color="#2d1b4e" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#0f0f1e" stop-opacity="0.85"/>
     </linearGradient>
+    <linearGradient id="green-btn" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="bg-warm" x1="0" y1="0" x2="1024" y2="640" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#f8e8d0"/>
+      <stop offset="30%" stop-color="#e8c8a8"/>
+      <stop offset="60%" stop-color="#d4a888"/>
+      <stop offset="100%" stop-color="#b8907a"/>
+    </linearGradient>
+    <!-- Blur filter for background -->
+    <filter id="bgBlur" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3"/>
+    </filter>
+    <filter id="softShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
   </defs>
+
+  <!-- Base warm background (simulating blurred child photo) -->
+  <rect width="1024" height="640" fill="url(#bg-warm)"/>
   
-  <!-- Decorative Circles -->
-  <circle cx="50" cy="50" r="30" fill="rgba(255,255,255,0.1)"/>
-  <circle cx="350" cy="250" r="40" fill="rgba(255,255,255,0.1)"/>
-  <circle cx="320" cy="60" r="25" fill="rgba(255,255,255,0.15)"/>
+  <!-- Colorful scattered shapes (toys/objects in background) -->
+  <circle cx="180" cy="120" r="18" fill="#f59e0b" opacity="0.35"/>
+  <circle cx="820" cy="100" r="22" fill="#ef4444" opacity="0.3"/>
+  <circle cx="900" cy="200" r="15" fill="#3b82f6" opacity="0.3"/>
+  <circle cx="140" cy="400" r="20" fill="#8b5cf6" opacity="0.25"/>
+  <rect x="750" y="80" width="30" height="20" rx="4" fill="#f97316" opacity="0.3" transform="rotate(15 765 90)"/>
+  <rect x="100" y="200" width="25" height="18" rx="3" fill="#06b6d4" opacity="0.25" transform="rotate(-10 112 209)"/>
   
-  <!-- Baby Icon -->
-  <g transform="translate(80, 80)">
-    <!-- Head -->
-    <circle cx="50" cy="40" r="35" fill="white" opacity="0.9"/>
-    <!-- Body -->
-    <ellipse cx="50" cy="100" rx="30" ry="40" fill="white" opacity="0.9"/>
-    <!-- Arms -->
-    <ellipse cx="25" cy="90" rx="12" ry="25" fill="white" opacity="0.9" transform="rotate(-20 25 90)"/>
-    <ellipse cx="75" cy="90" rx="12" ry="25" fill="white" opacity="0.9" transform="rotate(20 75 90)"/>
-    <!-- Legs -->
-    <ellipse cx="35" cy="135" rx="10" ry="20" fill="white" opacity="0.9"/>
-    <ellipse cx="65" cy="135" rx="10" ry="20" fill="white" opacity="0.9"/>
-    <!-- Face -->
-    <circle cx="42" cy="35" r="4" fill="#667eea"/>
-    <circle cx="58" cy="35" r="4" fill="#667eea"/>
-    <path d="M 40 48 Q 50 52 60 48" stroke="#667eea" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Child silhouette area (center) -->
+  <ellipse cx="512" cy="420" rx="180" ry="220" fill="#c4956e" opacity="0.5"/>
+  <circle cx="512" cy="280" r="60" fill="#d4a080" opacity="0.5"/>
+  
+  <!-- Dark overlay -->
+  <rect width="1024" height="640" fill="url(#hero-overlay)"/>
+
+  <!-- ===== NAVBAR ===== -->
+  <rect x="0" y="0" width="1024" height="56" fill="rgba(255,255,255,0.95)"/>
+  <rect x="0" y="55" width="1024" height="1" fill="rgba(0,0,0,0.08)"/>
+  
+  <!-- WombTo18 Logo -->
+  <rect x="40" y="14" width="100" height="28" rx="4" stroke="#1a1a2e" stroke-width="1.5" fill="none"/>
+  <text x="52" y="34" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#1a1a2e">WombTo18</text>
+  
+  <!-- Nav Links -->
+  <text x="280" y="34" font-family="Arial, sans-serif" font-size="12" fill="#4a5568">Milestones</text>
+  <text x="370" y="34" font-family="Arial, sans-serif" font-size="12" fill="#4a5568">Blogs</text>
+  <text x="430" y="34" font-family="Arial, sans-serif" font-size="12" fill="#4a5568">Join Us</text>
+  <text x="500" y="34" font-family="Arial, sans-serif" font-size="12" fill="#4a5568">Contact Us</text>
+  <text x="585" y="34" font-family="Arial, sans-serif" font-size="12" fill="#4a5568">About</text>
+  
+  <!-- Login & Register -->
+  <text x="830" y="34" font-family="Arial, sans-serif" font-size="12" fill="#4a5568">Login</text>
+  <rect x="885" y="14" width="100" height="30" rx="15" fill="none" stroke="#10b981" stroke-width="1.5"/>
+  <text x="900" y="34" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#10b981">Register Now</text>
+
+  <!-- ===== TRUST BADGE ===== -->
+  <rect x="342" y="100" width="340" height="30" rx="15" fill="rgba(16,185,129,0.15)" stroke="rgba(16,185,129,0.3)" stroke-width="1"/>
+  <circle cx="365" cy="115" r="7" fill="#10b981" opacity="0.8"/>
+  <text x="362" y="119" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">✓</text>
+  <text x="512" y="120" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#10b981" text-anchor="middle" letter-spacing="2">TRUSTED BY 50,000+ INDIAN PARENTS</text>
+
+  <!-- ===== MAIN HEADING ===== -->
+  <text x="512" y="195" font-family="Georgia, serif" font-size="52" font-weight="bold" fill="white" text-anchor="middle">Complete Child Health</text>
+  <text x="512" y="260" font-family="Georgia, serif" font-size="52" font-weight="bold" fill="white" text-anchor="middle">Journey from</text>
+  <text x="512" y="330" font-family="Georgia, serif" font-size="58" font-weight="bold" fill="#10b981" text-anchor="middle" font-style="italic">0-18 Years</text>
+
+  <!-- ===== SUBTITLE ===== -->
+  <text x="512" y="375" font-family="Arial, sans-serif" font-size="14" fill="rgba(255,255,255,0.75)" text-anchor="middle">Empowering parents with comprehensive health tracking, vaccination reminders,</text>
+  <text x="512" y="395" font-family="Arial, sans-serif" font-size="14" fill="rgba(255,255,255,0.75)" text-anchor="middle">and growth monitoring from birth to adulthood.</text>
+
+  <!-- ===== CTA BUTTONS ===== -->
+  <!-- Register Now Button -->
+  <rect x="370" y="430" width="140" height="44" rx="22" fill="url(#green-btn)" filter="url(#softShadow)"/>
+  <text x="440" y="457" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">Register Now</text>
+  
+  <!-- View Demo Button -->
+  <g transform="translate(535, 430)">
+    <rect width="130" height="44" rx="22" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+    <!-- Play icon -->
+    <polygon points="35,15 35,29 47,22" fill="white" opacity="0.9"/>
+    <text x="72" y="27" font-family="Arial, sans-serif" font-size="13" font-weight="600" fill="white">View Demo</text>
   </g>
-  
-  <!-- Health Cross -->
-  <g transform="translate(220, 100)">
-    <rect x="35" y="10" width="20" height="70" rx="5" fill="white" opacity="0.9"/>
-    <rect x="10" y="35" width="70" height="20" rx="5" fill="white" opacity="0.9"/>
-    <circle cx="45" cy="45" r="8" fill="#10b981"/>
+
+  <!-- ===== BOTTOM BADGES ===== -->
+  <g transform="translate(340, 510)">
+    <circle cx="12" cy="12" r="10" fill="rgba(16,185,129,0.2)" stroke="#10b981" stroke-width="1"/>
+    <text x="12" y="16" font-family="Arial, sans-serif" font-size="10" fill="#10b981" text-anchor="middle">✓</text>
+    <text x="30" y="16" font-family="Arial, sans-serif" font-size="12" fill="rgba(255,255,255,0.7)">Go Green Certified</text>
   </g>
-  
-  <!-- Title -->
-  <text x="200" y="220" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="white" text-anchor="middle">
-    WombTo18
-  </text>
-  
-  <!-- Subtitle -->
-  <text x="200" y="245" font-family="Arial, sans-serif" font-size="14" fill="rgba(255,255,255,0.9)" text-anchor="middle">
-    Complete Child Health Journey
-  </text>
-  
-  <!-- Age Range -->
-  <text x="200" y="265" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#10b981" text-anchor="middle">
-    0-18 Years
-  </text>
+  <g transform="translate(530, 510)">
+    <circle cx="12" cy="12" r="10" fill="rgba(16,185,129,0.2)" stroke="#10b981" stroke-width="1"/>
+    <text x="12" y="16" font-family="Arial, sans-serif" font-size="10" fill="#10b981" text-anchor="middle">✓</text>
+    <text x="30" y="16" font-family="Arial, sans-serif" font-size="12" fill="rgba(255,255,255,0.7)">Verified Doctors</text>
+  </g>
+
+  <!-- ===== FLOATING ACTION BUTTONS (bottom right) ===== -->
+  <circle cx="975" cy="530" r="22" fill="#ef4444"/>
+  <text x="975" y="536" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle">☎</text>
+  <circle cx="975" cy="585" r="22" fill="#25d366"/>
+  <text x="975" y="591" font-family="Arial, sans-serif" font-size="18" fill="white" text-anchor="middle">💬</text>
 </svg>

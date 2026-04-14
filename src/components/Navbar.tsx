@@ -6,6 +6,7 @@ type SectionId = 'hero' | 'about' | 'projects' | 'contact'
 const links: Array<{ id: SectionId; label: string }> = [
   { id: 'hero', label: 'Home' },
   { id: 'about', label: 'About' },
+  { id: 'services', label: 'Services' },
   { id: 'projects', label: 'Projects' },
   { id: 'contact', label: 'Contact' },
 ]

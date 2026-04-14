@@ -61,29 +61,88 @@ function App() {
 
         <section id="services" data-scroll-section className="min-h-screen">
           <div className="mx-auto min-h-screen max-w-7xl px-4 py-16 sm:px-6 md:py-20">
-            <div className="mx-auto mb-6 grid w-full max-w-7xl gap-4 sm:gap-6 lg:grid-cols-[1.25fr_0.75fr]">
-              <div className="rounded-[24px] border border-white/10 bg-white/3 p-6 backdrop-blur-xl sm:rounded-[28px] sm:p-8">
-                <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.22em] text-[#7c3aed]">SERVICES</p>
-                <h2 className="max-w-2xl text-[clamp(26px,5vw,52px)] font-black leading-[1.15] tracking-[-0.03em] text-white sm:text-[clamp(30px,3.2vw,52px)] sm:leading-[1.1]">
-                  What I Can Build For You
-                </h2>
-                <p className="mt-4 max-w-xl text-[14px] leading-[1.7] text-slate-300 sm:mt-6 sm:text-[15px] sm:leading-[1.8]">
-                  I help businesses build and improve web applications with scalable architecture and clean code.
-                </p>
-              </div>
+            {/* Section Header */}
+            <div className="mx-auto mb-10 max-w-3xl text-center">
+              <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.28em] text-[#7c3aed]">What I Offer</p>
+              <h2 className="mb-5 text-[clamp(28px,5vw,52px)] font-black leading-[1.15] tracking-[-0.03em] text-white">
+                Services That <span className="text-gradient">Drive Results</span>
+              </h2>
+              <p className="mx-auto max-w-2xl text-[16px] leading-[1.8] text-slate-300 sm:text-[17px]">
+                I don't just write code — I build complete solutions. Here's how I can help your business grow with technology that actually works.
+              </p>
+            </div>
 
-              <div className="grid gap-3 sm:gap-4">
-                {[
-                  ['Full Stack Web Apps', 'Complete web applications from frontend to backend'],
-                  ['Backend & APIs', 'Secure, scalable backend systems with proper architecture'],
-                  ['Dashboards & Admin Panels', 'Custom dashboards to manage users, data, and analytics'],
-                ].map(([label, value]) => (
-                  <div key={label} className="rounded-[20px] border border-white/10 bg-white/3 p-5 backdrop-blur-xl sm:rounded-[24px] sm:p-6">
-                    <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-slate-500 sm:text-[10px]">{label}</div>
-                    <div className="mt-2 text-[15px] font-semibold leading-[1.4] text-white sm:mt-3 sm:text-lg">{value}</div>
+            {/* Service Cards Grid */}
+            <div className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-5">
+              {[
+                {
+                  icon: '🚀',
+                  title: 'Full-Stack Web Apps',
+                  desc: 'Complete web applications with modern frameworks. From user-facing frontends to robust backends — everything your product needs to launch.',
+                  examples: ['SaaS Platforms', 'E-Commerce', 'Social Platforms'],
+                },
+                {
+                  icon: '⚙️',
+                  title: 'Backend & API Systems',
+                  desc: 'Secure, scalable server-side architectures with REST APIs, authentication, payment integration, and database design.',
+                  examples: ['REST APIs', 'Payment Gateways', 'Auth Systems'],
+                },
+                {
+                  icon: '📊',
+                  title: 'Dashboards & Admin Panels',
+                  desc: 'Custom dashboards to manage users, data, and analytics. Real-time updates, role-based access, and clean data visualization.',
+                  examples: ['Analytics Dashboards', 'CMS Panels', 'User Management'],
+                },
+                {
+                  icon: '📱',
+                  title: 'Responsive Web Design',
+                  desc: 'Beautiful, pixel-perfect interfaces that work flawlessly across all devices. Mobile-first design with smooth animations.',
+                  examples: ['Landing Pages', 'Portfolio Sites', 'Marketing Pages'],
+                },
+                {
+                  icon: '🏥',
+                  title: 'Health-Tech & Tracking',
+                  desc: 'Specialized in health and tracking systems — vaccination engines, growth monitoring, appointment scheduling, and medical records.',
+                  examples: ['Patient Portals', 'Health Trackers', 'Scheduling'],
+                },
+                {
+                  icon: '🔧',
+                  title: 'Bug Fixes & Optimization',
+                  desc: 'Existing app broken or slow? I debug, refactor, and optimize your codebase for better performance and maintainability.',
+                  examples: ['Performance Tuning', 'Code Refactoring', 'Bug Fixing'],
+                },
+              ].map((service) => (
+                <div
+                  key={service.title}
+                  className="group rounded-[24px] border border-white/10 bg-white/[0.03] p-6 backdrop-blur-xl transition-all duration-300 hover:border-violet-500/30 hover:bg-white/[0.06] sm:p-7"
+                >
+                  <div className="mb-4 text-3xl">{service.icon}</div>
+                  <h3 className="mb-3 text-[18px] font-bold text-white sm:text-[20px]">{service.title}</h3>
+                  <p className="mb-4 text-[14px] leading-[1.7] text-slate-400 sm:text-[15px]">{service.desc}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {service.examples.map((ex) => (
+                      <span key={ex} className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-medium text-slate-300">
+                        {ex}
+                      </span>
+                    ))}
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
+            </div>
+
+            {/* CTA below services */}
+            <div className="mx-auto mt-10 max-w-2xl text-center">
+              <p className="mb-4 text-[15px] text-slate-400">Not sure what you need? Let's talk — I'll help you figure it out.</p>
+              <button
+                onClick={() => {
+                  const el = document.getElementById('contact')
+                  if (el) el.scrollIntoView({ behavior: 'smooth' })
+                }}
+                className="group inline-flex items-center gap-2 rounded-full border border-violet-400/40 bg-violet-500/10 px-8 py-3.5 text-[15px] font-semibold text-white transition-all duration-300 hover:border-violet-400/60 hover:bg-violet-500/20 hover:shadow-[0_0_30px_rgba(124,58,237,0.3)]"
+              >
+                Let's Discuss Your Project
+                <span className="transition-transform group-hover:translate-x-1">→</span>
+              </button>
             </div>
           </div>
         </section>

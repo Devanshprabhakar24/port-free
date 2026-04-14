@@ -14,14 +14,14 @@ export default function Projects({ mouse }: { mouse: MousePosition }) {
       <div className="relative mb-12 text-center">
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-32 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[rgba(124,58,237,0.12)] blur-[60px]" />
 
-        <p className="relative mb-3 font-mono text-[10px] uppercase tracking-[0.28em] text-[#7c3aed]">Recent Work</p>
+        <p className="relative mb-3 font-mono text-[11px] uppercase tracking-[0.28em] text-[#7c3aed]">Recent Work</p>
         <h2 className="relative font-display text-[clamp(32px,4.2vw,58px)] font-black leading-[1.2] tracking-[-0.03em] text-white">
           Real Projects.{' '}
           <span className="text-gradient">Real Results.</span>
         </h2>
         <div className="mx-auto mt-4 h-px w-16 bg-gradient-to-r from-transparent via-[rgba(124,58,237,0.5)] to-transparent" />
-        <p className="mx-auto mt-5 max-w-md text-[14px] leading-[1.8] text-[#64748b]">
-          Here are some systems I've built for real-world use cases.
+        <p className="mx-auto mt-5 max-w-lg text-[15px] leading-[1.8] text-[#94a3b8]">
+          Click any project card to see the live demo. Hover to view the full screenshot.
         </p>
       </div>
 

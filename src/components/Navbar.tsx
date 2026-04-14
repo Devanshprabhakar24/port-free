@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 
-type SectionId = 'hero' | 'about' | 'projects' | 'contact'
+import type { SectionId } from '../store/scrollSectionStore'
 
 const links: Array<{ id: SectionId; label: string }> = [
   { id: 'hero', label: 'Home' },

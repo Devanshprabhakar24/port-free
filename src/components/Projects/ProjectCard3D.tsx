@@ -1,5 +1,5 @@
 import { useSpring, a } from '@react-spring/three'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import * as THREE from 'three'
 import { useIsMobile } from '../../hooks/useIsMobile'
 
@@ -36,17 +36,17 @@ export default function ProjectCard3D({
   // Dramatically increased base rendering scales to make cards massive!
   const { rotationY, scale, positionZ } = useSpring({
     rotationY: hovered ? Math.PI : 0,
-    scale: isSelected ? 1.9 : hovered ? 1.45 : 1.35,
-    positionZ: isSelected ? 3.5 : 0,
+    scale: isSelected ? 1.2 : hovered ? 1.05 : 1.0,
+    positionZ: isSelected ? 1.5 : 0,
     config: { tension: 200, friction: 20 },
   })
 
-  // Bigger cards requested by user
-  const cardWidth = isMobile ? 5.0 : 7.2
-  const cardHeight = isMobile ? 3.2 : 4.6
+  // Adjusted card dimensions now that they properly center
+  const cardWidth = isMobile ? 4.2 : 5.8
+  const cardHeight = isMobile ? 2.8 : 3.8
 
   // Load project image if provided
-  useMemo(() => {
+  useEffect(() => {
     if (image) {
       const loader = new THREE.TextureLoader()
       loader.load(

@@ -26,7 +26,7 @@ const createBrevoClient = () => {
 
 // Submit contact form
 exports.submitContact = asyncHandler(async (req, res) => {
-  const { name, email, message } = req.body;
+  const { name, email, projectType, budget, message } = req.body;
 
   try {
     // Send auto-reply to user via Brevo API

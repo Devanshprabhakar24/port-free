@@ -79,6 +79,29 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
     setLoading(true)
     setError(null)
 
+    // Form validation
+    if (!formData.name.trim()) {
+      setError('Name is required')
+      setLoading(false)
+      return
+    }
+    if (!formData.email.trim()) {
+      setError('Email is required')
+      setLoading(false)
+      return
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(formData.email)) {
+      setError('Please enter a valid email address')
+      setLoading(false)
+      return
+    }
+    if (!formData.message.trim()) {
+      setError('Message is required')
+      setLoading(false)
+      return
+    }
+
     try {
       const response = await fetch(CONTACT_API_URL, {
         method: 'POST',

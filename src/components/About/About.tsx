@@ -18,7 +18,7 @@ type StatItem = {
 }
 
 const STATS: StatItem[] = [
-  { coordinate: '[01] YEARS', target: 1, suffix: '+', shortLabel: 'YEARS', label: 'Years Experience' },
+  { coordinate: '[03] YEARS', target: 3, suffix: '+', shortLabel: 'YEARS', label: 'Years Experience' },
   { coordinate: '[05] PROJ', target: 5, suffix: '+', shortLabel: 'PROJ', label: 'Real Projects' },
   { coordinate: '[100] PROD', target: 100, suffix: '%', shortLabel: 'PROD', label: 'Production Ready' },
   { coordinate: '[24] HOURS', target: 24, suffix: 'h', shortLabel: 'HOURS', label: 'Fast Response' },

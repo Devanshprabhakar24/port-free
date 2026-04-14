@@ -1,13 +1,23 @@
 // API Configuration
-// Automatically uses production or development API URL
+// Uses environment variable if available, otherwise defaults based on environment
 
 const isProduction = import.meta.env.PROD
 
-export const API_CONFIG = {
-  // Production backend URL
-  BACKEND_URL: isProduction 
+// Support both Vite env vars and fallback to production detection
+const getBackendUrl = () => {
+  // Check for explicit env variable first
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL
+  }
+  
+  // Fallback based on environment
+  return isProduction 
     ? 'https://port-free.onrender.com'
-    : 'http://localhost:5000',
+    : 'http://localhost:5000'
+}
+
+export const API_CONFIG = {
+  BACKEND_URL: getBackendUrl(),
   
   ENDPOINTS: {
     CONTACT: '/api/contact/submit',

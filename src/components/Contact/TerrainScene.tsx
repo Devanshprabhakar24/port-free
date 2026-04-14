@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/immutability */
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { memo, useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'

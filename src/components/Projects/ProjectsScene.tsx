@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/immutability */
-import { Text, Text3D } from '@react-three/drei'
+import { Text } from '@react-three/drei'
 import { Canvas, useFrame, type ThreeEvent } from '@react-three/fiber'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -39,8 +38,6 @@ interface ParticlesProps {
   count: number
 }
 
-const FONT_URL = 'https://threejs.org/examples/fonts/helvetiker_regular.typeface.json'
-
 const PROJECTS: ProjectItem[] = [
   {
     id: 'p1',
@@ -67,6 +64,10 @@ const PROJECTS: ProjectItem[] = [
     gradient: ['#8b5cf6', '#14b8a6'],
   },
 ]
+
+function ProjectCard(props: ProjectCardProps) {
+  return <ProjectCardContent {...props} />
+}
 
 const seededRandom = (seed: number) => {
   const value = Math.sin(seed * 127.1 + 311.7) * 43758.5453123
@@ -165,7 +166,7 @@ function FloatingParticles({ count }: ParticlesProps) {
   )
 }
 
-function ProjectCard({
+function ProjectCardContent({
   item,
   index,
   total,
@@ -307,57 +308,10 @@ function ProjectCard({
           color="#09090f"
         />
       </mesh>
-
-      <group position={[0, 0, -0.03]} rotation={[0, Math.PI, 0]}>
-        <Text3D
-          font={FONT_URL}
-          size={0.15}
-          height={0.02}
-          curveSegments={6}
-          bevelEnabled
-          bevelSize={0.004}
-          bevelThickness={0.004}
-          position={[-1.1, 0.45, 0]}
-        >
-          {item.name}
-          <meshStandardMaterial color="#f1f5f9" emissive="#7c3aed" emissiveIntensity={0.2} />
-        </Text3D>
-
-        {item.stacks.map((stack, stackIndex) => (
-          <group key={stack} position={[-0.85 + stackIndex * 0.9, 0.1, 0]}>
-            <mesh>
-              <planeGeometry args={[0.68, 0.2]} />
-              <meshStandardMaterial color="#18181f" emissive="#0f172a" emissiveIntensity={0.14} />
-            </mesh>
-            <Text color="#d1d5db" fontSize={0.07} anchorX="center" anchorY="middle" position={[0, 0, 0.01]}>
-              {stack}
-            </Text>
-          </group>
-        ))}
-
-        <group position={[-0.35, -0.55, 0]}>
-          <mesh>
-            <circleGeometry args={[0.12, 24]} />
-            <meshStandardMaterial color="#111827" emissive="#1d4ed8" emissiveIntensity={0.35} />
-          </mesh>
-          <Text color="#f8fafc" fontSize={0.06} anchorX="center" anchorY="middle" position={[0, 0, 0.01]}>
-            GH
-          </Text>
-        </group>
-
-        <group position={[0.05, -0.55, 0]}>
-          <mesh>
-            <circleGeometry args={[0.12, 24]} />
-            <meshStandardMaterial color="#111827" emissive="#7c3aed" emissiveIntensity={0.35} />
-          </mesh>
-          <Text color="#f8fafc" fontSize={0.058} anchorX="center" anchorY="middle" position={[0, 0, 0.01]}>
-            Live
-          </Text>
-        </group>
-      </group>
     </group>
   )
 }
+
 
 function SceneContent({ groupRef, activeIndexRef }: SceneContentProps) {
   const meshRefs = useRef<Array<THREE.Mesh | null>>([])
@@ -483,7 +437,7 @@ interface HtmlOverlayProps {
 function HtmlOverlay({ activeIndex }: HtmlOverlayProps) {
   return (
     <div className="pointer-events-none absolute inset-0 z-10">
-      <div className="absolute right-8 top-1/2 -translate-y-1/2 font-display text-[18vw] leading-none text-white/[0.05]">
+      <div className="absolute right-8 top-1/2 -translate-y-1/2 font-display text-[18vw] leading-none text-white/5">
         {String(activeIndex + 1).padStart(2, '0')}
       </div>
     </div>

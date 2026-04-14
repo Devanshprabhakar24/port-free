@@ -1,6 +1,6 @@
 import { PresentationControls } from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { useMemo, useRef, useState } from 'react'
+import { useMemo, useRef, useState, useEffect, useCallback } from 'react'
 import * as THREE from 'three'
 import { AnimatePresence, motion } from 'framer-motion'
 import ProjectCard3D from './ProjectCard3D'
@@ -66,7 +66,7 @@ const projects: Project[] = [
   },
 ]
 
-function CardRing({ targetRotation, isManual, selectedProject }: { targetRotation: number; isManual: boolean; selectedProject: number | null }) {
+function CardRing({ targetRotation, isManual, selectedProject, onDisplayProject }: { targetRotation: number; isManual: boolean; selectedProject: number | null; onDisplayProject: (index: number) => void }) {
   const groupRef = useRef<THREE.Group>(null)
   const isMobile = useIsMobile()
   const autoRotationRef = useRef(0)
@@ -77,9 +77,10 @@ function CardRing({ targetRotation, isManual, selectedProject }: { targetRotatio
     
     return projects.map((_, index) => {
       const theta = (Math.PI * 2 * index) / projects.length
+      const cardAngle = theta + Math.PI / 2
       return {
-        position: [Math.cos(theta) * radius, 0, Math.sin(theta) * radius] as [number, number, number],
-        rotation: -theta + Math.PI / 2, // Rotate card to face center
+        position: [Math.cos(cardAngle) * radius, 0, Math.sin(cardAngle) * radius] as [number, number, number],
+        rotation: -theta, // Rotate card to directly face the camera when centered
       }
     })
   }, [isMobile])
@@ -97,6 +98,21 @@ function CardRing({ targetRotation, isManual, selectedProject }: { targetRotatio
         autoRotationRef.current = clock.getElapsedTime() * speed
         groupRef.current.rotation.y = autoRotationRef.current
       }
+      
+      // Calculate which project is at the front and notify parent
+      const theta = groupRef.current.rotation.y % (Math.PI * 2);
+      const projectCount = projects.length;
+      let minDiff = Infinity;
+      let minIndex = 0;
+      for (let i = 0; i < projectCount; i++) {
+        const projTheta = (Math.PI * 2 * i) / projectCount;
+        const diff = Math.abs(Math.atan2(Math.sin(theta - projTheta), Math.cos(theta - projTheta)));
+        if (diff < minDiff) {
+          minDiff = diff;
+          minIndex = i;
+        }
+      }
+      onDisplayProject(minIndex);
     }
   })
 
@@ -133,9 +149,34 @@ export default function Carousel3D() {
   const isMobile = useIsMobile()
   const [selectedProject, setSelectedProject] = useState<number | null>(null)
   const [targetRotation, setTargetRotation] = useState(0)
+  const [autoRotation, setAutoRotation] = useState(0)
+  const [displayProjectIndex, setDisplayProjectIndex] = useState(0)
+
+  // Track auto-rotation for AUTO mode
+  useEffect(() => {
+    let frameId: number;
+    function update() {
+      setAutoRotation(() => {
+        const speed = isMobile ? 0.08 : 0.12;
+        return ((performance.now() / 1000) * speed) % (Math.PI * 2);
+      });
+      frameId = requestAnimationFrame(update);
+    }
+    update();
+    return () => cancelAnimationFrame(frameId);
+  }, [isMobile]);
+
+  const handleDisplayProject = useCallback((index: number) => {
+    // Only update from CardRing when in AUTO mode
+    // When a button is selected, the parent directly sets displayProjectIndex
+    if (selectedProject === null) {
+      setDisplayProjectIndex(index);
+    }
+  }, [selectedProject]);
 
   const goToProject = (index: number) => {
     setSelectedProject(index)
+    setDisplayProjectIndex(index) // Show immediately, don't wait for animation
     // Calculate rotation to show selected project at front
     const rotation = (Math.PI * 2 * index) / projects.length
     setTargetRotation(rotation)
@@ -144,6 +185,9 @@ export default function Carousel3D() {
   const resetToAuto = () => {
     setSelectedProject(null)
   }
+
+  // Determine which project to display
+  let displayIndex = displayProjectIndex;
   
   return (
     <div className="flex w-full flex-col h-auto min-h-full">
@@ -154,7 +198,7 @@ export default function Carousel3D() {
             position: [0, 0, isMobile ? 11 : 14], 
             fov: isMobile ? 60 : 60 
           }}
-          dpr={[1, isMobile ? 1.5 : Math.min(window.devicePixelRatio, 2)]}
+          dpr={[1, isMobile ? 1.5 : Math.min(typeof window !== 'undefined' ? window.devicePixelRatio : 1, 2)]}
           gl={{ 
             antialias: !isMobile,
             alpha: false,
@@ -171,7 +215,7 @@ export default function Carousel3D() {
           {!isMobile && <pointLight position={[-3, 0, 3]} intensity={1.2} color="#ec4899" />}
           {!isMobile && <pointLight position={[3, 0, -3]} intensity={1} color="#fb923c" />}
           
-          <CardRing targetRotation={targetRotation} isManual={selectedProject !== null} selectedProject={selectedProject} />
+          <CardRing targetRotation={targetRotation} isManual={selectedProject !== null} selectedProject={selectedProject} onDisplayProject={handleDisplayProject} />
         </Canvas>
 
         {/* Project Selection Buttons - Attached cleanly inside the bottom rim of 3D frame */}
@@ -255,12 +299,12 @@ export default function Carousel3D() {
         </div>
       </div>
 
-      {/* Project Details Panel - Flowing identically below the buttons */}
+      {/* Project Details Panel - Always shows the visually centered project */}
       <div className="w-full shrink-0 border-t border-white/5 bg-[#0a0a12]/80 backdrop-blur-xl">
         <AnimatePresence mode="wait">
-          {selectedProject !== null ? (
+          {displayIndex !== null ? (
             <motion.div
-              key={selectedProject}
+              key={displayIndex}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
@@ -271,15 +315,15 @@ export default function Carousel3D() {
                 <div className="md:w-1/3">
                   <div className="mb-3 flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-violet-400">
                     <span className="h-2 w-2 rounded-full bg-violet-400 shadow-[0_0_10px_rgba(167,139,250,0.8)]" />
-                    Mission {String(selectedProject + 1).padStart(2, '0')}
+                    Mission {String(displayIndex + 1).padStart(2, '0')}
                   </div>
                   
                   <h3 className="mb-4 font-display text-3xl font-bold text-white md:text-4xl">
-                    {projects[selectedProject].title}
+                    {projects[displayIndex].title}
                   </h3>
                   
                   <div className="mb-6 flex flex-wrap gap-2">
-                    {projects[selectedProject].stack.split(',').map((tech, i) => (
+                    {projects[displayIndex].stack.split(',').map((tech, i) => (
                       <span key={i} className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-slate-300">
                         {tech.trim()}
                       </span>
@@ -287,7 +331,7 @@ export default function Carousel3D() {
                   </div>
                   
                   <a
-                    href={projects[selectedProject].url}
+                    href={projects[displayIndex].url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group inline-flex w-full items-center justify-center gap-2 rounded-xl border border-violet-400/40 bg-violet-500/20 px-5 py-3.5 text-base font-semibold text-white transition-all hover:bg-violet-500/30 hover:shadow-[0_0_20px_rgba(124,58,237,0.3)] md:w-auto"
@@ -301,11 +345,11 @@ export default function Carousel3D() {
 
                 <div className="md:w-2/3 md:border-l md:border-white/10 md:pl-8">
                   <p className="mb-6 text-lg leading-relaxed text-slate-300">
-                    {projects[selectedProject].summary}
+                    {projects[displayIndex].summary}
                   </p>
                   
                   <div className="space-y-4">
-                    {projects[selectedProject].details.map((detail, i) => (
+                    {projects[displayIndex].details.map((detail, i) => (
                       <div key={i} className="flex items-start gap-4">
                         <div className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-violet-500/80" />
                         <p className="text-base leading-relaxed text-slate-400">

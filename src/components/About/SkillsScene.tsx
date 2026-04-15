@@ -1,6 +1,6 @@
 import { Html } from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { lazy, memo, Suspense, useEffect, useMemo, useRef, useState } from 'react'
+import { memo, Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { useDetectWebGL } from '../../hooks/useDetectWebGL'
 import { useIsMobile } from '../../hooks/useIsMobile'

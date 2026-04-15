@@ -1,4 +1,4 @@
-import { memo } from 'react'
+
 import { motion } from 'framer-motion'
 
 export default function CTA({ mouse }: { mouse: any }) {

@@ -1,4 +1,4 @@
-import { memo } from 'react'
+
 import { motion } from 'framer-motion'
 
 export default function Trust({ mouse }: { mouse: any }) {

@@ -18,10 +18,10 @@ type StatItem = {
 }
 
 const STATS: StatItem[] = [
-  { coordinate: '[03] YEARS', target: 3, suffix: '+', shortLabel: 'YEARS', label: 'Years Experience' },
-  { coordinate: '[05] PROJ', target: 5, suffix: '+', shortLabel: 'PROJ', label: 'Real Projects' },
-  { coordinate: '[100] PROD', target: 100, suffix: '%', shortLabel: 'PROD', label: 'Production Ready' },
-  { coordinate: '[24] HOURS', target: 24, suffix: 'h', shortLabel: 'HOURS', label: 'Fast Response' },
+  { coordinate: '[03] YEARS', target: 3, suffix: '+', shortLabel: 'YEARS', label: 'Delivering Results' },
+  { coordinate: '[05] APPS', target: 5, suffix: '+', shortLabel: 'APPS', label: 'Live in Production' },
+  { coordinate: '[100] READY', target: 100, suffix: '%', shortLabel: 'READY', label: 'Client Satisfaction' },
+  { coordinate: '[24] HOURS', target: 24, suffix: 'h', shortLabel: 'RESPONSE', label: 'First Reply' },
 ]
 
 function About({ mouse: _mouse, shouldRenderScene = true }: { mouse: MousePosition; shouldRenderScene?: boolean }) {
@@ -146,7 +146,7 @@ function About({ mouse: _mouse, shouldRenderScene = true }: { mouse: MousePositi
         <div className="relative z-10 flex flex-col justify-center px-6 py-16 lg:pl-12 lg:pr-0">
           <div className="mb-4 flex items-center gap-3">
             <div className="h-px w-5 bg-[rgba(124,58,237,0.6)]" />
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#7c3aed]">WHY CLIENTS WORK WITH ME</p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#7c3aed]">Why Clients Hire Me Again</p>
           </div>
 
           <h2
@@ -157,9 +157,9 @@ function About({ mouse: _mouse, shouldRenderScene = true }: { mouse: MousePositi
               WebkitTextFillColor: 'transparent',
             }}
           >
-            I don’t just write code —
+            Apps that handle real users —
             <br />
-            I partner to hit your business goals.
+            without the tech headaches.
           </h2>
 
           <p className="mb-10 max-w-lg border-l-2 border-[rgba(124,58,237,0.4)] pl-5 text-[16px] leading-[1.9] text-[#94a3b8]">
@@ -172,8 +172,8 @@ function About({ mouse: _mouse, shouldRenderScene = true }: { mouse: MousePositi
                 <span className="h-1.5 w-1.5 rounded-full bg-[#7c3aed]" />
               </span>
               <div>
-                <span className="font-semibold text-white">Custom SaaS & Web Platforms</span>
-                <p className="text-[14px] leading-[1.6] text-[#94a3b8]">Turn your idea into a launched product without sacrificing security or scalability.</p>
+                <span className="font-semibold text-white">Web Apps That Convert & Scale</span>
+                <p className="text-[14px] leading-[1.6] text-[#94a3b8]">Your customers abandon carts or pages load slow? I build fast apps that keep users engaged and convert visitors to revenue.</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
@@ -181,8 +181,8 @@ function About({ mouse: _mouse, shouldRenderScene = true }: { mouse: MousePositi
                 <span className="h-1.5 w-1.5 rounded-full bg-[#ce31b5]" />
               </span>
               <div>
-                <span className="font-semibold text-white">Backend Systems & Custom APIs</span>
-                <p className="text-[14px] leading-[1.6] text-[#94a3b8]">Robust server architectures built to last. When your business takes off, your app won't break.</p>
+                <span className="font-semibold text-white">Backends That Handle Growth</span>
+                <p className="text-[14px] leading-[1.6] text-[#94a3b8]">Payments failing? Data lost during peaks? I build bulletproof backends that scale with your revenue — no downtime, no surprises.</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
@@ -190,8 +190,8 @@ function About({ mouse: _mouse, shouldRenderScene = true }: { mouse: MousePositi
                 <span className="h-1.5 w-1.5 rounded-full bg-[#fb923c]" />
               </span>
               <div>
-                <span className="font-semibold text-white">Dashboards & Admin Panels</span>
-                <p className="text-[14px] leading-[1.6] text-[#94a3b8]">Save hours of time with automated tools that give you a birds-eye view of your business.</p>
+                <span className="font-semibold text-white">Dashboards That Save Time</span>
+                <p className="text-[14px] leading-[1.6] text-[#94a3b8]">Stop guessing revenue or chasing manual reports. Real-time dashboards that show exactly what's working — so you focus on growth.</p>
               </div>
             </div>
           </div>

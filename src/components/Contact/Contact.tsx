@@ -215,10 +215,10 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
 
               <div>
                 <h2 className="bg-gradient-to-r from-white via-violet-100 to-pink-100 bg-clip-text text-[clamp(26px,2.8vw,44px)] font-bold leading-[1.3] tracking-[-0.02em] text-transparent md:text-[clamp(30px,3.2vw,48px)]">
-                  Let's Talk
+                  Ready To Build?
                 </h2>
                 <p className="mt-5 max-w-xl text-[16px] leading-[1.8] text-slate-300 md:text-[17px]">
-                  No spam. Just real conversations about how we can build something great. I'll help you turn your idea into a real, working product.
+                  No spam. Honest talk about turning your business idea into revenue-generating software that works.
                 </p>
               </div>
 

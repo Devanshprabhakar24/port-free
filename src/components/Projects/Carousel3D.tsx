@@ -19,7 +19,7 @@ const projects: Project[] = [
   {
     title: 'WombTo18',
     stack: 'Node.js, Razorpay, DAG Engine',
-    summary: 'Health-tech platform tracking child vaccination schedules, growth milestones, and doctor visits for 50K+ parents.',
+    summary: 'Health-tech platform automating vaccination tracking for 50K+ parents — no more missed appointments.',
     url: 'https://child-module.vercel.app',
     image: '/projects/wombto18.png',
     details: [
@@ -31,7 +31,7 @@ const projects: Project[] = [
   {
     title: 'Scatch',
     stack: 'Node.js, MongoDB, React',
-    summary: 'Custom e-commerce store with product catalog, cart, secure checkout, and user authentication.',
+    summary: 'Full e-commerce platform with secure payments and real-time cart — ready for your products.',
     url: 'https://scatch-xi.vercel.app/',
     image: '/projects/scatch.svg',
     details: [
@@ -43,7 +43,7 @@ const projects: Project[] = [
   {
     title: 'MyLaundry',
     stack: 'React, Node.js, MongoDB',
-    summary: 'Business management portal with real-time order tracking, admin dashboard, and customer integration.',
+    summary: 'Order management dashboard eliminating manual tracking — laundry business went fully automated.',
     url: 'https://my-laundry-lime.vercel.app/',
     image: '/projects/mylaundry.svg',
     details: [
@@ -55,7 +55,7 @@ const projects: Project[] = [
   {
     title: 'ZTUBE',
     stack: 'TypeScript, Next.js, PostgreSQL',
-    summary: 'A scalable video platform with user auth, cloud uploads, streaming, and subscription system.',
+    summary: 'Video streaming platform with subscriptions — creators now monetize their content directly.',
     url: 'https://ztube.vercel.app/home',
     image: '/projects/ztube.svg',
     details: [

@@ -359,14 +359,14 @@ function PlanetAndRing() {
 
   return (
     <group position={[4.2, 1.6, -3.4]}>
-      <mesh ref={planetRef}>
-        <sphereGeometry args={[1.2, 64, 64]} />
-        <meshStandardMaterial color="#1e1b4b" roughness={0.8} metalness={0.1} />
-      </mesh>
-      <mesh ref={atmosphereRef}>
-        <sphereGeometry args={[1.35, 64, 64]} />
-        <meshBasicMaterial color="#4f46e5" transparent opacity={0.08} side={THREE.BackSide} />
-      </mesh>
+        <mesh ref={planetRef}>
+          <sphereGeometry args={[1.2, 64, 64]} />
+          <meshStandardMaterial color="#1e1b4b" roughness={0.8} metalness={0.1} />
+        </mesh>
+        <mesh ref={atmosphereRef}>
+          <sphereGeometry args={[1.35, 64, 64]} />
+          <meshBasicMaterial color="#4f46e5" transparent opacity={0.15} side={THREE.BackSide} />
+        </mesh>
       <mesh ref={ringRef} rotation={[THREE.MathUtils.degToRad(70), 0, 0]}>
         <torusGeometry args={[1.8, 0.08, 8, 60]} />
         <meshStandardMaterial color="#7c3aed" transparent opacity={0.6} roughness={0.5} metalness={0.2} />
@@ -478,15 +478,15 @@ function HeroScene({ mouse }: { mouse: MousePosition }) {
   const isLowGPU = (gpu?.tier ?? 2) <= 1
 
   // Mobile optimization: reduced particle counts and simplified effects
-  const nearStarCount = isMobile ? 300 : NEAR_STAR_COUNT
-  const midStarCount = isMobile ? 400 : MID_STAR_COUNT
-  const farStarCount = isMobile ? 300 : FAR_STAR_COUNT
+const nearStarCount = isMobile ? 200 : NEAR_STAR_COUNT
+  const midStarCount = isMobile ? 300 : MID_STAR_COUNT
+  const farStarCount = isMobile ? 200 : FAR_STAR_COUNT
   const asteroidCount = isMobile ? 0 : ASTEROID_COUNT
 
   return (
     <Canvas
       camera={{ position: [0, 0, 4.65], fov: 58 }}
-      dpr={[1, isMobile ? 1 : Math.min(window.devicePixelRatio, 2)]}
+          dpr={isMobile ? [1, 1.2] : [1, Math.min(window.devicePixelRatio, 2)]}
       gl={{ antialias: !isMobile, alpha: true }}
       onCreated={({ gl }) => {
         gl.setClearColor(new THREE.Color('#03010a'), 1)
@@ -496,7 +496,7 @@ function HeroScene({ mouse }: { mouse: MousePosition }) {
       className="h-full w-full"
     >
       <fogExp2 attach="fog" args={['#07070d', 0.065]} />
-      <ambientLight color="#0a0520" intensity={isLowGPU || isMobile ? 0.44 : 0.26} />
+      <ambientLight color="#0a0520" intensity={isLowGPU || isMobile ? 0.6 : 0.4} />
       <pointLight position={[3.8, 3.6, 2.4]} intensity={isMobile ? 4 : 8.5} color="#7c3aed" distance={14} />
       <pointLight position={[-2.4, -2.6, 1.6]} intensity={isMobile ? 2 : 3.6} color="#ec4899" distance={9} />
       <pointLight position={[0, 8, -4]} color="#3b82f6" intensity={isMobile ? 3 : 5.8} distance={110} />

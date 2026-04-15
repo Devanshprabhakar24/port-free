@@ -81,8 +81,11 @@ function Hero({ mouse, onViewProjects, shouldRenderScene = true }: HeroProps) {
 
           <div className="mb-[18px] h-px w-[40px] bg-[rgba(124,58,237,0.5)] md:mb-[22px] md:w-[50px]" />
 
-          <h1 className="text-[clamp(34px,8vw,72px)] font-[900] leading-[1.1] tracking-[-0.02em] text-[#f1f5f9] md:text-[clamp(40px,4.8vw,72px)] md:leading-[1.05]">
-            I build scalable web apps that{' '}
+<h1 className="text-[clamp(32px,9vw,68px)] font-[900] leading-[1.15] tracking-[-0.01em] text-[#f1f5f9] md:text-[clamp(38px,5vw,68px)] md:leading-[1.1]">
+            Your web app works… until real users show up?
+          </h1>
+
+<h1 className="text-[clamp(32px,9vw,68px)] font-[900] leading-[1.15] tracking-[-0.01em] text-[#f1f5f9] md:text-[clamp(38px,5vw,68px)] md:leading-[1.1]">
             <span
               style={{
                 background: 'linear-gradient(110deg, #a78bfa 0%, #ec4899 55%, #fb923c 100%)',
@@ -98,14 +101,12 @@ function Hero({ mouse, onViewProjects, shouldRenderScene = true }: HeroProps) {
                 letterSpacing: 'inherit',
               }}
             >
-              turn ideas into revenue
+              I build systems that scale without breaking.
             </span>
           </h1>
 
           <p className="mb-[28px] mt-[18px] max-w-[90vw] text-[16px] leading-[1.75] text-[#cbd5e1] md:mb-[32px] md:mt-[22px] md:max-w-[520px] md:text-[18px] md:leading-[1.8]">
-            Need a web app, dashboard, or backend system?
-
-I build fast, scalable, production-ready applications tailored to your business goals — delivered quickly and built to handle real users.
+            Full-stack apps handling 50K+ users, secure payments, zero downtime — starting ₹5K, delivered fast.
           </p>
         </div>
       </div>

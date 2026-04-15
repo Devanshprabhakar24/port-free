@@ -75,7 +75,8 @@ function Hero({ mouse, onViewProjects, shouldRenderScene = true }: HeroProps) {
         <div className="w-full px-[max(20px,5vw)] pb-[60px] pt-[100px] md:pl-[max(24px,5vw)] md:pr-8 md:pt-[120px] lg:max-w-[55%] lg:pr-0">
           <div className="mb-[10px] flex items-center gap-2 font-mono text-[11px] tracking-[0.20em] text-[#94a3b8] md:text-[12px] md:tracking-[0.22em]">
             <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(34,197,94,0.8)]" />
-            Built 5+ real-world projects • Fast delivery • Production-ready systems
+            🚀 Built 5+ real-world projects • Fast delivery • Production-ready systems
+            💰 Projects start from ₹5,000
           </div>
 
           <div className="mb-[18px] h-px w-[40px] bg-[rgba(124,58,237,0.5)] md:mb-[22px] md:w-[50px]" />
@@ -102,7 +103,9 @@ function Hero({ mouse, onViewProjects, shouldRenderScene = true }: HeroProps) {
           </h1>
 
           <p className="mb-[28px] mt-[18px] max-w-[90vw] text-[16px] leading-[1.75] text-[#cbd5e1] md:mb-[32px] md:mt-[22px] md:max-w-[520px] md:text-[18px] md:leading-[1.8]">
-            You focus on the business. I focus on the tech. Get a <span className="text-white font-medium">production-ready application</span> tailored to your goals, delivered fast and built to scale.
+            Need a web app, dashboard, or backend system?
+
+I build fast, scalable, production-ready applications tailored to your business goals — delivered quickly and built to handle real users.
           </p>
         </div>
       </div>
@@ -138,7 +141,7 @@ function Hero({ mouse, onViewProjects, shouldRenderScene = true }: HeroProps) {
               data-cursor-label="HIRE"
               className="group flex items-center gap-2 rounded-full bg-gradient-to-r from-violet-600 via-pink-600 to-orange-500 px-8 py-[14px] text-[16px] font-semibold text-white shadow-[0_8px_32px_rgba(124,58,237,0.4)] transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_12px_40px_rgba(124,58,237,0.5)] md:px-10 md:py-[18px] md:text-[18px]"
             >
-              Hire Me
+              Start Your Project
               <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
             </button>
             <button

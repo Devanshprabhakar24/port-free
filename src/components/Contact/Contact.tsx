@@ -96,6 +96,11 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
       setLoading(false)
       return
     }
+    if (!formData.projectType) {
+      setError('Please select a project type')
+      setLoading(false)
+      return
+    }
     if (!formData.message.trim()) {
       setError('Message is required')
       setLoading(false)
@@ -373,21 +378,26 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
                       Project Type
                     </label>
                     <select
-                      className="w-full appearance-none rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] px-4 py-3.5 text-[15px] text-white backdrop-blur-sm transition-all duration-300 focus:border-violet-400/50 focus:bg-white/[0.08] focus:outline-none focus:ring-2 focus:ring-violet-400/20"
+                      className="w-full appearance-none rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] px-4 py-3 text-[15px] text-white backdrop-blur-sm transition-all duration-300 focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 focus:outline-none"
                       value={formData.projectType}
                       onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
                       style={{ colorScheme: 'dark' }}
+                      required
                     >
-                      <option value="" className="bg-[#0f0f1e]">Select a type...</option>
-                      <option value="web-app" className="bg-[#0f0f1e]">Web Application</option>
-                      <option value="saas" className="bg-[#0f0f1e]">SaaS Platform</option>
-                      <option value="ecommerce" className="bg-[#0f0f1e]">E-Commerce Store</option>
-                      <option value="dashboard" className="bg-[#0f0f1e]">Dashboard / Admin Panel</option>
-                      <option value="landing" className="bg-[#0f0f1e]">Landing Page / Portfolio</option>
-                      <option value="api" className="bg-[#0f0f1e]">Backend / API</option>
-                      <option value="fix" className="bg-[#0f0f1e]">Bug Fix / Optimization</option>
-                      <option value="other" className="bg-[#0f0f1e]">Something Else</option>
+                      <option value="" className="bg-[#0f0f1e]">Select project type</option>
+                      <option value="full-web-app" className="bg-[#0f0f1e]">Full Web Application (Frontend + Backend)</option>
+                      <option value="saas-startup" className="bg-[#0f0f1e]">SaaS / Startup Product</option>
+                      <option value="ecommerce" className="bg-[#0f0f1e]">E-commerce Website</option>
+                      <option value="admin-dashboard" className="bg-[#0f0f1e]">Admin Dashboard / Internal Tool</option>
+                      <option value="landing-business" className="bg-[#0f0f1e]">Landing Page / Business Website</option>
+                      <option value="backend-api" className="bg-[#0f0f1e]">Backend Development / API</option>
+                      <option value="bug-fixing" className="bg-[#0f0f1e]">Bug Fixing / Performance Optimization</option>
+                      <option value="upgrade-app" className="bg-[#0f0f1e]">Upgrade or Improve Existing App</option>
+                      <option value="need-guidance" className="bg-[#0f0f1e]">Not Sure / Need Guidance</option>
                     </select>
+                    <p className="mt-2 text-sm text-white/60">
+                      Not sure what you need? Select 'Need Guidance' — I’ll help you decide.
+                    </p>
                   </div>
                   <div className="group">
                     <label className="mb-2 flex items-center gap-2 text-[13px] font-medium text-slate-300">
@@ -401,10 +411,10 @@ export default function Contact({ mouse, shouldRenderScene = true }: { mouse: Mo
                       style={{ colorScheme: 'dark' }}
                     >
                       <option value="" className="bg-[#0f0f1e]">Select range...</option>
-                      <option value="under-500" className="bg-[#0f0f1e]">Under ₹40,000</option>
-                      <option value="500-2k" className="bg-[#0f0f1e]">₹40,000 – ₹1,50,000</option>
-                      <option value="2k-5k" className="bg-[#0f0f1e]">₹1,50,000 – ₹4,00,000</option>
-                      <option value="5k+" className="bg-[#0f0f1e]">₹4,00,000+</option>
+                      <option value="5k-10k" className="bg-[#0f0f1e]">₹5,000 – ₹10,000</option>
+                      <option value="10k-25k" className="bg-[#0f0f1e]">₹10,000 – ₹25,000</option>
+                      <option value="25k-50k" className="bg-[#0f0f1e]">₹25,000 – ₹50,000</option>
+                      <option value="50k+" className="bg-[#0f0f1e]">₹50,000+</option>
                       <option value="discuss" className="bg-[#0f0f1e]">Let's Discuss</option>
                     </select>
                   </div>

@@ -28,6 +28,15 @@ const createBrevoClient = () => {
 exports.submitContact = asyncHandler(async (req, res) => {
   const { name, email, projectType, budget, message } = req.body;
 
+  const budgetMap = {
+    '5k-10k': '₹5,000 – ₹10,000',
+    '10k-25k': '₹10,000 – ₹25,000',
+    '25k-50k': '₹25,000 – ₹50,000',
+    '50k+': '₹50,000+',
+    'discuss': "Let's Discuss"
+  };
+  const budgetDisplay = budgetMap[budget] || budget || 'Not specified';
+
   try {
     // Send auto-reply to user via Brevo API
     try {
@@ -43,11 +52,14 @@ exports.submitContact = asyncHandler(async (req, res) => {
       sendSmtpEmail.htmlContent = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #7c3aed;">Hi ${name}!</h2>
-          <p>Thanks for reaching out. I've seen your message and will respond within 24 hours.</p>
+          <p>Thanks for reaching out. Here's what you shared:</p>
           <div style="background: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
+            <p><strong>Project Type:</strong> ${projectType || 'Not specified'}</p>
+            <p><strong>Budget Range:</strong> ${budgetDisplay}</p>
             <p><strong>Your message:</strong></p>
             <p style="white-space: pre-wrap;">${message}</p>
           </div>
+          <p>I'll respond within 24 hours.</p>
           <p>Best regards,<br>Devansh Prabhakar</p>
           <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 20px 0;">
           <p style="color: #6b7280; font-size: 12px;">
@@ -85,6 +97,8 @@ exports.submitContact = asyncHandler(async (req, res) => {
           <div style="background: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <p><strong>Name:</strong> ${name}</p>
             <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Project Type:</strong> ${projectType || 'Not specified'}</p>
+            <p><strong>Budget Range:</strong> ${budgetDisplay}</p>
             <p><strong>Message:</strong></p>
             <p style="white-space: pre-wrap;">${message}</p>
           </div>

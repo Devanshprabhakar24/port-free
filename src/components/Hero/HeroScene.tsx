@@ -29,7 +29,7 @@ type StarLayerProps = {
   rotationSpeed: number
 }
 
-function DistortedSphere({ mouse, idle }: { mouse: MousePosition; idle: boolean }) {
+function DistortedSphere({ mouse, idle, isMobile }: { mouse: MousePosition; idle: boolean; isMobile: boolean }) {
   const groupRef = useRef<THREE.Group>(null)
 
   useFrame((state, delta) => {
@@ -37,8 +37,11 @@ function DistortedSphere({ mouse, idle }: { mouse: MousePosition; idle: boolean 
       return
     }
 
-    const breathe = 1 + Math.sin(state.clock.elapsedTime * 1.2) * 0.02
-    groupRef.current.scale.setScalar(breathe)
+    const targetPosX = !isMobile ? 1.2 : 0;
+    groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x || 0, targetPosX, 0.03);
+    const baseScale = !isMobile ? 1.35 : 1.0;
+    const breathe = baseScale * (1 + Math.sin(state.clock.elapsedTime * 1.2) * 0.02);
+    groupRef.current.scale.setScalar(breathe);
 
     if (idle) {
       groupRef.current.rotation.y += delta * 0.1
@@ -500,7 +503,7 @@ function HeroScene({ mouse }: { mouse: MousePosition }) {
       <pointLight position={[-8, 0, 2]} color="#7c3aed" intensity={isMobile ? 1.5 : 2.5} distance={90} />
       <directionalLight position={[4, 2, -2]} intensity={isMobile ? 1 : 1.6} color="#ec4899" />
       <CameraRig mouse={mouse} idle={idle}>
-        <DistortedSphere mouse={mouse} idle={idle} />
+<DistortedSphere mouse={mouse} idle={idle} isMobile={isMobile} />
         <StarLayer count={nearStarCount} size={1.5} color="#ffffff" opacity={0.85} driftSpeed={0.00008} rotationSpeed={0.01} />
         <StarLayer count={midStarCount} size={0.8} color="#a5b4fc" opacity={0.55} driftSpeed={0.00012} rotationSpeed={isMobile ? 0.008 : 0.018} />
         <StarLayer count={farStarCount} size={0.4} color="#ffffff" opacity={0.3} driftSpeed={0.00004} rotationSpeed={isMobile ? 0.002 : 0.004} />

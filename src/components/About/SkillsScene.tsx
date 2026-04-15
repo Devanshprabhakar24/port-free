@@ -1,8 +1,10 @@
 import { Html } from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { memo, useEffect, useMemo, useRef, useState } from 'react'
+import { lazy, memo, Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
+import { useDetectWebGL } from '../../hooks/useDetectWebGL'
 import { useIsMobile } from '../../hooks/useIsMobile'
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 
 type SkillCategory = 'frontend' | 'backend' | 'devops'
 
@@ -247,23 +249,43 @@ function SkillsCloud() {
 
 function SkillsScene() {
   const isMobile = useIsMobile()
+  const hasWebGL = useDetectWebGL()
+
+  if (isMobile || !hasWebGL) {
+    return <div className="h-full w-full bg-[#07070d] mobile-gradient-animated" />
+  }
 
   return (
-    <div className="h-full w-full bg-[#07070d]">
-      <Canvas
-        camera={{ position: [0, 1, 6], fov: 50 }}
-        dpr={[1, isMobile ? 1.5 : Math.min(window.devicePixelRatio, 2)]}
-        gl={{ antialias: true, alpha: true }}
-        style={{ background: '#07070d' }}
-      >
-        <color attach="background" args={['#07070d']} />
-        <ambientLight intensity={0.28} />
-        <pointLight position={[2, 4, 3]} intensity={1.25} color="#7c3aed" />
-        <pointLight position={[-2, -3, 1]} intensity={0.9} color="#2563eb" />
-        <pointLight position={[0, 2, -5]} intensity={0.6} color="#dc2626" />
-        <SkillsCloud />
-      </Canvas>
-    </div>
+    <ErrorBoundary fallback={
+      <div className="flex h-full items-center justify-center bg-[#07070d] p-8 text-center">
+        <div className="max-w-sm rounded-xl border border-purple-500/30 bg-purple-950/20 p-6 backdrop-blur-sm">
+          <h3 className="mb-2 text-xl font-bold text-white">Graphics Preview</h3>
+          <p className="mb-4 text-purple-100">Your device doesn&apos;t support interactive 3D. Still see my skills below 👇</p>
+        </div>
+      </div>
+    }>
+      <Suspense fallback={
+        <div className="flex h-full items-center justify-center bg-[#07070d]">
+          <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-purple-400" />
+        </div>
+      }>
+        <div className="h-full w-full bg-[#07070d]">
+          <Canvas
+            camera={{ position: [0, 1, 6], fov: 50 }}
+            dpr={[1, isMobile ? 1.5 : Math.min(window.devicePixelRatio, 2)]}
+            gl={{ antialias: true, alpha: true }}
+            style={{ background: '#07070d' }}
+          >
+            <color attach="background" args={['#07070d']} />
+            <ambientLight intensity={0.28} />
+            <pointLight position={[2, 4, 3]} intensity={1.25} color="#7c3aed" />
+            <pointLight position={[-2, -3, 1]} intensity={0.9} color="#2563eb" />
+            <pointLight position={[0, 2, -5]} intensity={0.6} color="#dc2626" />
+            <SkillsCloud />
+          </Canvas>
+        </div>
+      </Suspense>
+    </ErrorBoundary>
   )
 }
 

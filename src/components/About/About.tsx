@@ -215,7 +215,7 @@ function About({ mouse: _mouse, shouldRenderScene = true }: { mouse: MousePositi
         </div>
 
         <div ref={visRef} className="relative z-[5] min-h-[420px] overflow-hidden rounded-2xl border border-[rgba(124,58,237,0.1)] bg-transparent lg:min-h-105">
-          {isMobile || !shouldRenderScene || !sceneVisible ? <div className="mobile-gradient-animated h-full w-full" /> : <SkillsScene />}
+{isMobile || !shouldRenderScene || !sceneVisible ? <div className="mobile-gradient-animated h-full w-full bg-[#07070d]" /> : <SkillsScene />}
         </div>
       </div>
     </div>

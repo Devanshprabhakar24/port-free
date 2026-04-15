@@ -82,7 +82,7 @@ function Hero({ mouse, onViewProjects, shouldRenderScene = true }: HeroProps) {
           <div className="mb-[18px] h-px w-[40px] bg-[rgba(124,58,237,0.5)] md:mb-[22px] md:w-[50px]" />
 
 <h1 className="text-[clamp(32px,9vw,68px)] font-[900] leading-[1.15] tracking-[-0.01em] text-[#f1f5f9] md:text-[clamp(38px,5vw,68px)] md:leading-[1.1]">
-            Your web app works… until real users show up?
+           From Idea to Scalable Web App — 
           </h1>
 
 <h1 className="text-[clamp(32px,9vw,68px)] font-[900] leading-[1.15] tracking-[-0.01em] text-[#f1f5f9] md:text-[clamp(38px,5vw,68px)] md:leading-[1.1]">
@@ -101,7 +101,7 @@ function Hero({ mouse, onViewProjects, shouldRenderScene = true }: HeroProps) {
                 letterSpacing: 'inherit',
               }}
             >
-              I build systems that scale without breaking.
+              Built for Real Users.
             </span>
           </h1>
 

@@ -463,11 +463,11 @@ function CameraRig({
 
     const drift = idle && idleTimer.current > 4 ? Math.sin(timeRef.current * 0.2) * 0.08 : 0
 
-    groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, mouse.smoothY * 0.2 + drift * 0.25, 0.05)
-    groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, mouse.smoothX * 0.2 + drift, 0.05)
+    groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, mouse.smoothY * 0.12 + drift * 0.15, 0.03)
+    groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, mouse.smoothX * 0.12 + drift, 0.03)
   })
 
-  return <group ref={groupRef} position={[-0.8, 0.02, 0]}>{children}</group>
+  return <group ref={groupRef} position={[0, 0, 0]}>{children}</group>
 }
 
 function HeroScene({ mouse }: { mouse: MousePosition }) {
